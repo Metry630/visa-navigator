@@ -10,11 +10,19 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as CheckRouteImport } from './routes/check'
 import { Route as MethodologyRouteImport } from './routes/methodology'
+import { Route as ResultsRouteImport } from './routes/results'
+import { Route as RoutesRouteIdRouteImport } from './routes/routes.$routeId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CheckRoute = CheckRouteImport.update({
+  id: '/check',
+  path: '/check',
   getParentRoute: () => rootRouteImport,
 } as any)
 const MethodologyRoute = MethodologyRouteImport.update({
@@ -22,31 +30,59 @@ const MethodologyRoute = MethodologyRouteImport.update({
   path: '/methodology',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ResultsRoute = ResultsRouteImport.update({
+  id: '/results',
+  path: '/results',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RoutesRouteIdRoute = RoutesRouteIdRouteImport.update({
+  id: '/routes/$routeId',
+  path: '/routes/$routeId',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/check': typeof CheckRoute
   '/methodology': typeof MethodologyRoute
+  '/results': typeof ResultsRoute
+  '/routes/$routeId': typeof RoutesRouteIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/check': typeof CheckRoute
   '/methodology': typeof MethodologyRoute
+  '/results': typeof ResultsRoute
+  '/routes/$routeId': typeof RoutesRouteIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/check': typeof CheckRoute
   '/methodology': typeof MethodologyRoute
+  '/results': typeof ResultsRoute
+  '/routes/$routeId': typeof RoutesRouteIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/methodology'
+  fullPaths: '/' | '/check' | '/methodology' | '/results' | '/routes/$routeId'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/methodology'
-  id: '__root__' | '/' | '/methodology'
+  to: '/' | '/check' | '/methodology' | '/results' | '/routes/$routeId'
+  id:
+    | '__root__'
+    | '/'
+    | '/check'
+    | '/methodology'
+    | '/results'
+    | '/routes/$routeId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  CheckRoute: typeof CheckRoute
   MethodologyRoute: typeof MethodologyRoute
+  ResultsRoute: typeof ResultsRoute
+  RoutesRouteIdRoute: typeof RoutesRouteIdRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -58,6 +94,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/check': {
+      id: '/check'
+      path: '/check'
+      fullPath: '/check'
+      preLoaderRoute: typeof CheckRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/methodology': {
       id: '/methodology'
       path: '/methodology'
@@ -65,12 +108,29 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MethodologyRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/results': {
+      id: '/results'
+      path: '/results'
+      fullPath: '/results'
+      preLoaderRoute: typeof ResultsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/routes/$routeId': {
+      id: '/routes/$routeId'
+      path: '/routes/$routeId'
+      fullPath: '/routes/$routeId'
+      preLoaderRoute: typeof RoutesRouteIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  CheckRoute: CheckRoute,
   MethodologyRoute: MethodologyRoute,
+  ResultsRoute: ResultsRoute,
+  RoutesRouteIdRoute: RoutesRouteIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

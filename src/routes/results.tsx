@@ -34,7 +34,7 @@ export const Route = createFileRoute("/results")({
 
 const CHECKER_ORDER: Checker[] = ["you", "employer", "authority"];
 
-function ProfileSummary({ profile, encoded }: { profile: Profile; encoded: string }) {
+function ProfileSummary({ profile }: { profile: Profile }) {
   const bits = [
     profile.nationalities.join(" and "),
     `age ${profile.age}`,
@@ -49,7 +49,6 @@ function ProfileSummary({ profile, encoded }: { profile: Profile; encoded: strin
       <p className="text-sm text-muted-foreground">{bits.join(" · ")}</p>
       <Link
         to="/check"
-        search={{ p: encoded }}
         className="rounded-sm text-sm font-medium text-primary underline underline-offset-2"
       >
         Edit answers
