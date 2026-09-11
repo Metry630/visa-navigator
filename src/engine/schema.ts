@@ -10,6 +10,13 @@ export const SourceSchema = z.object({
   retrievedOn: isoDate,
   /** Verbatim from the rendered page. Checked against the live page by scripts/check-data.ts. */
   quote: z.string().min(10),
+  /**
+   * How the weekly drift check treats this source. "auto" (the default) re-fetches the page and
+   * looks for the quote. "manual" is for pages the fetcher can't read as text, a PDF or a page
+   * rendered by JavaScript; the check skips them and reports how many it skipped, and a person
+   * re-reads them when the route is next verified.
+   */
+  check: z.enum(["auto", "manual"]).optional(),
 });
 
 const base = {

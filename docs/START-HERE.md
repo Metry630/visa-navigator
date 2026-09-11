@@ -12,7 +12,9 @@ Briefing for the next sessions. Read `CLAUDE.md` for the rules; this file is the
 
 ## Joshua's checkpoints (everything else runs on its own)
 
-1. **Verify SG Employment Pass** once stream C has built the review page. About 20 minutes.
+1. **Verify SG Employment Pass**: run `npm run review` and open http://127.0.0.1:4178. J and K move,
+   A approves, R rejects, C comments. The route is stamped only once all 9 requirements are approved.
+   About 20 minutes.
 2. **Chrome for discovery.** When stream D asks, have Chrome open with the Claude extension, logged in to
    Reddit, X and LinkedIn, and approve those three sites once.
 3. **Stream E is yours** (TypeScript practice): new rule kinds, written by you with Claude pairing.

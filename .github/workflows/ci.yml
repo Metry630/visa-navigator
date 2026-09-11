@@ -1,0 +1,47 @@
+# Checks every push and pull request to main. Lovable commits straight to main, so this is the net
+# under those commits as much as under ours.
+#
+# Installs with bun, not npm: bun.lock is the committed lockfile (Lovable uses bun, and
+# package-lock.json is deliberately kept out of git), so bun is the only manager that can do a
+# frozen, reproducible install here. Node then runs the checks, because vitest, tsc and tsx are
+# tested against node and not against bun's runtime.
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install
+        run: bun install --frozen-lockfile
+
+      - name: Tests
+        run: npm test
+
+      - name: Types
+        run: npm run typecheck
+
+      - name: Data
+        run: npm run check:data

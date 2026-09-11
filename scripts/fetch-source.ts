@@ -5,6 +5,7 @@
 import { mkdirSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { fetchPage, htmlToLines } from "./page-text";
+import { today } from "./today";
 
 const [name, url] = process.argv.slice(2);
 if (!name || !url) {
@@ -15,6 +16,8 @@ if (!name || !url) {
 const dir = join(import.meta.dirname, "..", ".sources");
 mkdirSync(dir, { recursive: true });
 const lines = htmlToLines(await fetchPage(url));
-const today = new Date().toISOString().slice(0, 10);
-writeFileSync(join(dir, `${name}.txt`), [`# ${url}`, `# retrieved ${today}`, ...lines].join("\n") + "\n");
+writeFileSync(
+  join(dir, `${name}.txt`),
+  [`# ${url}`, `# retrieved ${today()}`, ...lines].join("\n") + "\n",
+);
 console.log(`.sources/${name}.txt: ${lines.length} lines`);

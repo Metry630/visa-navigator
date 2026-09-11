@@ -65,7 +65,7 @@ for (const { file, route } of routes) {
         if (!quoted.has(String(row.age))) errors.push(`${where}: salary table: age ${row.age} is not in any quote`);
       }
       const ages = req.byAge.map((r) => r.age);
-      if (ages.some((a, i) => i > 0 && a <= ages[i - 1])) errors.push(`${where}: salary table rows must be sorted by age`);
+      if (ages.some((a, i) => i > 0 && a <= ages[i - 1]!)) errors.push(`${where}: salary table rows must be sorted by age`);
     }
   }
 
