@@ -1,6 +1,13 @@
 import { createFileRoute, Link, redirect } from "@tanstack/react-router";
 import { useMemo } from "react";
-import { decodeProfile, evaluate, type Checker, type Profile, type RouteResult } from "@/engine";
+import {
+  decodeProfile,
+  evaluate,
+  listNationalities,
+  type Checker,
+  type Profile,
+  type RouteResult,
+} from "@/engine";
 import { CHECKER_HEADING, OutcomeTag, SourceLink, StatusBadge } from "@/components/route-ui";
 
 type ResultsSearch = { p: string };
@@ -35,8 +42,11 @@ export const Route = createFileRoute("/results")({
 const CHECKER_ORDER: Checker[] = ["you", "employer", "authority"];
 
 function ProfileSummary({ profile }: { profile: Profile }) {
+  const names = listNationalities();
   const bits = [
-    profile.nationalities.join(" and "),
+    profile.nationalities
+      .map((code) => names.find((n) => n.code === code)?.name ?? code)
+      .join(" and "),
     `age ${profile.age}`,
     profile.degree,
     `${profile.yearsExperience} years of experience`,
