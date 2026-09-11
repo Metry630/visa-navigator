@@ -1,14 +1,146 @@
-# Welcome to your Lovable project
+# Visa Navigator
+
+Build a small, fast, trustworthy web app called **Visa Routes** (working name).
+
+## What it does
+A new graduate enters their nationality, age, degree and a few other facts. For each destination country (Singapore and Japan for now) the app shows which work visa routes are open to them, which depend on an employer, and which are closed. Each route gets a one-sentence reason and a checklist split into three groups: "You can check now", "Ask the employer" and "The authority decides". Every checklist line links to its official government source and shows when it was last checked. It serves people of many nationalities, not one country.
+
+## Architecture rules (important)
+- Frontend only. No backend, no database, no auth, no Lovable Cloud, no Supabase, no API calls. Nothing about the user is stored anywhere; the profile lives only in the URL.
+- All visa logic lives in `src/engine/`. The UI imports only from `@/engine` and never contains visa facts, numbers or rules of its own. If the UI needs something the engine doesn't provide, leave a TODO comment instead of hardcoding it.
+- Create `src/engine/types.ts` with exactly the contents below. Create `src/engine/index.ts` as a temporary stub that implements the exports listed below with two or three obviously fake fixtures, each labelled "Example only". Start the stub with the comment `// STUB: replaced by the real engine. Do not build features on the fixture data.` The real engine will later replace both files with the same exports.
+- After this first build, treat `src/engine/` and `src/data/` as read-only.
+
+`src/engine/types.ts`:
+```ts
+// The contract between the engine and the UI. The engine owns this file; the UI only imports it.
+
+export type Destination = "SG" | "JP";
+
+export type DegreeLevel = "none" | "diploma" | "bachelor" | "master" | "doctorate";
+
+export type LanguageLevel = "basic" | "conversational" | "business" | "native";
+
+export interface Profile {
+  /** ISO 3166-1 alpha-2 codes, one or two, e.g. ["IN"] or ["ID", "AU"] */
+  nationalities: string[];
+  age: number;
+  degree: DegreeLevel;
+  university?: string;
+  graduationYear?: number;
+  field?: string;
+  yearsExperience: number;
+  /** ISO 639-1 code, e.g. "en" or "ja" */
+  languages: { code: string; level: LanguageLevel }[];
+  /** SGD per month for SG, JPY per year for JP */
+  expectedSalary?: Partial<Record<Destination, number>>;
+}
+
+export type RouteStatus = "open" | "depends" | "closed";
+
+/** Who has to check or prove a requirement. */
+export type Checker = "you" | "employer" | "authority";
+
+/** Whether a requirement is met for this profile, as far as the engine can tell. */
+export type Outcome = "met" | "unmet" | "unknown";
+
+export interface Source {
+  url: string;
+  publisher: string;
+  /** YYYY-MM-DD */
+  retrievedOn: string;
+  /** Verbatim excerpt from the page. */
+  quote: string;
+}
+
+export interface ChecklistItem {
+  requirementId: string;
+  /** One plain-English sentence. */
+  text: string;
+  who: Checker;
+  outcome: Outcome;
+  /** Optional sentence specific to this profile. */
+  note?: string;
+  sources: Source[];
+}
+
+export interface RouteResult {
+  routeId: string;
+  destination: Destination;
+  name: string;
+  status: RouteStatus;
+  /** One sentence explaining the status for this profile. */
+  reason: string;
+  checklist: ChecklistItem[];
+  /** Dated rule changes that affect this route, e.g. a salary floor rising next January. */
+  upcomingChanges: { on: string; text: string }[];
+  /** YYYY-MM-DD, or null until a person has verified every requirement against its sources. */
+  verifiedOn: string | null;
+}
+
+export interface DestinationResult {
+  destination: Destination;
+  name: string;
+  routes: RouteResult[];
+}
+
+export interface RouteSummary {
+  routeId: string;
+  destination: Destination;
+  name: string;
+  summary: string;
+  verifiedOn: string | null;
+}
+
+export interface RequirementView {
+  id: string;
+  text: string;
+  who: Checker;
+  sources: Source[];
+  /** YYYY-MM-DD bounds, when the requirement only applies for part of the time. */
+  effective?: { from?: string; to?: string };
+}
+
+export interface RouteDetail extends RouteSummary {
+  officialUrl: string;
+  requirements: RequirementView[];
+}
+```
+
+`src/engine/index.ts` must export:
+- `evaluate(profile: Profile, asOf?: string): DestinationResult[]` (asOf is YYYY-MM-DD and defaults to today)
+- `listRoutes(): RouteSummary[]`
+- `getRoute(routeId: string): RouteDetail | undefined`
+- `listNationalities(): { code: string; name: string }[]`
+- `DESTINATIONS: { code: Destination; name: string }[]`
+- `encodeProfile(profile: Profile): string` and `decodeProfile(encoded: string): Profile | null` (URL-safe; decode returns null for anything invalid)
+
+## Pages (React Router)
+1. `/` Home. Headline: "Which countries can you actually work in after graduating?" One supporting sentence, a primary button to /check, three short "how it works" steps, a coverage line ("Singapore and Japan today. More countries are being added.") and a trust line ("Every rule links to an official source and is checked by hand.").
+2. `/check` A short multi-step form, one topic per step, with a progress indicator, back and next, and full keyboard support: nationality (searchable, with an optional second nationality), age, highest degree, university (optional text), graduation year (optional), field of study (optional), years of work experience, languages with a level (English preselected), and an optional expected salary per destination (SGD per month for Singapore, JPY per year for Japan). On submit, go to `/results?p=<encodeProfile(profile)>`.
+3. `/results` Reads `p` with `decodeProfile`; if it is invalid, send the user to /check. Show a compact profile summary with an Edit link, then one section per destination. Each route is a card with a status badge (Open, Depends on employer, Closed; text plus colour, never colour alone), the one-sentence reason, any upcoming changes with their date, and the checklist grouped into the three groups. Each checklist line shows its outcome (met, not met, unknown) as an icon plus text, the optional note, a "Source" link that opens the official page in a new tab, and "Checked <date>". If a route's verifiedOn is null, show a clear "Not yet verified" label on the card.
+4. `/routes/:routeId` Route detail: name, summary, every requirement with who checks it, its effective dates if any, and its sources (the quote in a blockquote with publisher and date), plus a link to the official page.
+5. `/methodology` How it works: rules come only from official government pages, every rule quotes its source, a person checks each one, and automated checks re-confirm the quotes against the live pages every week. Include the disclaimer and a link to the source code (placeholder link for now).
+
+Footer on every page: "Information, not legal advice. Rules change, so every rule links to its official source and shows when it was last checked."
+
+## Design
+Calm, editorial and trustworthy, like a well-made public-service site. Neutral palette with one accent colour, generous whitespace, excellent typography, mobile-first, WCAG AA contrast, visible focus states, light and dark mode. No flag emoji or country flags, no stock photos, no gradients, no hype.
+
+## Copy style
+Plain English, short sentences, no em dashes, no exclamation marks, and no marketing words like "unlock" or "seamless".
+
+Keep dependencies minimal and the code simple and well organised.
 
 This project was built with [Lovable](https://lovable.dev).
 
 ## Build with Lovable
 
-Open your project in the [Lovable editor](https://lovable.dev) and keep building.
+Continue developing this project in the [Lovable editor](https://lovable.dev/projects/e24dc628-aae5-421c-99fa-969c29510ffb).
 
 - **Ship faster**: describe what you want to build and Lovable handles the code.
-- **Stay in sync**: connect the project to GitHub and every change made in Lovable is committed straight to your repository.
-- **Full ownership**: this code is yours. Push to your repository and your changes sync back into Lovable, ready for your next prompt.
+- **Stay in sync**: every change made in Lovable is committed straight to this repository.
+- **Full ownership**: this code is yours. Push to `main` on GitHub and your changes sync back into Lovable, ready for your next prompt.
 
 ## Development
 
@@ -20,10 +152,3 @@ cd <repository-name>
 npm i
 npm run dev
 ```
-
-## Built with
-
-- TanStack Start
-- TypeScript
-- React
-- Tailwind CSS
