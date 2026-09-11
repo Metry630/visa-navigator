@@ -232,7 +232,11 @@ export function decodeProfile(encoded: string): Profile | null {
     if (typeof raw !== "object" || raw === null) return null;
     const p = raw as Record<string, unknown>;
 
-    const nationalities = p.nationalities;
+    const nationalities = p["nationalities"];
+    const age = p["age"];
+    const degree = p["degree"];
+    const years = p["yearsExperience"];
+    const languages = p["languages"];
     if (
       !Array.isArray(nationalities) ||
       nationalities.length < 1 ||
@@ -241,20 +245,12 @@ export function decodeProfile(encoded: string): Profile | null {
     ) {
       return null;
     }
-    if (typeof p.age !== "number" || !Number.isFinite(p.age) || p.age < 14 || p.age > 100) {
-      return null;
-    }
-    if (typeof p.degree !== "string" || !DEGREES.includes(p.degree)) return null;
+    if (typeof age !== "number" || !Number.isFinite(age) || age < 14 || age > 100) return null;
+    if (typeof degree !== "string" || !DEGREES.includes(degree)) return null;
+    if (typeof years !== "number" || !Number.isFinite(years) || years < 0) return null;
     if (
-      typeof p.yearsExperience !== "number" ||
-      !Number.isFinite(p.yearsExperience) ||
-      p.yearsExperience < 0
-    ) {
-      return null;
-    }
-    if (
-      !Array.isArray(p.languages) ||
-      !p.languages.every(
+      !Array.isArray(languages) ||
+      !languages.every(
         (l) =>
           typeof l === "object" &&
           l !== null &&
@@ -267,19 +263,23 @@ export function decodeProfile(encoded: string): Profile | null {
 
     const profile: Profile = {
       nationalities: nationalities as string[],
-      age: p.age,
-      degree: p.degree as Profile["degree"],
-      yearsExperience: p.yearsExperience,
-      languages: p.languages as Profile["languages"],
+      age,
+      degree: degree as Profile["degree"],
+      yearsExperience: years,
+      languages: languages as Profile["languages"],
     };
-    if (typeof p.university === "string" && p.university) profile.university = p.university;
-    if (typeof p.graduationYear === "number") profile.graduationYear = p.graduationYear;
-    if (typeof p.field === "string" && p.field) profile.field = p.field;
-    if (typeof p.expectedSalary === "object" && p.expectedSalary !== null) {
-      const s = p.expectedSalary as Record<string, unknown>;
+    const university = p["university"];
+    const graduationYear = p["graduationYear"];
+    const field = p["field"];
+    const salary = p["expectedSalary"];
+    if (typeof university === "string" && university) profile.university = university;
+    if (typeof graduationYear === "number") profile.graduationYear = graduationYear;
+    if (typeof field === "string" && field) profile.field = field;
+    if (typeof salary === "object" && salary !== null) {
+      const s = salary as Record<string, unknown>;
       const out: Partial<Record<Destination, number>> = {};
-      if (typeof s.SG === "number") out.SG = s.SG;
-      if (typeof s.JP === "number") out.JP = s.JP;
+      if (typeof s["SG"] === "number") out.SG = s["SG"];
+      if (typeof s["JP"] === "number") out.JP = s["JP"];
       if (Object.keys(out).length) profile.expectedSalary = out;
     }
     return profile;
