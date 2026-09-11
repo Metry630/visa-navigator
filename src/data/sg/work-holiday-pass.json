@@ -1,0 +1,116 @@
+{
+  "schemaVersion": 1,
+  "id": "sg-work-holiday-pass",
+  "destination": "SG",
+  "name": "Work Holiday Pass (Work Holiday Programme)",
+  "summary": "A 6-month pass for students and young graduates aged 18 to 25 whose university is in one of ten listed countries or regions. You apply yourself and do not need a job offer first.",
+  "officialUrl": "https://www.mom.gov.sg/passes-and-permits/work-holiday-programme/eligibility",
+  "requiresEmployer": false,
+  "requirements": [
+    {
+      "id": "age-18-25",
+      "kind": "age",
+      "text": "You must be aged 18 to 25 when you apply.",
+      "who": "you",
+      "blocking": true,
+      "min": 18,
+      "max": 25,
+      "sources": [
+        {
+          "url": "https://www.mom.gov.sg/passes-and-permits/work-holiday-programme/eligibility",
+          "publisher": "Ministry of Manpower, Singapore",
+          "retrievedOn": "2026-09-11",
+          "quote": "You are aged 18 to 25 at the time of application."
+        }
+      ]
+    },
+    {
+      "id": "university-country",
+      "kind": "manual",
+      "text": "Your university must be in Australia, France, Germany, Hong Kong, Japan, Netherlands, New Zealand, Switzerland, United Kingdom or United States, and recognised by that country's government.",
+      "who": "you",
+      "blocking": true,
+      "sources": [
+        {
+          "url": "https://www.mom.gov.sg/passes-and-permits/work-holiday-programme/eligibility",
+          "publisher": "Ministry of Manpower, Singapore",
+          "retrievedOn": "2026-09-11",
+          "quote": "You are an undergraduate or graduate of a university in Australia, France, Germany, Hong Kong, Japan, Netherlands, New Zealand, Switzerland, United Kingdom or United States."
+        },
+        {
+          "url": "https://www.mom.gov.sg/passes-and-permits/work-holiday-programme/eligibility",
+          "publisher": "Ministry of Manpower, Singapore",
+          "retrievedOn": "2026-09-11",
+          "quote": "Your university is recognised by the government of the respective ten countries or regions."
+        }
+      ]
+    },
+    {
+      "id": "residence-and-study",
+      "kind": "manual",
+      "text": "Graduates must have been a resident and a full-time student of that university. Undergraduates must have been so for at least 3 months before applying.",
+      "who": "you",
+      "blocking": true,
+      "sources": [
+        {
+          "url": "https://www.mom.gov.sg/passes-and-permits/work-holiday-programme/eligibility",
+          "publisher": "Ministry of Manpower, Singapore",
+          "retrievedOn": "2026-09-11",
+          "quote": "For undergraduates: you have been a resident and a full-time student of the university for at least 3 months before applying for the pass."
+        },
+        {
+          "url": "https://www.mom.gov.sg/passes-and-permits/work-holiday-programme/eligibility",
+          "publisher": "Ministry of Manpower, Singapore",
+          "retrievedOn": "2026-09-11",
+          "quote": "For graduates: you were a resident and a full-time student of the university."
+        }
+      ]
+    },
+    {
+      "id": "programme-capacity",
+      "kind": "manual",
+      "text": "The programme holds only 2,000 pass holders at any one time, so a place has to be free when you apply.",
+      "who": "authority",
+      "blocking": false,
+      "sources": [
+        {
+          "url": "https://www.mom.gov.sg/passes-and-permits/work-holiday-programme/eligibility",
+          "publisher": "Ministry of Manpower, Singapore",
+          "retrievedOn": "2026-09-11",
+          "quote": "The Work Holiday Programme has a capacity of 2,000 pass holders at any one time."
+        }
+      ]
+    },
+    {
+      "id": "duration-6-months",
+      "kind": "manual",
+      "text": "The pass lets you stay and work in Singapore for up to 6 months.",
+      "who": "you",
+      "blocking": false,
+      "sources": [
+        {
+          "url": "https://www.mom.gov.sg/passes-and-permits/work-holiday-programme/eligibility",
+          "publisher": "Ministry of Manpower, Singapore",
+          "retrievedOn": "2026-09-11",
+          "quote": "Under the Work Holiday Programme, you can get a Work Holiday Pass that lets you stay and work in Singapore for up to 6 months ."
+        }
+      ]
+    },
+    {
+      "id": "regulated-professions",
+      "kind": "manual",
+      "text": "To work in medicine, dentistry, pharmacy, architecture or law you must still meet the registration requirements to practise in Singapore.",
+      "who": "authority",
+      "blocking": false,
+      "sources": [
+        {
+          "url": "https://www.mom.gov.sg/passes-and-permits/work-holiday-programme/eligibility",
+          "publisher": "Ministry of Manpower, Singapore",
+          "retrievedOn": "2026-09-11",
+          "quote": "If you will be working in professions such as medicine, dentistry, pharmacy, architecture or law, you will need to comply with registration requirements to practise in Singapore."
+        }
+      ]
+    }
+  ],
+  "verified": null
+}

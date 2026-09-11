@@ -1,0 +1,610 @@
+{
+  "schemaVersion": 1,
+  "id": "sg-s-pass",
+  "destination": "SG",
+  "name": "S Pass",
+  "summary": "Singapore's work pass for skilled workers, below the Employment Pass salary floor. The employer applies, must meet an age-based minimum salary of at least $3,300 a month, and is limited by a quota on how many S Pass holders it can employ.",
+  "officialUrl": "https://www.mom.gov.sg/passes-and-permits/s-pass/eligibility",
+  "requiresEmployer": true,
+  "requirements": [
+    {
+      "id": "job-offer",
+      "kind": "manual",
+      "text": "You need a job offer in Singapore, and the employer applies for the pass.",
+      "who": "employer",
+      "blocking": true,
+      "sources": [
+        {
+          "url": "https://www.mom.gov.sg/passes-and-permits/s-pass/eligibility",
+          "publisher": "Ministry of Manpower, Singapore",
+          "retrievedOn": "2026-09-11",
+          "quote": "The S Pass is for foreign employees across all nationalities or citizenships who: Have a job offer in Singapore."
+        }
+      ]
+    },
+    {
+      "id": "salary-floor-2026",
+      "kind": "salary-floor",
+      "text": "Your fixed monthly salary must be at least S$3,300 if you are 23 or below, rising with age to S$4,800 at 45 or above.",
+      "who": "you",
+      "blocking": true,
+      "effective": {
+        "to": "2026-12-31"
+      },
+      "currency": "SGD",
+      "period": "month",
+      "sector": "all-except-financial-services",
+      "byAge": [
+        {
+          "age": 23,
+          "amount": 3300
+        },
+        {
+          "age": 24,
+          "amount": 3368
+        },
+        {
+          "age": 25,
+          "amount": 3436
+        },
+        {
+          "age": 26,
+          "amount": 3505
+        },
+        {
+          "age": 27,
+          "amount": 3573
+        },
+        {
+          "age": 28,
+          "amount": 3641
+        },
+        {
+          "age": 29,
+          "amount": 3709
+        },
+        {
+          "age": 30,
+          "amount": 3777
+        },
+        {
+          "age": 31,
+          "amount": 3845
+        },
+        {
+          "age": 32,
+          "amount": 3914
+        },
+        {
+          "age": 33,
+          "amount": 3982
+        },
+        {
+          "age": 34,
+          "amount": 4050
+        },
+        {
+          "age": 35,
+          "amount": 4118
+        },
+        {
+          "age": 36,
+          "amount": 4186
+        },
+        {
+          "age": 37,
+          "amount": 4255
+        },
+        {
+          "age": 38,
+          "amount": 4323
+        },
+        {
+          "age": 39,
+          "amount": 4391
+        },
+        {
+          "age": 40,
+          "amount": 4459
+        },
+        {
+          "age": 41,
+          "amount": 4527
+        },
+        {
+          "age": 42,
+          "amount": 4595
+        },
+        {
+          "age": 43,
+          "amount": 4664
+        },
+        {
+          "age": 44,
+          "amount": 4732
+        },
+        {
+          "age": 45,
+          "amount": 4800
+        }
+      ],
+      "sources": [
+        {
+          "url": "https://www.mom.gov.sg/passes-and-permits/s-pass/eligibility",
+          "publisher": "Ministry of Manpower, Singapore",
+          "retrievedOn": "2026-09-11",
+          "quote": "$3,300 (increases progressively with age from age 23, up to $4,800 at age 45 and above)"
+        },
+        {
+          "url": "https://www.mom.gov.sg/passes-and-permits/s-pass/eligibility",
+          "publisher": "Ministry of Manpower, Singapore",
+          "retrievedOn": "2026-09-11",
+          "quote": "23 or below $3,300 $3,600 24 $3,368 $3,668 25 $3,436 $3,736 26 $3,505 $3,805 27 $3,573 $3,873 28 $3,641 $3,941 29 $3,709 $4,009 30 $3,777 $4,077 31 $3,845 $4,145 32 $3,914 $4,214 33 $3,982 $4,282 34 $4,050 $4,350 35 $4,118 $4,418 36 $4,186 $4,486 37 $4,255 $4,555 38 $4,323 $4,623 39 $4,391 $4,691 40 $4,459 $4,759 41 $4,527 $4,827 42 $4,595 $4,895 43 $4,664 $4,964 44 $4,732 $5,032 45 or above $4,800 $5,100"
+        }
+      ]
+    },
+    {
+      "id": "salary-floor-2027",
+      "kind": "salary-floor",
+      "text": "For new applications from 1 Jan 2027, the minimum rises to S$3,600 if you are 23 or below, and to S$5,100 at 45 or above.",
+      "who": "you",
+      "blocking": true,
+      "effective": {
+        "from": "2027-01-01"
+      },
+      "currency": "SGD",
+      "period": "month",
+      "sector": "all-except-financial-services",
+      "byAge": [
+        {
+          "age": 23,
+          "amount": 3600
+        },
+        {
+          "age": 24,
+          "amount": 3668
+        },
+        {
+          "age": 25,
+          "amount": 3736
+        },
+        {
+          "age": 26,
+          "amount": 3805
+        },
+        {
+          "age": 27,
+          "amount": 3873
+        },
+        {
+          "age": 28,
+          "amount": 3941
+        },
+        {
+          "age": 29,
+          "amount": 4009
+        },
+        {
+          "age": 30,
+          "amount": 4077
+        },
+        {
+          "age": 31,
+          "amount": 4145
+        },
+        {
+          "age": 32,
+          "amount": 4214
+        },
+        {
+          "age": 33,
+          "amount": 4282
+        },
+        {
+          "age": 34,
+          "amount": 4350
+        },
+        {
+          "age": 35,
+          "amount": 4418
+        },
+        {
+          "age": 36,
+          "amount": 4486
+        },
+        {
+          "age": 37,
+          "amount": 4555
+        },
+        {
+          "age": 38,
+          "amount": 4623
+        },
+        {
+          "age": 39,
+          "amount": 4691
+        },
+        {
+          "age": 40,
+          "amount": 4759
+        },
+        {
+          "age": 41,
+          "amount": 4827
+        },
+        {
+          "age": 42,
+          "amount": 4895
+        },
+        {
+          "age": 43,
+          "amount": 4964
+        },
+        {
+          "age": 44,
+          "amount": 5032
+        },
+        {
+          "age": 45,
+          "amount": 5100
+        }
+      ],
+      "sources": [
+        {
+          "url": "https://www.mom.gov.sg/passes-and-permits/s-pass/eligibility",
+          "publisher": "Ministry of Manpower, Singapore",
+          "retrievedOn": "2026-09-11",
+          "quote": "For new applications submitted from 1 Jan 2027, and renewal of passes expiring from 1 Jan 2028"
+        },
+        {
+          "url": "https://www.mom.gov.sg/passes-and-permits/s-pass/eligibility",
+          "publisher": "Ministry of Manpower, Singapore",
+          "retrievedOn": "2026-09-11",
+          "quote": "$3,600 (increases progressively with age from age 23, up to $5,100 at age 45 and above)"
+        },
+        {
+          "url": "https://www.mom.gov.sg/passes-and-permits/s-pass/eligibility",
+          "publisher": "Ministry of Manpower, Singapore",
+          "retrievedOn": "2026-09-11",
+          "quote": "23 or below $3,300 $3,600 24 $3,368 $3,668 25 $3,436 $3,736 26 $3,505 $3,805 27 $3,573 $3,873 28 $3,641 $3,941 29 $3,709 $4,009 30 $3,777 $4,077 31 $3,845 $4,145 32 $3,914 $4,214 33 $3,982 $4,282 34 $4,050 $4,350 35 $4,118 $4,418 36 $4,186 $4,486 37 $4,255 $4,555 38 $4,323 $4,623 39 $4,391 $4,691 40 $4,459 $4,759 41 $4,527 $4,827 42 $4,595 $4,895 43 $4,664 $4,964 44 $4,732 $5,032 45 or above $4,800 $5,100"
+        }
+      ]
+    },
+    {
+      "id": "salary-floor-financial-2026",
+      "kind": "salary-floor",
+      "text": "If the employer is in financial services, the minimum is higher: S$3,800 if you are 23 or below, rising to S$5,650 at 45 or above.",
+      "who": "employer",
+      "blocking": false,
+      "effective": {
+        "to": "2026-12-31"
+      },
+      "currency": "SGD",
+      "period": "month",
+      "sector": "financial-services",
+      "byAge": [
+        {
+          "age": 23,
+          "amount": 3800
+        },
+        {
+          "age": 24,
+          "amount": 3884
+        },
+        {
+          "age": 25,
+          "amount": 3968
+        },
+        {
+          "age": 26,
+          "amount": 4052
+        },
+        {
+          "age": 27,
+          "amount": 4136
+        },
+        {
+          "age": 28,
+          "amount": 4220
+        },
+        {
+          "age": 29,
+          "amount": 4305
+        },
+        {
+          "age": 30,
+          "amount": 4389
+        },
+        {
+          "age": 31,
+          "amount": 4473
+        },
+        {
+          "age": 32,
+          "amount": 4557
+        },
+        {
+          "age": 33,
+          "amount": 4641
+        },
+        {
+          "age": 34,
+          "amount": 4725
+        },
+        {
+          "age": 35,
+          "amount": 4809
+        },
+        {
+          "age": 36,
+          "amount": 4893
+        },
+        {
+          "age": 37,
+          "amount": 4977
+        },
+        {
+          "age": 38,
+          "amount": 5061
+        },
+        {
+          "age": 39,
+          "amount": 5145
+        },
+        {
+          "age": 40,
+          "amount": 5230
+        },
+        {
+          "age": 41,
+          "amount": 5314
+        },
+        {
+          "age": 42,
+          "amount": 5398
+        },
+        {
+          "age": 43,
+          "amount": 5482
+        },
+        {
+          "age": 44,
+          "amount": 5566
+        },
+        {
+          "age": 45,
+          "amount": 5650
+        }
+      ],
+      "sources": [
+        {
+          "url": "https://www.mom.gov.sg/passes-and-permits/s-pass/eligibility",
+          "publisher": "Ministry of Manpower, Singapore",
+          "retrievedOn": "2026-09-11",
+          "quote": "$3,800 (increases progressively with age from age 23, up to $5,650 at age 45 and above)"
+        },
+        {
+          "url": "https://www.mom.gov.sg/passes-and-permits/s-pass/eligibility",
+          "publisher": "Ministry of Manpower, Singapore",
+          "retrievedOn": "2026-09-11",
+          "quote": "23 or below $3,800 $4,000 24 $3,884 $4,075 25 $3,968 $4,150 26 $4,052 $4,225 27 $4,136 $4,300 28 $4,220 $4,375 29 $4,305 $4,450 30 $4,389 $4,525 31 $4,473 $4,600 32 $4,557 $4,675 33 $4,641 $4,750 34 $4,725 $4,825 35 $4,809 $4,900 36 $4,893 $4,975 37 $4,977 $5,050 38 $5,061 $5,125 39 $5,145 $5,200 40 $5,230 $5,275 41 $5,314 $5,350 42 $5,398 $5,425 43 $5,482 $5,500 44 $5,566 $5,575 45 or above $5,650 $5,650"
+        }
+      ]
+    },
+    {
+      "id": "salary-floor-financial-2027",
+      "kind": "salary-floor",
+      "text": "From 1 Jan 2027, the financial services minimum starts at S$4,000 if you are 23 or below and still reaches S$5,650 at 45 or above.",
+      "who": "employer",
+      "blocking": false,
+      "effective": {
+        "from": "2027-01-01"
+      },
+      "currency": "SGD",
+      "period": "month",
+      "sector": "financial-services",
+      "byAge": [
+        {
+          "age": 23,
+          "amount": 4000
+        },
+        {
+          "age": 24,
+          "amount": 4075
+        },
+        {
+          "age": 25,
+          "amount": 4150
+        },
+        {
+          "age": 26,
+          "amount": 4225
+        },
+        {
+          "age": 27,
+          "amount": 4300
+        },
+        {
+          "age": 28,
+          "amount": 4375
+        },
+        {
+          "age": 29,
+          "amount": 4450
+        },
+        {
+          "age": 30,
+          "amount": 4525
+        },
+        {
+          "age": 31,
+          "amount": 4600
+        },
+        {
+          "age": 32,
+          "amount": 4675
+        },
+        {
+          "age": 33,
+          "amount": 4750
+        },
+        {
+          "age": 34,
+          "amount": 4825
+        },
+        {
+          "age": 35,
+          "amount": 4900
+        },
+        {
+          "age": 36,
+          "amount": 4975
+        },
+        {
+          "age": 37,
+          "amount": 5050
+        },
+        {
+          "age": 38,
+          "amount": 5125
+        },
+        {
+          "age": 39,
+          "amount": 5200
+        },
+        {
+          "age": 40,
+          "amount": 5275
+        },
+        {
+          "age": 41,
+          "amount": 5350
+        },
+        {
+          "age": 42,
+          "amount": 5425
+        },
+        {
+          "age": 43,
+          "amount": 5500
+        },
+        {
+          "age": 44,
+          "amount": 5575
+        },
+        {
+          "age": 45,
+          "amount": 5650
+        }
+      ],
+      "sources": [
+        {
+          "url": "https://www.mom.gov.sg/passes-and-permits/s-pass/eligibility",
+          "publisher": "Ministry of Manpower, Singapore",
+          "retrievedOn": "2026-09-11",
+          "quote": "For new applications submitted from 1 Jan 2027, and renewal of passes expiring from 1 Jan 2028"
+        },
+        {
+          "url": "https://www.mom.gov.sg/passes-and-permits/s-pass/eligibility",
+          "publisher": "Ministry of Manpower, Singapore",
+          "retrievedOn": "2026-09-11",
+          "quote": "$4,000 (increases progressively with age from age 23, up to $5,650 at age 45 and above)"
+        },
+        {
+          "url": "https://www.mom.gov.sg/passes-and-permits/s-pass/eligibility",
+          "publisher": "Ministry of Manpower, Singapore",
+          "retrievedOn": "2026-09-11",
+          "quote": "23 or below $3,800 $4,000 24 $3,884 $4,075 25 $3,968 $4,150 26 $4,052 $4,225 27 $4,136 $4,300 28 $4,220 $4,375 29 $4,305 $4,450 30 $4,389 $4,525 31 $4,473 $4,600 32 $4,557 $4,675 33 $4,641 $4,750 34 $4,725 $4,825 35 $4,809 $4,900 36 $4,893 $4,975 37 $4,977 $5,050 38 $5,061 $5,125 39 $5,145 $5,200 40 $5,230 $5,275 41 $5,314 $5,350 42 $5,398 $5,425 43 $5,482 $5,500 44 $5,566 $5,575 45 or above $5,650 $5,650"
+        }
+      ]
+    },
+    {
+      "id": "fair-consideration",
+      "kind": "manual",
+      "text": "The employer must advertise the job on MyCareersFuture for at least 14 days and consider all candidates fairly before applying.",
+      "who": "employer",
+      "blocking": false,
+      "sources": [
+        {
+          "url": "https://www.mom.gov.sg/passes-and-permits/s-pass/consider-all-candidates-fairly",
+          "publisher": "Ministry of Manpower, Singapore",
+          "retrievedOn": "2026-09-11",
+          "quote": "To promote fair employment practices and improve labour market transparency, employers submitting S Pass applications must first advertise the job on MyCareersFuture , and consider all candidates fairly."
+        },
+        {
+          "url": "https://www.mom.gov.sg/passes-and-permits/s-pass/consider-all-candidates-fairly",
+          "publisher": "Ministry of Manpower, Singapore",
+          "retrievedOn": "2026-09-11",
+          "quote": "The MyCareersFuture job advertisement must be open for at least 14 consecutive days to allow job seekers to view and apply for the vacancy."
+        }
+      ]
+    },
+    {
+      "id": "quota",
+      "kind": "manual",
+      "text": "Ask the employer whether it has quota left. S Pass holders are capped at 10% of a services company's workforce and 15% in construction, manufacturing, marine shipyard and process.",
+      "who": "employer",
+      "blocking": false,
+      "sources": [
+        {
+          "url": "https://www.mom.gov.sg/passes-and-permits/s-pass/quota-and-levy/levy-and-quota-requirements",
+          "publisher": "Ministry of Manpower, Singapore",
+          "retrievedOn": "2026-09-11",
+          "quote": "Under the existing quota, the number of S Pass holders your company can hire is capped at: 10% of the company’s total workforce in the services sector. 15% in the construction, manufacturing, marine shipyard and process sectors."
+        }
+      ]
+    },
+    {
+      "id": "levy",
+      "kind": "manual",
+      "text": "The employer pays a monthly foreign worker levy for every S Pass holder it employs.",
+      "who": "employer",
+      "blocking": false,
+      "sources": [
+        {
+          "url": "https://www.mom.gov.sg/passes-and-permits/s-pass/quota-and-levy/levy-and-quota-requirements",
+          "publisher": "Ministry of Manpower, Singapore",
+          "retrievedOn": "2026-09-11",
+          "quote": "The number of S Pass holders you can hire is limited by a quota. You must also pay a monthly levy for these workers."
+        }
+      ]
+    },
+    {
+      "id": "qualifications-optional",
+      "kind": "manual",
+      "text": "Declaring your qualifications is optional, but if the employer declares them they must be authentic and from an accredited institution.",
+      "who": "employer",
+      "blocking": false,
+      "sources": [
+        {
+          "url": "https://www.mom.gov.sg/passes-and-permits/s-pass/eligibility",
+          "publisher": "Ministry of Manpower, Singapore",
+          "retrievedOn": "2026-09-11",
+          "quote": "Declaring qualifications is optional ."
+        },
+        {
+          "url": "https://www.mom.gov.sg/passes-and-permits/s-pass/eligibility",
+          "publisher": "Ministry of Manpower, Singapore",
+          "retrievedOn": "2026-09-11",
+          "quote": "Is authentic Was awarded by an accredited institution in the application form's drop-down list"
+        }
+      ]
+    },
+    {
+      "id": "self-assessment",
+      "kind": "manual",
+      "text": "The employer should run MOM's Self-Assessment Tool first, since MOM says an application it marks ineligible will be rejected.",
+      "who": "employer",
+      "blocking": false,
+      "sources": [
+        {
+          "url": "https://www.mom.gov.sg/passes-and-permits/s-pass/eligibility",
+          "publisher": "Ministry of Manpower, Singapore",
+          "retrievedOn": "2026-09-11",
+          "quote": "If the SAT shows that the candidate is not eligible, you shouldn’t apply for the S Pass because it will be rejected."
+        }
+      ]
+    }
+  ],
+  "verified": null
+}
