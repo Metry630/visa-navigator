@@ -46,9 +46,11 @@ with scripts/land.sh when every check is green."**
 
 Batch them into as few messages as possible. Budget is ~150 credits for v0; 303 were left on 2026-09-11.
 
-1. Point the methodology page's source-code link at https://github.com/Metry630/visa-navigator.
-2. Make the name consistent in the header, page titles and meta tags once Joshua picks it.
-3. On the results page, show each route's upcoming changes prominently; the SG Employment Pass
-   salary floor rises for new applications on 1 Jan 2027.
-4. A mobile pass over `/check` and `/results`.
-5. Later, once stream E adds them: nationality-specific notes on route cards.
+1. **Trust fix first.** Each source line says "Checked <date>", but that date is `source.retrievedOn`,
+   when the page was fetched, not when a person checked it. Label it "Retrieved <date>". Only a route's
+   `verifiedOn` may be described as checked or verified (it already shows "Not yet verified" when null).
+2. Point the methodology page's source-code link at https://github.com/Metry630/visa-navigator.
+3. Make the name consistent in the header, page titles and meta tags once Joshua picks it.
+4. Show dates as "1 Jan 2027" rather than "2027-01-01".
+5. A mobile pass over `/check` and `/results`.
+6. Later, once stream E adds them: nationality-specific notes on route cards.
