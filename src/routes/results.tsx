@@ -146,7 +146,7 @@ function Results() {
       </p>
 
       <div className="mt-6">
-        <ProfileSummary profile={profile} encoded={p} />
+        <ProfileSummary profile={profile} />
       </div>
 
       <div className="mt-10 space-y-12">
