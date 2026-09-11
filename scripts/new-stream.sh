@@ -19,6 +19,7 @@ fi
 # Untracked helpers don't follow into worktrees, so copy them. (.git/info/exclude is shared.)
 mkdir -p "$dir/.claude/skills"
 [ -d "$root/.claude/skills/offload" ] && cp -R "$root/.claude/skills/offload" "$dir/.claude/skills/"
+[ -f "$root/.claude/settings.local.json" ] && cp "$root/.claude/settings.local.json" "$dir/.claude/"
 [ -f "$root/CLAUDE.local.md" ] && cp "$root/CLAUDE.local.md" "$dir/"
 [ -d "$root/.sources" ] && cp -R "$root/.sources" "$dir/"
 

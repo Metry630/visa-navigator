@@ -101,7 +101,9 @@ Work is split into streams that own disjoint paths, so several sessions can run 
 `docs/START-HERE.md`; each stream's brief is in `docs/streams/`.
 
 - One git worktree per stream: `scripts/new-stream.sh <id>` creates `../visa-navigator-<id>` on branch
-  `stream/<id>` and copies the offload plugin in.
+  `stream/<id>` and copies the untracked helpers in (the offload plugin, `.claude/settings.local.json`,
+  `CLAUDE.local.md`, `.sources/`), since untracked files don't follow a worktree.
+- The Lovable MCP is registered at user scope, so every session has it. Only stream U uses it.
 - Merge into `main` only with `npm test`, `npm run typecheck` and `npm run check:data` green. Bring your
   branch up to date by merging `main` into it; don't rebase anything already pushed.
 - All sessions share one Claude plan's usage. Two or three at once is the ceiling.
