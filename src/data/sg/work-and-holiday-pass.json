@@ -1,0 +1,113 @@
+{
+  "schemaVersion": 1,
+  "id": "sg-work-and-holiday-pass",
+  "destination": "SG",
+  "name": "Work Holiday Pass (Work and Holiday Visa Programmes)",
+  "summary": "A 12-month pass for Australian and New Zealander students and graduates aged 18 to 30. You apply yourself and do not need a job offer first.",
+  "officialUrl": "https://www.mom.gov.sg/passes-and-permits/work-and-holiday-visa-programme/eligibility",
+  "requiresEmployer": false,
+  "requirements": [
+    {
+      "id": "citizenship-au-nz",
+      "kind": "nationality-list",
+      "text": "You must be a citizen of Australia or New Zealand.",
+      "who": "you",
+      "blocking": true,
+      "mode": "allow",
+      "listName": "Work and Holiday Visa Programme countries",
+      "codes": ["AU", "NZ"],
+      "sources": [
+        {
+          "url": "https://www.mom.gov.sg/passes-and-permits/work-and-holiday-visa-programme/eligibility",
+          "publisher": "Ministry of Manpower, Singapore",
+          "retrievedOn": "2026-09-11",
+          "quote": "You are a citizen of Australia or New Zealand."
+        }
+      ]
+    },
+    {
+      "id": "age-18-30",
+      "kind": "age",
+      "text": "You must be aged 18 to 30 when you apply.",
+      "who": "you",
+      "blocking": true,
+      "min": 18,
+      "max": 30,
+      "sources": [
+        {
+          "url": "https://www.mom.gov.sg/passes-and-permits/work-and-holiday-visa-programme/eligibility",
+          "publisher": "Ministry of Manpower, Singapore",
+          "retrievedOn": "2026-09-11",
+          "quote": "You are aged 18 to 30 at the time of application."
+        }
+      ]
+    },
+    {
+      "id": "degree-or-two-years",
+      "kind": "manual",
+      "text": "You must hold a university degree, or have completed the equivalent of two years of full-time undergraduate study.",
+      "who": "you",
+      "blocking": true,
+      "sources": [
+        {
+          "url": "https://www.mom.gov.sg/passes-and-permits/work-and-holiday-visa-programme/eligibility",
+          "publisher": "Ministry of Manpower, Singapore",
+          "retrievedOn": "2026-09-11",
+          "quote": "You hold a university degree, or have completed the equivalent of two years of full-time undergraduate university study."
+        }
+      ]
+    },
+    {
+      "id": "duration-12-months",
+      "kind": "manual",
+      "text": "The pass lets you work and holiday in Singapore for up to 12 months.",
+      "who": "you",
+      "blocking": false,
+      "sources": [
+        {
+          "url": "https://www.mom.gov.sg/passes-and-permits/work-and-holiday-visa-programme/eligibility",
+          "publisher": "Ministry of Manpower, Singapore",
+          "retrievedOn": "2026-09-11",
+          "quote": "The Work and Holiday Visa Programmes are for eligible Australian and New Zealander students and graduates who want to work and holiday in Singapore for up to 12 months."
+        }
+      ]
+    },
+    {
+      "id": "employer-registration",
+      "kind": "manual",
+      "text": "You can only work for companies registered with ACRA or organisations registered with the Registry of Societies, and freelance work is not allowed.",
+      "who": "you",
+      "blocking": false,
+      "sources": [
+        {
+          "url": "https://www.mom.gov.sg/passes-and-permits/work-and-holiday-visa-programme/eligibility",
+          "publisher": "Ministry of Manpower, Singapore",
+          "retrievedOn": "2026-09-11",
+          "quote": "Work as employees of companies registered with the Accounting & Corporate Regulatory Authority (ACRA)."
+        },
+        {
+          "url": "https://www.mom.gov.sg/passes-and-permits/work-and-holiday-visa-programme/eligibility",
+          "publisher": "Ministry of Manpower, Singapore",
+          "retrievedOn": "2026-09-11",
+          "quote": "Cannot take up free-lance employment."
+        }
+      ]
+    },
+    {
+      "id": "same-employer-limit",
+      "kind": "manual",
+      "text": "You cannot work for the same employer for more than 6 months, so a full-time job on this pass is capped even though the pass runs longer.",
+      "who": "you",
+      "blocking": false,
+      "sources": [
+        {
+          "url": "https://www.mom.gov.sg/passes-and-permits/work-and-holiday-visa-programme/eligibility",
+          "publisher": "Ministry of Manpower, Singapore",
+          "retrievedOn": "2026-09-11",
+          "quote": "Cannot work for the same employer for more than 6 months. You can choose to find another employer after that, or spend the rest of the time holidaying."
+        }
+      ]
+    }
+  ],
+  "verified": null
+}

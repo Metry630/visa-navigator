@@ -1,0 +1,126 @@
+{
+  "schemaVersion": 1,
+  "id": "sg-entrepass",
+  "destination": "SG",
+  "name": "EntrePass",
+  "summary": "A pass for founders starting a Singapore company that is venture-backed or owns innovative technology. It is open to all nationalities, but you have to show funding, accelerator backing, a past exit, registered intellectual property or a research collaboration, so it rarely fits someone straight out of university.",
+  "officialUrl": "https://www.mom.gov.sg/passes-and-permits/entrepass/eligibility",
+  "requiresEmployer": false,
+  "requirements": [
+    {
+      "id": "all-nationalities",
+      "kind": "manual",
+      "text": "Your nationality does not affect eligibility.",
+      "who": "you",
+      "blocking": false,
+      "sources": [
+        {
+          "url": "https://www.mom.gov.sg/passes-and-permits/entrepass/eligibility",
+          "publisher": "Ministry of Manpower, Singapore",
+          "retrievedOn": "2026-09-11",
+          "quote": "EntrePass is open to all nationalities/citizenships."
+        }
+      ]
+    },
+    {
+      "id": "company-registered",
+      "kind": "manual",
+      "text": "You must have started, or intend to start, a private limited company registered with ACRA in which you hold at least 30% of the shares, and which is venture-backed or owns innovative technologies.",
+      "who": "you",
+      "blocking": true,
+      "sources": [
+        {
+          "url": "https://www.mom.gov.sg/passes-and-permits/entrepass/eligibility",
+          "publisher": "Ministry of Manpower, Singapore",
+          "retrievedOn": "2026-09-11",
+          "quote": "Have started, or intend to start, a private limited company that is: Registered with ACRA (Pass holder must hold at least 30% of registered company) Venture-backed or owns innovative technologies ."
+        }
+      ]
+    },
+    {
+      "id": "qualifying-criterion",
+      "kind": "manual",
+      "text": "You must also meet at least one of five criteria: funding raised, incubator or accelerator support, a technology business you founded and sold, registered intellectual property, or a research collaboration in Singapore.",
+      "who": "you",
+      "blocking": true,
+      "sources": [
+        {
+          "url": "https://www.mom.gov.sg/passes-and-permits/entrepass/eligibility",
+          "publisher": "Ministry of Manpower, Singapore",
+          "retrievedOn": "2026-09-11",
+          "quote": "Meet at least one of the following criteria: Raised funding for a past or current business"
+        },
+        {
+          "url": "https://www.mom.gov.sg/passes-and-permits/entrepass/eligibility",
+          "publisher": "Ministry of Manpower, Singapore",
+          "retrievedOn": "2026-09-11",
+          "quote": "Supported by a government-recognised or internationally renowned incubator or accelerator"
+        },
+        {
+          "url": "https://www.mom.gov.sg/passes-and-permits/entrepass/eligibility",
+          "publisher": "Ministry of Manpower, Singapore",
+          "retrievedOn": "2026-09-11",
+          "quote": "Founded and sold a technology business"
+        },
+        {
+          "url": "https://www.mom.gov.sg/passes-and-permits/entrepass/eligibility",
+          "publisher": "Ministry of Manpower, Singapore",
+          "retrievedOn": "2026-09-11",
+          "quote": "Holds intellectual property"
+        },
+        {
+          "url": "https://www.mom.gov.sg/passes-and-permits/entrepass/eligibility",
+          "publisher": "Ministry of Manpower, Singapore",
+          "retrievedOn": "2026-09-11",
+          "quote": "Have a research collaboration in Singapore"
+        }
+      ]
+    },
+    {
+      "id": "funding-threshold",
+      "kind": "manual",
+      "text": "The funding route needs at least SGD 100,000 raised in a single funding round from investors for any past or current business.",
+      "who": "you",
+      "blocking": false,
+      "sources": [
+        {
+          "url": "https://www.mom.gov.sg/passes-and-permits/entrepass/eligibility",
+          "publisher": "Ministry of Manpower, Singapore",
+          "retrievedOn": "2026-09-11",
+          "quote": "You have raised at least SGD 100,000 from a single funding round from investors for any past or current business."
+        }
+      ]
+    },
+    {
+      "id": "company-age",
+      "kind": "manual",
+      "text": "If the company is more than 12 months old when you apply, you are assessed against the tougher renewal criteria instead.",
+      "who": "authority",
+      "blocking": false,
+      "sources": [
+        {
+          "url": "https://www.mom.gov.sg/passes-and-permits/entrepass/eligibility",
+          "publisher": "Ministry of Manpower, Singapore",
+          "retrievedOn": "2026-09-11",
+          "quote": "If the registered company is more than 12 months old as of the date of application, you will be assessed according to the renewal criteria ."
+        }
+      ]
+    },
+    {
+      "id": "excluded-businesses",
+      "kind": "manual",
+      "text": "Some businesses are excluded outright, including food and drink outlets, bars and night clubs, massage and traditional medicine businesses, employment agencies and geomancy.",
+      "who": "authority",
+      "blocking": false,
+      "sources": [
+        {
+          "url": "https://www.mom.gov.sg/passes-and-permits/entrepass/eligibility",
+          "publisher": "Ministry of Manpower, Singapore",
+          "retrievedOn": "2026-09-11",
+          "quote": "The following businesses are not eligible for an EntrePass: Coffee shops, hawker centres, food courts Bars, night clubs, karaoke lounges Foot reflexology, massage parlours Acupuncture, traditional Chinese medicine, herbal dispensing businesses Employment agencies Geomancy business"
+        }
+      ]
+    }
+  ],
+  "verified": null
+}
