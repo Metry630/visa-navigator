@@ -174,14 +174,17 @@ function fixtureResult(detail: RouteDetail, profile: Profile): RouteResult {
     name: detail.name,
     status,
     reason,
-    checklist: detail.requirements.map((req, i) => ({
-      requirementId: req.id,
-      text: req.text,
-      who: req.who,
-      outcome: status === "closed" ? "unmet" : req.who === "you" ? "met" : "unknown",
-      note: i === 0 ? "Example only: this note is fixture text." : undefined,
-      sources: req.sources,
-    })),
+    checklist: detail.requirements.map((req, i) => {
+      const item: RouteResult["checklist"][number] = {
+        requirementId: req.id,
+        text: req.text,
+        who: req.who,
+        outcome: status === "closed" ? "unmet" : req.who === "you" ? "met" : "unknown",
+        sources: req.sources,
+      };
+      if (i === 0) item.note = "Example only: this note is fixture text.";
+      return item;
+    }),
     upcomingChanges:
       detail.destination === "SG"
         ? [{ on: "2027-01-01", text: "Example only: a fixture rule change happens on this date." }]
