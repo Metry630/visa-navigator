@@ -65,9 +65,8 @@ function Methodology() {
           case is complicated.
         </p>
         <p className="mt-4 text-sm text-muted-foreground">
-          {/* TODO: replace with the real repository address once it is public. */}
           <a
-            href="https://example.com/visa-routes-source"
+            href="https://github.com/Metry630/visa-navigator"
             target="_blank"
             rel="noreferrer noopener"
             className="font-medium text-primary underline underline-offset-2"
