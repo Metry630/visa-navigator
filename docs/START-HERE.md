@@ -61,13 +61,17 @@ with scripts/land.sh when every check is green."**
 
 ## What Lovable should do (stream U sends these, a few credits each)
 
-Batch them into as few messages as possible. Budget is ~150 credits for v0; 303 were left on 2026-09-11.
+Batch them into as few messages as possible. Budget is ~150 credits for v0.
 
-1. **Trust fix first.** Each source line says "Checked <date>", but that date is `source.retrievedOn`,
-   when the page was fetched, not when a person checked it. Label it "Retrieved <date>". Only a route's
-   `verifiedOn` may be described as checked or verified (it already shows "Not yet verified" when null).
-2. Point the methodology page's source-code link at https://github.com/Metry630/visa-navigator.
-3. Make the name consistent in the header, page titles and meta tags once Joshua picks it.
-4. Show dates as "1 Jan 2027" rather than "2027-01-01".
-5. A mobile pass over `/check` and `/results`.
-6. Later, once stream E adds them: nationality-specific notes on route cards.
+**Done 2026-09-12** (commit `61571d0`, 4.3 credits): the trust fix, so source lines now say
+"Retrieved <date>" and only `verifiedOn` is ever called verified; the footer and the home trust line
+reworded to match; dates rendered as "1 Jan 2027" through one helper; the methodology source-code link
+pointed at the repo; and a 375px pass over `/check` and `/results`. The project knowledge now carries the
+retrieved-versus-checked rule, so the agent won't reintroduce it.
+
+Still queued:
+
+1. The home trust line reads "a person verifies it before it is marked verified", which repeats itself.
+   Ask for one short sentence instead. Fold this into the next batch rather than spending a message on it.
+2. Make the name consistent in the header, page titles and meta tags once Joshua picks it.
+3. Later, once stream E adds them: nationality-specific notes on route cards.
