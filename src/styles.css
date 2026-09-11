@@ -184,3 +184,35 @@
   max-width: 68ch;
 }
 
+
+/* Follow the reader's system setting for dark mode. */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: oklch(0.17 0.012 250);
+    --foreground: oklch(0.94 0.006 90);
+    --surface: oklch(0.21 0.014 250);
+    --card: oklch(0.21 0.014 250);
+    --card-foreground: oklch(0.94 0.006 90);
+    --popover: oklch(0.21 0.014 250);
+    --popover-foreground: oklch(0.94 0.006 90);
+    --primary: oklch(0.78 0.09 200);
+    --primary-foreground: oklch(0.17 0.012 250);
+    --secondary: oklch(0.26 0.014 250);
+    --secondary-foreground: oklch(0.94 0.006 90);
+    --muted: oklch(0.26 0.014 250);
+    --muted-foreground: oklch(0.72 0.012 250);
+    --accent: oklch(0.3 0.03 205);
+    --accent-foreground: oklch(0.9 0.04 200);
+    --destructive: oklch(0.7 0.16 25);
+    --destructive-foreground: oklch(0.17 0.012 250);
+    --border: oklch(1 0 0 / 14%);
+    --input: oklch(1 0 0 / 18%);
+    --ring: oklch(0.78 0.09 200);
+    --open: oklch(0.3 0.05 155);
+    --open-foreground: oklch(0.88 0.09 155);
+    --depends: oklch(0.31 0.05 80);
+    --depends-foreground: oklch(0.9 0.09 85);
+    --closed: oklch(0.31 0.06 25);
+    --closed-foreground: oklch(0.9 0.07 25);
+  }
+}
