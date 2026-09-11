@@ -1,0 +1,101 @@
+# CLAUDE.md
+
+Guidance for Claude Code and other coding agents in this repository. The UI is built with Lovable;
+this file covers everything else.
+
+## What this is
+
+Visa Navigator (working name; the UI currently says "Visa Routes") is an open-source web app for
+international new graduates. You enter your nationality, age, degree and a few other facts. For each
+destination (v0: Singapore and Japan), every work-visa route is marked **open**, **depends on employer**
+or **closed**, with a one-sentence reason and a checklist split into "you can check now", "ask the
+employer" and "the authority decides". Every line cites an official source and shows when a person last
+verified it. It has to work for many nationalities, not one.
+
+Three principles decide most questions:
+
+1. **Deterministic rules only.** No LLM states a visa fact to a user. Visa rules are exactly the kind of
+   near-source text where LLM checkers miss distorted numbers and stripped hedges. LLMs help research;
+   a person verifies.
+2. **Official sources only.** Government or official scheme pages. Law-firm guides, forums, blogs and
+   personal notes are leads, never citations.
+3. **Nothing about the user is stored.** Frontend only; the profile lives in the URL.
+
+## Commands
+
+```bash
+npm install                  # local installs use npm; Lovable uses bun (bun.lock), so package-lock.json stays out of git
+npm run dev                  # local dev server
+npm test                     # engine tests (vitest, plain config in vitest.config.ts)
+npm run typecheck            # tsc --noEmit; Lovable runs tsgo against the same tsconfig
+npm run check:data           # schema, grounding and verification report for src/data
+npm run check:data -- --release                   # before publishing: every route must be verified
+npm run check:sources        # drift check: every quote is still on its live official page
+npx tsx scripts/fetch-source.ts <name> <url>      # save an official page as text in .sources/
+```
+
+## Layout and ownership
+
+| Path | Owner | What |
+|---|---|---|
+| `src/engine/types.ts` | engine | The UI contract. Additive changes only; anything else needs a matching UI change |
+| `src/engine/schema.ts` | engine | zod schema for route files |
+| `src/engine/evaluate.ts`, `index.ts` | engine | Rule evaluation and the public API (`@/engine`) |
+| `src/data/<cc>/<route>.json` | research | One file per route; `src/data/countries.json` is the ISO list |
+| `scripts/`, `.github/`, `docs/` | Claude Code | Checks, CI, stream briefs |
+| everything else in `src/` | Lovable | Routes, components, styles; arrives as commits on `main` |
+
+- The UI imports only from `@/engine` and never hardcodes a visa fact.
+- Lovable commits straight to `main`. Per `AGENTS.md`, never force-push or rewrite pushed history on
+  `main`, and keep `main` working.
+- UI changes go through Lovable (the Lovable MCP's `send_message`, or its editor), not hand edits, so the
+  two don't fight. Review every Lovable change with `get_diff` before building on it.
+
+## Data rules (these will bite)
+
+- A requirement has `kind`, one-sentence `text`, `who` (you / employer / authority), `blocking`, `sources`
+  and optional `effective` dates. Failing a blocking requirement closes the route.
+- Quotes are verbatim from the page as rendered. Take them from `.sources/<name>.txt` (made by
+  `fetch-source.ts`), never from WebFetch or bulk-read output: both answer through a small model and can
+  distort exactly the numbers that matter.
+- Every number a user sees (requirement text, route summary, salary tables) must appear in one of that
+  requirement's quotes. `check:data` enforces it.
+- A scheduled change is a new dated requirement (`effective.from`), not an edit to the old one. Example:
+  the SG Employment Pass qualifying salary rises for new applications from 1 Jan 2027.
+- `verified` is written only by the review page when the maintainer approves a route. Never set it by
+  hand and never from a model. Unverified routes show "Not yet verified".
+- SG salaries are SGD per month and JP salaries JPY per year, matching `Profile.expectedSalary`.
+- Salary tables are sorted by age; the first row also covers younger ages and the last row older ones
+  (MOM's "23 or below" and "45 or above").
+- Keep quotes citation length. Whole-page snapshots stay in `.sources/`, which is gitignored.
+
+## Engine semantics
+
+- Status: `closed` if any blocking requirement in effect is unmet; `open` if the route needs no employer
+  and every blocking requirement is met; otherwise `depends`.
+- Outcomes: salary floors, age, degree, nationality lists, experience and language are evaluated from the
+  profile. `manual` requirements are `unknown`, and `who` says who has to check them.
+- `upcomingChanges` lists requirements that start within 400 days.
+- A nationality list matches if any of the user's nationalities is on it. Confirm per scheme; some treat
+  dual nationals differently.
+
+## Parallel streams
+
+Work is split into streams that own disjoint paths, so several sessions can run at once. Start with
+`docs/START-HERE.md`; each stream's brief is in `docs/streams/`.
+
+- One git worktree per stream: `scripts/new-stream.sh <id>` creates `../visa-navigator-<id>` on branch
+  `stream/<id>` and copies the offload plugin in.
+- Merge into `main` only with `npm test`, `npm run typecheck` and `npm run check:data` green. Bring your
+  branch up to date by merging `main` into it; don't rebase anything already pushed.
+- All sessions share one Claude plan's usage. Two or three at once is the ceiling.
+
+## Copy style
+
+User-facing text, the README and requirement `text`: plain English, short sentences, no em dashes, no
+exclamation marks, no marketing words ("unlock", "seamless").
+
+## Offload
+
+`.claude/skills/offload` (untracked) blocks reads over 350 lines and routes them to Haiku through
+`bulk-read`. Use it to understand big files, never to extract a quote or a number.

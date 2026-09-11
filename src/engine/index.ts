@@ -1,14 +1,8 @@
-// STUB: replaced by the real engine. Do not build features on the fixture data.
-
-import type {
-  Destination,
-  DestinationResult,
-  Profile,
-  RouteDetail,
-  RouteResult,
-  RouteSummary,
-  Source,
-} from "./types";
+// The engine's public API. The UI imports only from here, as "@/engine".
+import { z } from "zod";
+import { evaluateRoute } from "./evaluate";
+import { RouteSchema, type Route } from "./schema";
+import type { Destination, DestinationResult, Profile, RouteDetail, RouteSummary } from "./types";
 
 export type * from "./types";
 
@@ -17,272 +11,110 @@ export const DESTINATIONS: { code: Destination; name: string }[] = [
   { code: "JP", name: "Japan" },
 ];
 
-const exampleSource = (url: string, publisher: string): Source => ({
-  url,
-  publisher,
-  retrievedOn: "2026-01-15",
-  quote: "Example only. This quote is fixture text and is not from an official page.",
-});
-
-const FIXTURE_ROUTES: RouteDetail[] = [
-  {
-    routeId: "sg-example-pass",
-    destination: "SG",
-    name: "Example only: Singapore work pass",
-    summary: "Example only. A fixture route used while the real engine is being built.",
-    verifiedOn: "2026-01-15",
-    officialUrl: "https://www.mom.gov.sg/",
-    requirements: [
-      {
-        id: "sg-example-degree",
-        text: "Example only: you hold a recognised degree.",
-        who: "you",
-        sources: [exampleSource("https://www.mom.gov.sg/", "Ministry of Manpower")],
-      },
-      {
-        id: "sg-example-salary",
-        text: "Example only: the employer offers at least the monthly salary floor.",
-        who: "employer",
-        sources: [exampleSource("https://www.mom.gov.sg/", "Ministry of Manpower")],
-        effective: { from: "2026-01-01" },
-      },
-      {
-        id: "sg-example-approval",
-        text: "Example only: the authority approves the application.",
-        who: "authority",
-        sources: [exampleSource("https://www.mom.gov.sg/", "Ministry of Manpower")],
-      },
-    ],
-  },
-  {
-    routeId: "jp-example-pass",
-    destination: "JP",
-    name: "Example only: Japan work status",
-    summary: "Example only. A fixture route used while the real engine is being built.",
-    verifiedOn: null,
-    officialUrl: "https://www.moj.go.jp/isa/",
-    requirements: [
-      {
-        id: "jp-example-degree",
-        text: "Example only: your degree matches the job you are offered.",
-        who: "you",
-        sources: [exampleSource("https://www.moj.go.jp/isa/", "Immigration Services Agency")],
-      },
-      {
-        id: "jp-example-sponsor",
-        text: "Example only: the employer files a certificate of eligibility for you.",
-        who: "employer",
-        sources: [exampleSource("https://www.moj.go.jp/isa/", "Immigration Services Agency")],
-      },
-    ],
-  },
-  {
-    routeId: "jp-example-closed",
-    destination: "JP",
-    name: "Example only: Japan youth scheme",
-    summary: "Example only. A fixture route that is closed for most fixture profiles.",
-    verifiedOn: "2026-01-15",
-    officialUrl: "https://www.mofa.go.jp/",
-    requirements: [
-      {
-        id: "jp-example-nationality",
-        text: "Example only: your nationality takes part in the scheme.",
-        who: "you",
-        sources: [exampleSource("https://www.mofa.go.jp/", "Ministry of Foreign Affairs")],
-      },
-      {
-        id: "jp-example-age",
-        text: "Example only: you are within the age range for the scheme.",
-        who: "you",
-        sources: [exampleSource("https://www.mofa.go.jp/", "Ministry of Foreign Affairs")],
-      },
-    ],
-  },
-];
-
-const NATIONALITIES: { code: string; name: string }[] = [
-  { code: "AU", name: "Australia" },
-  { code: "BD", name: "Bangladesh" },
-  { code: "BR", name: "Brazil" },
-  { code: "CA", name: "Canada" },
-  { code: "CN", name: "China" },
-  { code: "DE", name: "Germany" },
-  { code: "EG", name: "Egypt" },
-  { code: "ES", name: "Spain" },
-  { code: "FR", name: "France" },
-  { code: "GB", name: "United Kingdom" },
-  { code: "ID", name: "Indonesia" },
-  { code: "IN", name: "India" },
-  { code: "IT", name: "Italy" },
-  { code: "JP", name: "Japan" },
-  { code: "KE", name: "Kenya" },
-  { code: "KR", name: "South Korea" },
-  { code: "MX", name: "Mexico" },
-  { code: "MY", name: "Malaysia" },
-  { code: "NG", name: "Nigeria" },
-  { code: "NL", name: "Netherlands" },
-  { code: "PH", name: "Philippines" },
-  { code: "PK", name: "Pakistan" },
-  { code: "PL", name: "Poland" },
-  { code: "SG", name: "Singapore" },
-  { code: "TH", name: "Thailand" },
-  { code: "TR", name: "Turkey" },
-  { code: "TW", name: "Taiwan" },
-  { code: "US", name: "United States" },
-  { code: "VN", name: "Vietnam" },
-  { code: "ZA", name: "South Africa" },
-];
-
-export function listNationalities(): { code: string; name: string }[] {
-  return NATIONALITIES.map((n) => ({ ...n }));
-}
-
-export function listRoutes(): RouteSummary[] {
-  return FIXTURE_ROUTES.map(({ routeId, destination, name, summary, verifiedOn }) => ({
-    routeId,
-    destination,
-    name,
-    summary,
-    verifiedOn,
-  }));
-}
-
-export function getRoute(routeId: string): RouteDetail | undefined {
-  return FIXTURE_ROUTES.find((r) => r.routeId === routeId);
-}
-
-function fixtureResult(detail: RouteDetail, profile: Profile): RouteResult {
-  const status =
-    detail.routeId === "jp-example-closed"
-      ? "closed"
-      : detail.routeId === "jp-example-pass"
-        ? "depends"
-        : profile.degree === "none"
-          ? "depends"
-          : "open";
-
-  const reason =
-    status === "closed"
-      ? "Example only: this fixture route is shown as closed."
-      : status === "depends"
-        ? "Example only: this fixture route depends on an employer."
-        : "Example only: this fixture route is shown as open.";
-
-  return {
-    routeId: detail.routeId,
-    destination: detail.destination,
-    name: detail.name,
-    status,
-    reason,
-    checklist: detail.requirements.map((req, i) => {
-      const item: RouteResult["checklist"][number] = {
-        requirementId: req.id,
-        text: req.text,
-        who: req.who,
-        outcome: status === "closed" ? "unmet" : req.who === "you" ? "met" : "unknown",
-        sources: req.sources,
-      };
-      if (i === 0) item.note = "Example only: this note is fixture text.";
-      return item;
-    }),
-    upcomingChanges:
-      detail.destination === "SG"
-        ? [{ on: "2027-01-01", text: "Example only: a fixture rule change happens on this date." }]
-        : [],
-    verifiedOn: detail.verifiedOn,
+/** Drops undefined values, since the contract uses exact optional properties. */
+function definedOnly<T extends object>(obj: T): { [K in keyof T]: Exclude<T[K], undefined> } {
+  return Object.fromEntries(Object.entries(obj).filter(([, v]) => v !== undefined)) as {
+    [K in keyof T]: Exclude<T[K], undefined>;
   };
 }
 
-export function evaluate(profile: Profile, _asOf?: string): DestinationResult[] {
+// Data files load through Vite's glob so the same code runs in the app, in SSR and in Vitest.
+const countries = z
+  .array(z.object({ code: z.string().regex(/^[A-Z]{2}$/), name: z.string().min(1) }))
+  .parse(Object.values(import.meta.glob("../data/countries.json", { eager: true, import: "default" }))[0]);
+
+// Every route file under src/data/<country>/ is picked up here; adding a route needs no code change.
+export const ROUTES: Route[] = Object.entries(import.meta.glob("../data/*/*.json", { eager: true, import: "default" }))
+  .map(([path, raw]) => {
+    const parsed = RouteSchema.safeParse(raw);
+    if (!parsed.success) throw new Error(`Invalid route file ${path}: ${parsed.error.message}`);
+    return parsed.data;
+  })
+  .sort((a, b) => a.id.localeCompare(b.id));
+
+const KNOWN_CODES = new Set(countries.map((c) => c.code));
+
+function today(): string {
+  return new Date().toISOString().slice(0, 10);
+}
+
+export function evaluate(profile: Profile, asOf: string = today()): DestinationResult[] {
   return DESTINATIONS.map((d) => ({
     destination: d.code,
     name: d.name,
-    routes: FIXTURE_ROUTES.filter((r) => r.destination === d.code).map((r) =>
-      fixtureResult(r, profile),
-    ),
+    routes: ROUTES.filter((r) => r.destination === d.code).map((r) => evaluateRoute(r, profile, asOf)),
   }));
 }
 
+function summary(r: Route): RouteSummary {
+  return { routeId: r.id, destination: r.destination, name: r.name, summary: r.summary, verifiedOn: r.verified?.on ?? null };
+}
+
+export function listRoutes(): RouteSummary[] {
+  return ROUTES.map(summary);
+}
+
+export function getRoute(routeId: string): RouteDetail | undefined {
+  const r = ROUTES.find((x) => x.id === routeId);
+  if (!r) return undefined;
+  return {
+    ...summary(r),
+    officialUrl: r.officialUrl,
+    requirements: r.requirements.map((q) => ({
+      id: q.id,
+      text: q.text,
+      who: q.who,
+      sources: q.sources,
+      ...(q.effective ? { effective: definedOnly(q.effective) } : {}),
+    })),
+  };
+}
+
+export function listNationalities(): { code: string; name: string }[] {
+  return countries.map((c) => ({ ...c }));
+}
+
+export const ProfileSchema = z.object({
+  nationalities: z
+    .array(z.string().regex(/^[A-Z]{2}$/))
+    .min(1)
+    .max(2)
+    .refine((codes) => codes.every((c) => KNOWN_CODES.has(c)), "unknown nationality code"),
+  age: z.number().int().min(14).max(100),
+  degree: z.enum(["none", "diploma", "bachelor", "master", "doctorate"]),
+  university: z.string().max(200).optional(),
+  graduationYear: z.number().int().min(1950).max(2100).optional(),
+  field: z.string().max(100).optional(),
+  yearsExperience: z.number().min(0).max(60),
+  languages: z
+    .array(z.object({ code: z.string().min(2).max(3), level: z.enum(["basic", "conversational", "business", "native"]) }))
+    .max(10),
+  expectedSalary: z.object({ SG: z.number().nonnegative().optional(), JP: z.number().nonnegative().optional() }).optional(),
+});
+
 function toBase64Url(text: string): string {
-  const bytes = new TextEncoder().encode(text);
   let binary = "";
-  bytes.forEach((b) => {
-    binary += String.fromCharCode(b);
-  });
+  new TextEncoder().encode(text).forEach((b) => (binary += String.fromCharCode(b)));
   return btoa(binary).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
 }
 
 function fromBase64Url(encoded: string): string {
   const padded = encoded.replace(/-/g, "+").replace(/_/g, "/");
   const binary = atob(padded + "=".repeat((4 - (padded.length % 4)) % 4));
-  const bytes = Uint8Array.from(binary, (c) => c.charCodeAt(0));
-  return new TextDecoder().decode(bytes);
+  return new TextDecoder().decode(Uint8Array.from(binary, (c) => c.charCodeAt(0)));
 }
 
 export function encodeProfile(profile: Profile): string {
   return toBase64Url(JSON.stringify(profile));
 }
 
-const DEGREES: string[] = ["none", "diploma", "bachelor", "master", "doctorate"];
-const LEVELS: string[] = ["basic", "conversational", "business", "native"];
-
+/** The URL is untrusted input: anything that doesn't parse as a valid profile returns null. */
 export function decodeProfile(encoded: string): Profile | null {
   try {
-    const raw: unknown = JSON.parse(fromBase64Url(encoded));
-    if (typeof raw !== "object" || raw === null) return null;
-    const p = raw as Record<string, unknown>;
-
-    const nationalities = p["nationalities"];
-    const age = p["age"];
-    const degree = p["degree"];
-    const years = p["yearsExperience"];
-    const languages = p["languages"];
-    if (
-      !Array.isArray(nationalities) ||
-      nationalities.length < 1 ||
-      nationalities.length > 2 ||
-      !nationalities.every((n) => typeof n === "string" && /^[A-Z]{2}$/.test(n))
-    ) {
-      return null;
-    }
-    if (typeof age !== "number" || !Number.isFinite(age) || age < 14 || age > 100) return null;
-    if (typeof degree !== "string" || !DEGREES.includes(degree)) return null;
-    if (typeof years !== "number" || !Number.isFinite(years) || years < 0) return null;
-    if (
-      !Array.isArray(languages) ||
-      !languages.every(
-        (l) =>
-          typeof l === "object" &&
-          l !== null &&
-          typeof (l as { code?: unknown }).code === "string" &&
-          LEVELS.includes(String((l as { level?: unknown }).level)),
-      )
-    ) {
-      return null;
-    }
-
-    const profile: Profile = {
-      nationalities: nationalities as string[],
-      age,
-      degree: degree as Profile["degree"],
-      yearsExperience: years,
-      languages: languages as Profile["languages"],
-    };
-    const university = p["university"];
-    const graduationYear = p["graduationYear"];
-    const field = p["field"];
-    const salary = p["expectedSalary"];
-    if (typeof university === "string" && university) profile.university = university;
-    if (typeof graduationYear === "number") profile.graduationYear = graduationYear;
-    if (typeof field === "string" && field) profile.field = field;
-    if (typeof salary === "object" && salary !== null) {
-      const s = salary as Record<string, unknown>;
-      const out: Partial<Record<Destination, number>> = {};
-      if (typeof s["SG"] === "number") out.SG = s["SG"];
-      if (typeof s["JP"] === "number") out.JP = s["JP"];
-      if (Object.keys(out).length) profile.expectedSalary = out;
-    }
-    return profile;
+    const parsed = ProfileSchema.safeParse(JSON.parse(fromBase64Url(encoded)));
+    if (!parsed.success) return null;
+    const { expectedSalary, ...rest } = parsed.data;
+    return { ...definedOnly(rest), ...(expectedSalary ? { expectedSalary: definedOnly(expectedSalary) } : {}) };
   } catch {
     return null;
   }

@@ -1,0 +1,245 @@
+{
+  "schemaVersion": 1,
+  "id": "sg-employment-pass",
+  "destination": "SG",
+  "name": "Employment Pass",
+  "summary": "Singapore's main work pass for professionals. The employer applies, and you must meet an age-based minimum salary and, unless exempt, a points test called COMPASS.",
+  "officialUrl": "https://www.mom.gov.sg/passes-and-permits/employment-pass/eligibility",
+  "requiresEmployer": true,
+  "requirements": [
+    {
+      "id": "salary-floor-2026",
+      "kind": "salary-floor",
+      "text": "Your fixed monthly salary must be at least S$5,600 if you are 23 or below, rising with age to S$10,700 at 45 or above.",
+      "who": "you",
+      "blocking": true,
+      "effective": { "to": "2026-12-31" },
+      "currency": "SGD",
+      "period": "month",
+      "sector": "all-except-financial-services",
+      "byAge": [
+        { "age": 23, "amount": 5600 }, { "age": 24, "amount": 5832 }, { "age": 25, "amount": 6064 },
+        { "age": 26, "amount": 6295 }, { "age": 27, "amount": 6527 }, { "age": 28, "amount": 6759 },
+        { "age": 29, "amount": 6991 }, { "age": 30, "amount": 7223 }, { "age": 31, "amount": 7455 },
+        { "age": 32, "amount": 7686 }, { "age": 33, "amount": 7918 }, { "age": 34, "amount": 8150 },
+        { "age": 35, "amount": 8382 }, { "age": 36, "amount": 8614 }, { "age": 37, "amount": 8845 },
+        { "age": 38, "amount": 9077 }, { "age": 39, "amount": 9309 }, { "age": 40, "amount": 9541 },
+        { "age": 41, "amount": 9773 }, { "age": 42, "amount": 10005 }, { "age": 43, "amount": 10236 },
+        { "age": 44, "amount": 10468 }, { "age": 45, "amount": 10700 }
+      ],
+      "sources": [
+        {
+          "url": "https://www.mom.gov.sg/passes-and-permits/employment-pass/eligibility",
+          "publisher": "Ministry of Manpower, Singapore",
+          "retrievedOn": "2026-09-11",
+          "quote": "$5,600 (increases progressively with age from age 23, up to $10,700 at age 45 and above)"
+        },
+        {
+          "url": "https://www.mom.gov.sg/passes-and-permits/employment-pass/eligibility",
+          "publisher": "Ministry of Manpower, Singapore",
+          "retrievedOn": "2026-09-11",
+          "quote": "23 or below $5,600 $6,000 24 $5,832 $6,250 25 $6,064 $6,500 26 $6,295 $6,750 27 $6,527 $7,000 28 $6,759 $7,250 29 $6,991 $7,500 30 $7,223 $7,750 31 $7,455 $8,000 32 $7,686 $8,250 33 $7,918 $8,500 34 $8,150 $8,750 35 $8,382 $9,000 36 $8,614 $9,250 37 $8,845 $9,500 38 $9,077 $9,750 39 $9,309 $10,000 40 $9,541 $10,250 41 $9,773 $10,500 42 $10,005 $10,750 43 $10,236 $11,000 44 $10,468 $11,250 45 or above $10,700 $11,500"
+        }
+      ]
+    },
+    {
+      "id": "salary-floor-2027",
+      "kind": "salary-floor",
+      "text": "For new applications from 1 Jan 2027, the minimum rises to S$6,000 if you are 23 or below, and to S$11,500 at 45 or above.",
+      "who": "you",
+      "blocking": true,
+      "effective": { "from": "2027-01-01" },
+      "currency": "SGD",
+      "period": "month",
+      "sector": "all-except-financial-services",
+      "byAge": [
+        { "age": 23, "amount": 6000 }, { "age": 24, "amount": 6250 }, { "age": 25, "amount": 6500 },
+        { "age": 26, "amount": 6750 }, { "age": 27, "amount": 7000 }, { "age": 28, "amount": 7250 },
+        { "age": 29, "amount": 7500 }, { "age": 30, "amount": 7750 }, { "age": 31, "amount": 8000 },
+        { "age": 32, "amount": 8250 }, { "age": 33, "amount": 8500 }, { "age": 34, "amount": 8750 },
+        { "age": 35, "amount": 9000 }, { "age": 36, "amount": 9250 }, { "age": 37, "amount": 9500 },
+        { "age": 38, "amount": 9750 }, { "age": 39, "amount": 10000 }, { "age": 40, "amount": 10250 },
+        { "age": 41, "amount": 10500 }, { "age": 42, "amount": 10750 }, { "age": 43, "amount": 11000 },
+        { "age": 44, "amount": 11250 }, { "age": 45, "amount": 11500 }
+      ],
+      "sources": [
+        {
+          "url": "https://www.mom.gov.sg/passes-and-permits/employment-pass/eligibility",
+          "publisher": "Ministry of Manpower, Singapore",
+          "retrievedOn": "2026-09-11",
+          "quote": "Minimum qualifying salary for new applications from 1 Jan 2027, and for renewal of passes expiring from 1 Jan 2028"
+        },
+        {
+          "url": "https://www.mom.gov.sg/passes-and-permits/employment-pass/eligibility",
+          "publisher": "Ministry of Manpower, Singapore",
+          "retrievedOn": "2026-09-11",
+          "quote": "$6,000 (increases progressively with age from age 23, up to $11,500 at age 45 and above)"
+        },
+        {
+          "url": "https://www.mom.gov.sg/passes-and-permits/employment-pass/eligibility",
+          "publisher": "Ministry of Manpower, Singapore",
+          "retrievedOn": "2026-09-11",
+          "quote": "23 or below $5,600 $6,000 24 $5,832 $6,250 25 $6,064 $6,500 26 $6,295 $6,750 27 $6,527 $7,000 28 $6,759 $7,250 29 $6,991 $7,500 30 $7,223 $7,750 31 $7,455 $8,000 32 $7,686 $8,250 33 $7,918 $8,500 34 $8,150 $8,750 35 $8,382 $9,000 36 $8,614 $9,250 37 $8,845 $9,500 38 $9,077 $9,750 39 $9,309 $10,000 40 $9,541 $10,250 41 $9,773 $10,500 42 $10,005 $10,750 43 $10,236 $11,000 44 $10,468 $11,250 45 or above $10,700 $11,500"
+        }
+      ]
+    },
+    {
+      "id": "salary-floor-financial-2026",
+      "kind": "salary-floor",
+      "text": "If the employer is in financial services, the minimum is higher: S$6,200 if you are 23 or below, rising to S$11,800 at 45 or above.",
+      "who": "employer",
+      "blocking": false,
+      "effective": { "to": "2026-12-31" },
+      "currency": "SGD",
+      "period": "month",
+      "sector": "financial-services",
+      "byAge": [
+        { "age": 23, "amount": 6200 }, { "age": 24, "amount": 6455 }, { "age": 25, "amount": 6709 },
+        { "age": 26, "amount": 6964 }, { "age": 27, "amount": 7218 }, { "age": 28, "amount": 7473 },
+        { "age": 29, "amount": 7727 }, { "age": 30, "amount": 7982 }, { "age": 31, "amount": 8236 },
+        { "age": 32, "amount": 8491 }, { "age": 33, "amount": 8745 }, { "age": 34, "amount": 9000 },
+        { "age": 35, "amount": 9255 }, { "age": 36, "amount": 9509 }, { "age": 37, "amount": 9764 },
+        { "age": 38, "amount": 10018 }, { "age": 39, "amount": 10273 }, { "age": 40, "amount": 10527 },
+        { "age": 41, "amount": 10782 }, { "age": 42, "amount": 11036 }, { "age": 43, "amount": 11291 },
+        { "age": 44, "amount": 11545 }, { "age": 45, "amount": 11800 }
+      ],
+      "sources": [
+        {
+          "url": "https://www.mom.gov.sg/passes-and-permits/employment-pass/eligibility",
+          "publisher": "Ministry of Manpower, Singapore",
+          "retrievedOn": "2026-09-11",
+          "quote": "Financial services $6,200 (increases progressively with age from age 23, up to $11,800 at age 45 and above)"
+        },
+        {
+          "url": "https://www.mom.gov.sg/passes-and-permits/employment-pass/eligibility",
+          "publisher": "Ministry of Manpower, Singapore",
+          "retrievedOn": "2026-09-11",
+          "quote": "23 or below $6,200 $6,600 24 $6,455 $6,877 25 $6,709 $7,155 26 $6,964 $7,432 27 $7,218 $7,709 28 $7,473 $7,986 29 $7,727 $8,264 30 $7,982 $8,541 31 $8,236 $8,818 32 $8,491 $9,095 33 $8,745 $9,373 34 $9,000 $9,650 35 $9,255 $9,927 36 $9,509 $10,205 37 $9,764 $10,482 38 $10,018 $10,759 39 $10,273 $11,036 40 $10,527 $11,314 41 $10,782 $11,591 42 $11,036 $11,868 43 $11,291 $12,145 44 $11,545 $12,423 45 or above $11,800 $12,700"
+        }
+      ]
+    },
+    {
+      "id": "salary-floor-financial-2027",
+      "kind": "salary-floor",
+      "text": "From 1 Jan 2027, the financial services minimum rises to S$6,600 if you are 23 or below, and to S$12,700 at 45 or above.",
+      "who": "employer",
+      "blocking": false,
+      "effective": { "from": "2027-01-01" },
+      "currency": "SGD",
+      "period": "month",
+      "sector": "financial-services",
+      "byAge": [
+        { "age": 23, "amount": 6600 }, { "age": 24, "amount": 6877 }, { "age": 25, "amount": 7155 },
+        { "age": 26, "amount": 7432 }, { "age": 27, "amount": 7709 }, { "age": 28, "amount": 7986 },
+        { "age": 29, "amount": 8264 }, { "age": 30, "amount": 8541 }, { "age": 31, "amount": 8818 },
+        { "age": 32, "amount": 9095 }, { "age": 33, "amount": 9373 }, { "age": 34, "amount": 9650 },
+        { "age": 35, "amount": 9927 }, { "age": 36, "amount": 10205 }, { "age": 37, "amount": 10482 },
+        { "age": 38, "amount": 10759 }, { "age": 39, "amount": 11036 }, { "age": 40, "amount": 11314 },
+        { "age": 41, "amount": 11591 }, { "age": 42, "amount": 11868 }, { "age": 43, "amount": 12145 },
+        { "age": 44, "amount": 12423 }, { "age": 45, "amount": 12700 }
+      ],
+      "sources": [
+        {
+          "url": "https://www.mom.gov.sg/passes-and-permits/employment-pass/eligibility",
+          "publisher": "Ministry of Manpower, Singapore",
+          "retrievedOn": "2026-09-11",
+          "quote": "Minimum qualifying salary for new applications from 1 Jan 2027, and for renewal of passes expiring from 1 Jan 2028"
+        },
+        {
+          "url": "https://www.mom.gov.sg/passes-and-permits/employment-pass/eligibility",
+          "publisher": "Ministry of Manpower, Singapore",
+          "retrievedOn": "2026-09-11",
+          "quote": "$6,600 (increases progressively with age from age 23, up to $12,700 at age 45 and above)"
+        },
+        {
+          "url": "https://www.mom.gov.sg/passes-and-permits/employment-pass/eligibility",
+          "publisher": "Ministry of Manpower, Singapore",
+          "retrievedOn": "2026-09-11",
+          "quote": "23 or below $6,200 $6,600 24 $6,455 $6,877 25 $6,709 $7,155 26 $6,964 $7,432 27 $7,218 $7,709 28 $7,473 $7,986 29 $7,727 $8,264 30 $7,982 $8,541 31 $8,236 $8,818 32 $8,491 $9,095 33 $8,745 $9,373 34 $9,000 $9,650 35 $9,255 $9,927 36 $9,509 $10,205 37 $9,764 $10,482 38 $10,018 $10,759 39 $10,273 $11,036 40 $10,527 $11,314 41 $10,782 $11,591 42 $11,036 $11,868 43 $11,291 $12,145 44 $11,545 $12,423 45 or above $11,800 $12,700"
+        }
+      ]
+    },
+    {
+      "id": "fair-consideration",
+      "kind": "manual",
+      "text": "The employer must advertise the job and consider local candidates fairly before applying, under the Fair Consideration Framework.",
+      "who": "employer",
+      "blocking": false,
+      "sources": [
+        {
+          "url": "https://www.mom.gov.sg/passes-and-permits/employment-pass/eligibility",
+          "publisher": "Ministry of Manpower, Singapore",
+          "retrievedOn": "2026-09-11",
+          "quote": "Employers must continue to meet the Fair Consideration Framework (FCF) job advertising requirement before submitting new EP applications."
+        }
+      ]
+    },
+    {
+      "id": "compass-40-points",
+      "kind": "manual",
+      "text": "Unless exempt, the application must score 40 points on COMPASS, a points test that MOM applies to the job and the employer as well as to you.",
+      "who": "authority",
+      "blocking": false,
+      "sources": [
+        {
+          "url": "https://www.mom.gov.sg/passes-and-permits/employment-pass/eligibility",
+          "publisher": "Ministry of Manpower, Singapore",
+          "retrievedOn": "2026-09-11",
+          "quote": "Your application needs to earn 40 points to pass COMPASS."
+        }
+      ]
+    },
+    {
+      "id": "compass-qualifications",
+      "kind": "manual",
+      "text": "A degree from a top 100 university in the QS World University Rankings, or another highly reputed university in Asia, earns the most qualification points.",
+      "who": "you",
+      "blocking": false,
+      "sources": [
+        {
+          "url": "https://www.mom.gov.sg/passes-and-permits/employment-pass/eligibility",
+          "publisher": "Ministry of Manpower, Singapore",
+          "retrievedOn": "2026-09-11",
+          "quote": "Top 100 universities based on QS World University Rankings, and other highly-reputed universities in Asia"
+        }
+      ]
+    },
+    {
+      "id": "compass-diversity",
+      "kind": "manual",
+      "text": "Ask the employer what share of its professional staff shares your nationality. A small share earns more points, and firms with fewer than 25 such staff get a default score.",
+      "who": "employer",
+      "blocking": false,
+      "sources": [
+        {
+          "url": "https://www.mom.gov.sg/passes-and-permits/employment-pass/eligibility",
+          "publisher": "Ministry of Manpower, Singapore",
+          "retrievedOn": "2026-09-11",
+          "quote": "This criterion awards more points to applications where the candidate’s nationality forms a small share of the firm’s PMET employees."
+        },
+        {
+          "url": "https://www.mom.gov.sg/passes-and-permits/employment-pass/eligibility",
+          "publisher": "Ministry of Manpower, Singapore",
+          "retrievedOn": "2026-09-11",
+          "quote": "Fewer than 25 PMETs, your application will score 10 points by default."
+        }
+      ]
+    },
+    {
+      "id": "compass-exemption",
+      "kind": "manual",
+      "text": "Jobs with a fixed monthly salary of at least S$22,500 are exempt from COMPASS.",
+      "who": "employer",
+      "blocking": false,
+      "sources": [
+        {
+          "url": "https://www.mom.gov.sg/passes-and-permits/employment-pass/eligibility",
+          "publisher": "Ministry of Manpower, Singapore",
+          "retrievedOn": "2026-09-11",
+          "quote": "Have a fixed monthly salary of at least $22,500"
+        }
+      ]
+    }
+  ],
+  "verified": null
+}
