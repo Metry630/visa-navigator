@@ -83,7 +83,7 @@ const STEP_TITLES = [
 ];
 
 const selectClass =
-  "h-10 w-full rounded-md border border-input bg-background px-3 text-sm text-foreground";
+  "h-11 w-full min-w-0 rounded-md border border-input bg-background px-3 text-sm text-foreground sm:h-10";
 
 function CheckPage() {
   const navigate = useNavigate();
@@ -180,16 +180,16 @@ function CheckPage() {
   const isLast = step === STEP_TITLES.length - 1;
 
   return (
-    <div className="mx-auto max-w-2xl px-5 py-12">
+    <div className="mx-auto min-w-0 max-w-2xl px-4 py-10 sm:px-5 sm:py-12">
       <h1 className="text-3xl font-semibold">Check your options</h1>
       <p className="mt-2 text-sm text-muted-foreground">
         Six short steps. Your answers stay in the page address and are not stored.
       </p>
 
       <div className="mt-8">
-        <div className="flex items-center justify-between text-sm">
-          <span className="font-medium">{STEP_TITLES[step]}</span>
-          <span className="text-muted-foreground">
+        <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3 text-sm">
+          <span className="min-w-0 font-medium">{STEP_TITLES[step]}</span>
+          <span className="shrink-0 text-muted-foreground">
             Step {step + 1} of {STEP_TITLES.length}
           </span>
         </div>
@@ -223,6 +223,7 @@ function CheckPage() {
               <Label htmlFor="nationality-search">Search nationalities</Label>
               <Input
                 id="nationality-search"
+                className="h-11 sm:h-10"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 placeholder="Type a country name"
@@ -271,6 +272,7 @@ function CheckPage() {
             <Label htmlFor="age">Your age</Label>
             <Input
               id="age"
+              className="h-11 sm:h-10"
               type="number"
               min={14}
               max={100}
@@ -303,6 +305,7 @@ function CheckPage() {
               <Label htmlFor="university">University, optional</Label>
               <Input
                 id="university"
+                className="h-11 sm:h-10"
                 value={form.university}
                 onChange={(e) => update({ university: e.target.value })}
               />
@@ -311,6 +314,7 @@ function CheckPage() {
               <Label htmlFor="graduation-year">Graduation year, optional</Label>
               <Input
                 id="graduation-year"
+                className="h-11 sm:h-10"
                 type="number"
                 inputMode="numeric"
                 min={1950}
@@ -323,6 +327,7 @@ function CheckPage() {
               <Label htmlFor="field">Field of study, optional</Label>
               <Input
                 id="field"
+                className="h-11 sm:h-10"
                 value={form.field}
                 onChange={(e) => update({ field: e.target.value })}
               />
@@ -335,6 +340,7 @@ function CheckPage() {
             <Label htmlFor="years">Years of work experience</Label>
             <Input
               id="years"
+              className="h-11 sm:h-10"
               type="number"
               min={0}
               max={60}
@@ -389,6 +395,7 @@ function CheckPage() {
                 <Label htmlFor={`salary-${d.code}`}>{SALARY_LABEL[d.code]}</Label>
                 <Input
                   id={`salary-${d.code}`}
+                  className="h-11 sm:h-10"
                   type="number"
                   min={0}
                   inputMode="numeric"
@@ -406,11 +413,13 @@ function CheckPage() {
           </p>
         )}
 
-        <div className="flex items-center justify-between border-t border-border pt-6">
-          <Button type="button" variant="outline" onClick={back} disabled={step === 0}>
+        <div className="flex items-center justify-between gap-3 border-t border-border pt-6">
+          <Button className="min-h-11 sm:min-h-10" type="button" variant="outline" onClick={back} disabled={step === 0}>
             Back
           </Button>
-          <Button type="submit">{isLast ? "See my routes" : "Next"}</Button>
+          <Button className="min-h-11 sm:min-h-10" type="submit">
+            {isLast ? "See my routes" : "Next"}
+          </Button>
         </div>
       </form>
     </div>

@@ -1,6 +1,7 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { ExternalLink } from "lucide-react";
 import { DESTINATIONS, getRoute, type Checker } from "@/engine";
+import { formatDate } from "@/components/format-date";
 
 export const Route = createFileRoute("/routes/$routeId")({
   loader: ({ params }) => {
@@ -55,7 +56,7 @@ function RouteDetailPage() {
           <span className="sr-only">opens in a new tab</span>
         </a>
         <span className="text-muted-foreground">
-          {detail.verifiedOn ? `Verified ${detail.verifiedOn}` : "Not yet verified"}
+          {detail.verifiedOn ? `Verified ${formatDate(detail.verifiedOn)}` : "Not yet verified"}
         </span>
       </div>
 
@@ -67,9 +68,9 @@ function RouteDetailPage() {
             <p className="mt-2 text-sm text-muted-foreground">{WHO_TEXT[req.who]}</p>
             {req.effective && (req.effective.from || req.effective.to) && (
               <p className="mt-1 text-sm text-muted-foreground">
-                Applies {req.effective.from ? `from ${req.effective.from}` : ""}
+                Applies {req.effective.from ? `from ${formatDate(req.effective.from)}` : ""}
                 {req.effective.from && req.effective.to ? " " : ""}
-                {req.effective.to ? `until ${req.effective.to}` : ""}
+                {req.effective.to ? `until ${formatDate(req.effective.to)}` : ""}
               </p>
             )}
             <div className="mt-4 space-y-4">
@@ -79,7 +80,7 @@ function RouteDetailPage() {
                     {s.quote}
                   </blockquote>
                   <p className="mt-2 text-xs text-muted-foreground">
-                    {s.publisher}. Checked {s.retrievedOn}.{" "}
+                    {s.publisher}. Retrieved {formatDate(s.retrievedOn)}.{" "}
                     <a
                       href={s.url}
                       target="_blank"

@@ -9,6 +9,7 @@ import {
   type RouteResult,
 } from "@/engine";
 import { CHECKER_HEADING, OutcomeTag, SourceLink, StatusBadge } from "@/components/route-ui";
+import { formatDate } from "@/components/format-date";
 
 type ResultsSearch = { p: string };
 
@@ -55,11 +56,11 @@ function ProfileSummary({ profile }: { profile: Profile }) {
   if (profile.graduationYear) bits.push(`graduated ${profile.graduationYear}`);
 
   return (
-    <div className="flex flex-wrap items-center justify-between gap-3 rounded-lg border border-border bg-surface px-4 py-3">
-      <p className="text-sm text-muted-foreground">{bits.join(" · ")}</p>
+    <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3 rounded-lg border border-border bg-surface px-4 py-3 sm:flex sm:flex-wrap sm:justify-between">
+      <p className="min-w-0 text-sm text-muted-foreground">{bits.join(" · ")}</p>
       <Link
         to="/check"
-        className="rounded-sm text-sm font-medium text-primary underline underline-offset-2"
+        className="shrink-0 rounded-sm py-2 text-sm font-medium text-primary underline underline-offset-2"
       >
         Edit answers
       </Link>
@@ -69,18 +70,18 @@ function ProfileSummary({ profile }: { profile: Profile }) {
 
 function RouteCard({ route }: { route: RouteResult }) {
   return (
-    <article className="rounded-lg border border-border bg-card p-5">
-      <div className="flex flex-wrap items-start justify-between gap-3">
-        <h3 className="text-xl font-semibold">
+    <article className="min-w-0 rounded-lg border border-border bg-card p-4 sm:p-5">
+      <div className="grid min-w-0 grid-cols-[minmax(0,1fr)_auto] items-start gap-3 sm:flex sm:flex-wrap sm:justify-between">
+        <h3 className="min-w-0 text-xl font-semibold">
           <Link
             to="/routes/$routeId"
             params={{ routeId: route.routeId }}
-            className="underline-offset-4 hover:underline"
+            className="break-words underline-offset-4 hover:underline"
           >
             {route.name}
           </Link>
         </h3>
-        <div className="flex flex-wrap items-center gap-2">
+        <div className="col-span-full flex min-w-0 flex-wrap items-center gap-2 sm:col-span-1 sm:shrink-0">
           <StatusBadge status={route.status} />
           {route.verifiedOn === null && (
             <span className="rounded-full border border-border px-3 py-1 text-xs font-medium text-muted-foreground">
@@ -98,7 +99,7 @@ function RouteCard({ route }: { route: RouteResult }) {
           <ul className="mt-2 space-y-1 text-sm text-muted-foreground">
             {route.upcomingChanges.map((c) => (
               <li key={`${c.on}-${c.text}`}>
-                <span className="font-medium text-foreground">{c.on}</span>: {c.text}
+                <span className="font-medium text-foreground">{formatDate(c.on)}</span>: {c.text}
               </li>
             ))}
           </ul>
@@ -118,11 +119,11 @@ function RouteCard({ route }: { route: RouteResult }) {
                 {items.map((item) => (
                   <li
                     key={item.requirementId}
-                    className="border-l-2 border-border pl-3 text-sm leading-relaxed"
+                    className="min-w-0 border-l-2 border-border pl-3 text-sm leading-relaxed"
                   >
                     <div className="flex flex-wrap items-center gap-2">
                       <OutcomeTag outcome={item.outcome} />
-                      <span>{item.text}</span>
+                      <span className="min-w-0 break-words">{item.text}</span>
                     </div>
                     {item.note && <p className="mt-1 text-muted-foreground">{item.note}</p>}
                     <div className="mt-1 flex flex-col gap-1">
@@ -149,7 +150,7 @@ function Results() {
   if (!profile) return null;
 
   return (
-    <div className="mx-auto max-w-4xl px-5 py-12">
+    <div className="mx-auto min-w-0 max-w-4xl px-4 py-10 sm:px-5 sm:py-12">
       <h1 className="text-3xl font-semibold">Your routes</h1>
       <p className="prose-measure mt-2 text-sm text-muted-foreground">
         Based on the answers you gave. Read each official source before you act.
