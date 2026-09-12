@@ -146,7 +146,7 @@
     {
       "id": "funds-for-initial-stay",
       "kind": "manual",
-      "text": "You need reasonable savings to support yourself at the start of your stay. How much counts as reasonable is set by the embassy that handles your application.",
+      "text": "You need reasonable funds to cover the start of your stay. The page gives no figure.",
       "who": "you",
       "blocking": true,
       "sources": [
@@ -282,5 +282,5 @@
       ]
     }
   ],
-  "verified": null
+  "verified": { "by": "joshua", "on": "2026-09-12" }
 }

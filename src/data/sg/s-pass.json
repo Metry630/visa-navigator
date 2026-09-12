@@ -557,15 +557,21 @@
     {
       "id": "levy",
       "kind": "manual",
-      "text": "The employer pays a monthly foreign worker levy for every S Pass holder it employs.",
+      "text": "The employer pays a monthly levy of S$650 for each S Pass holder, at the same rate across all sectors.",
       "who": "employer",
       "blocking": false,
       "sources": [
         {
           "url": "https://www.mom.gov.sg/passes-and-permits/s-pass/quota-and-levy/levy-and-quota-requirements",
           "publisher": "Ministry of Manpower, Singapore",
-          "retrievedOn": "2026-09-11",
-          "quote": "The number of S Pass holders you can hire is limited by a quota. You must also pay a monthly levy for these workers."
+          "retrievedOn": "2026-09-12",
+          "quote": "As an employer, you must pay the levy for all your S Pass holders. The levy liability starts from the day the S Pass is issued and ends when the pass is cancelled or expires."
+        },
+        {
+          "url": "https://www.mom.gov.sg/passes-and-permits/s-pass/quota-and-levy/levy-and-quota-requirements",
+          "publisher": "Ministry of Manpower, Singapore",
+          "retrievedOn": "2026-09-12",
+          "quote": "Since 1 September 2025 , the S Pass levy rate has been harmonised to $650 across all sectors and levy tiers."
         }
       ]
     },

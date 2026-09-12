@@ -4,7 +4,9 @@ Every Singapore work pass considered for the app, in or out, with the reason. Th
 from MOM's own index at https://www.mom.gov.sg/passes-and-permits, so nothing is missing because nobody
 thought of it.
 
-Nothing here is verified. Every route file has `verified: null` until Joshua stamps it in the review page.
+Joshua stamped five of the seven routes on 2026-09-12. Employment Pass and S Pass are still
+`verified: null` and are the only two things holding the release gate, since `check:data --release`
+errors on any unverified route.
 
 ## In the app
 
@@ -36,7 +38,8 @@ Nothing here is verified. Every route file has `verified: null` until Joshua sta
 ## Needs a new kind (for stream E)
 
 Three rules are written as `"kind": "manual"` because the schema cannot express them yet. Each one is a
-real check that the engine could make from the profile.
+real check that the engine could make from the profile. Item 4 is a different shape of gap: the rule is
+modelled, but only half of it, and the missing half currently lives in the requirement text.
 
 1. **University country list.** The Work Holiday Programme turns on where your university is, not on your
    nationality: Australia, France, Germany, Hong Kong, Japan, Netherlands, New Zealand, Switzerland,
@@ -53,6 +56,31 @@ real check that the engine could make from the profile.
    in a quote, which a flat floor cannot satisfy. Either allow `byAge` to be omitted in favour of a single
    `amount`, or stop requiring the age of a single-row table to be quoted.
    `sg-training-employment-pass#salary-or-institution` is manual until then.
+4. **New application versus renewal.** Found in Joshua's review on 2026-09-12. MOM's quote reads
+   "Minimum qualifying salary for new applications from 1 Jan 2027, and for renewal of passes expiring
+   from 1 Jan 2028", so one figure governs two different events on two different dates. `effective.from`
+   can express only one of them, and `Profile` has no way to say whether the user is applying fresh or
+   renewing. The text of `sg-employment-pass#salary-floor-2027` and `#salary-floor-financial-2027` now
+   states both dates, and the app assumes a new application. A `renewal` field on the profile plus an
+   `appliesTo: "new" | "renewal"` discriminator on `salary-floor` would let the engine pick the right
+   row instead. The same pattern will recur on every pass whose floor rises, so it is worth doing once.
+
+## Resolved from the 2026-09-12 review
+
+Joshua reviewed all seven routes and stamped five. Two Singapore routes are still open, and his four
+comments were resolved as follows.
+
+- **`sg-employment-pass#salary-floor-2026`** ("new prices per age category, as well as renewals starting
+  jan 2028"). Correct, and the renewal half of the rule was missing from the site while sitting in the
+  quote. Both 2027 requirement texts now name it. See item 4 above for the engine gap.
+- **`sg-s-pass#levy`** ("I couldnt find that it's scaled by number of workers"). Correct, nothing
+  supported a per-head scale. The page in fact publishes a flat rate: "the S Pass levy rate has been
+  harmonised to $650 across all sectors and levy tiers". The requirement now gives that figure and
+  carries two quotes from the levy page instead of the quota sentence it had before.
+- **`sg-s-pass#self-assessment`** ("it has to be the employer that does so"). Already correct in the data
+  at review time: `who` is `employer` and the text reads "The employer should run MOM's Self-Assessment
+  Tool first". Worth working out whether the review page served a stale copy, because that would mean
+  part of the hour went on a file that had already moved.
 
 ## Questions for Joshua while verifying
 

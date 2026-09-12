@@ -50,6 +50,32 @@ universities is a PDF, so the university condition has to be `manual` with the P
 graduates of Japanese universities, which would put it out of scope for someone applying from abroad. If
 that is right it goes in this file with the reason and gets no route file.
 
+## MOFA is blocking the fetcher (2026-09-12)
+
+`npm run check:sources` came back with 21 unreachable quotes, every one of them on
+https://www.mofa.go.jp/j_info/visit/w_holiday/index.html, all HTTP 403. It is not the user agent and not
+that page: plain `curl` with a browser user agent gets 403 from https://www.mofa.go.jp/ itself, while MOM
+returns 200 in the same run. So MOFA is refusing this network, and it started today, since the snapshot in
+`.sources/jp-working-holiday.txt` was fetched successfully this morning.
+
+Deliberately **not** marking those 21 sources `"check": "manual"`. That flag is for pages the fetcher can
+never read, and using it here would quietly switch drift detection off for the whole route over what looks
+like an IP block. The weekly cron will say whether it has lifted. If it is still 403 next week, the honest
+move is `manual` on the MOFA sources plus a note on the route that the source has to be re-read by hand.
+
+This does not block stream R-JP: snapshots for all four remaining Japan routes are already saved in
+`visa-navigator-r-jp/.sources/`. It does mean a new MOFA page cannot be fetched until the block lifts.
+
+## Resolved from the 2026-09-12 review
+
+Joshua stamped `jp-working-holiday` and left one comment on it.
+
+- **`funds-for-initial-stay`** ("I dont see them saying the embassy sets the reasonable amount"). Correct.
+  MOFA says only "Possessing reasonable funds for the maintenance of his/her stay during the initial
+  period of stay in Japan", and nothing about who sets the figure. The sentence attributing it to the
+  embassy is gone; the text now says the page gives no figure. The embassy advice it was reaching for
+  already has its own requirement, `requirements-vary-by-nationality`, with its own quote.
+
 ## Questions for Joshua
 
 1. J-Find's university list is a PDF. Do we quote the PDF and mark the source `manual`, or link the list

@@ -44,9 +44,16 @@ if (existsSync(LAST_CHECK)) {
     found: number;
     checked: number;
     skipped: number;
+    unreachable: number;
   };
   const skipped = last.skipped ? `, ${last.skipped} checked by hand` : "";
-  live = `${last.found} of ${last.checked} still on their official page${skipped}, last checked ${last.on}`;
+  // Unreachable is not drift. A publisher blocking the fetcher would otherwise read here as
+  // "21 quotes have moved", which is a much worse claim than the true one.
+  const unreachable = last.unreachable
+    ? `, ${last.unreachable} unreachable because the publisher is blocking the fetcher`
+    : "";
+  const denominator = last.checked - (last.unreachable ?? 0);
+  live = `${last.found} of ${denominator} still on their official page${skipped}${unreachable}, last checked ${last.on}`;
 }
 
 const block = [

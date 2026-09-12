@@ -45,7 +45,7 @@
     {
       "id": "salary-floor-2027",
       "kind": "salary-floor",
-      "text": "For new applications from 1 Jan 2027, the minimum rises to S$6,000 if you are 23 or below, and to S$11,500 at 45 or above.",
+      "text": "From 1 Jan 2027 the minimum rises to S$6,000 if you are 23 or below, and to S$11,500 at 45 or above. It applies to new applications from that date, and to renewals of passes expiring from 1 Jan 2028.",
       "who": "you",
       "blocking": true,
       "effective": { "from": "2027-01-01" },
@@ -121,7 +121,7 @@
     {
       "id": "salary-floor-financial-2027",
       "kind": "salary-floor",
-      "text": "From 1 Jan 2027, the financial services minimum rises to S$6,600 if you are 23 or below, and to S$12,700 at 45 or above.",
+      "text": "From 1 Jan 2027 the financial services minimum rises to S$6,600 if you are 23 or below, and to S$12,700 at 45 or above. It applies to new applications from that date, and to renewals of passes expiring from 1 Jan 2028.",
       "who": "employer",
       "blocking": false,
       "effective": { "from": "2027-01-01" },
