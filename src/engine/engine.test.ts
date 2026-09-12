@@ -234,3 +234,73 @@ describe("SG catalogue", () => {
     }
   });
 });
+
+function jpRoute(profile: Profile, routeId: string): RouteResult {
+  const jp = evaluate(profile, "2026-10-15").find((d) => d.destination === "JP")!;
+  return jp.routes.find((r) => r.routeId === routeId)!;
+}
+
+describe("JP Working Holiday", () => {
+  const wh = (p: Profile) => jpRoute(p, "jp-working-holiday");
+
+  it("is closed to nationalities with no working holiday arrangement", () => {
+    for (const n of ["ID", "IN", "PH", "VN"]) {
+      const r = wh({ ...base, nationalities: [n] });
+      expect(r.status).toBe("closed");
+      expect(item(r, "partner-country")?.outcome).toBe("unmet");
+    }
+  });
+
+  it("opens as far as it can for a partner nationality, leaving the embassy checks to the applicant", () => {
+    for (const n of ["TW", "DE", "GB", "KR"]) {
+      const r = wh({ ...base, nationalities: [n], age: 24 });
+      expect(r.status).toBe("depends");
+      expect(item(r, "partner-country")?.outcome).toBe("met");
+      expect(item(r, "age-18-30")?.outcome).toBe("met");
+      expect(item(r, "funds-for-initial-stay")?.outcome).toBe("unknown");
+      expect(item(r, "funds-for-initial-stay")?.who).toBe("you");
+    }
+  });
+
+  it("closes at 31 and below 18", () => {
+    expect(wh({ ...base, nationalities: ["DE"], age: 30 }).status).toBe("depends");
+    expect(wh({ ...base, nationalities: ["DE"], age: 31 }).status).toBe("closed");
+    expect(wh({ ...base, nationalities: ["DE"], age: 17 }).status).toBe("closed");
+  });
+
+  // The 18 to 25 limit for Australia, Canada, South Korea and Ireland can't be applied from the
+  // profile yet: the engine has no per-nationality age limit. It is carried as a note the applicant
+  // reads, so a 27 year old Australian still sees "depends" rather than a wrong "closed".
+  it("shows the lower age limit for four countries as a note rather than enforcing it", () => {
+    const r = wh({ ...base, nationalities: ["AU"], age: 27 });
+    expect(r.status).toBe("depends");
+    expect(item(r, "age-limit-four-countries")?.outcome).toBe("unknown");
+    expect(item(r, "age-limit-four-countries")?.text).toContain("18 to 25");
+  });
+
+  it("counts a dual national who holds one partner nationality", () => {
+    expect(wh({ ...base, nationalities: ["ID", "DE"] }).status).toBe("depends");
+  });
+
+  it("needs no employer, so nothing on the checklist is the employer's job", () => {
+    expect(wh({ ...base, nationalities: ["DE"] }).checklist.some((c) => c.who === "employer")).toBe(
+      false,
+    );
+  });
+});
+
+describe("JP catalogue", () => {
+  it("lists the Japanese routes and leaves them unverified", () => {
+    const jp = listRoutes().filter((r) => r.destination === "JP");
+    expect(jp.map((r) => r.routeId)).toEqual(["jp-working-holiday"]);
+    expect(jp.every((r) => r.verifiedOn === null)).toBe(true);
+  });
+
+  it("gives every requirement of every JP route at least one source", () => {
+    for (const r of listRoutes().filter((x) => x.destination === "JP")) {
+      const detail = getRoute(r.routeId)!;
+      expect(detail.requirements.length).toBeGreaterThan(0);
+      expect(detail.requirements.every((q) => q.sources.length > 0)).toBe(true);
+    }
+  });
+});

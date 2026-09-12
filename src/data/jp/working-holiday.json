@@ -1,0 +1,286 @@
+{
+  "schemaVersion": 1,
+  "id": "jp-working-holiday",
+  "destination": "JP",
+  "name": "Working Holiday",
+  "summary": "A visa for young people from 32 partner countries and regions who want to spend a holiday in Japan and work to top up their travel funds. You must be 18 to 30 when you apply, or 18 to 25 if you are Australian, Canadian, South Korean or Irish. You apply yourself and do not need a job offer.",
+  "officialUrl": "https://www.mofa.go.jp/j_info/visit/w_holiday/index.html",
+  "requiresEmployer": false,
+  "requirements": [
+    {
+      "id": "partner-country",
+      "kind": "nationality-list",
+      "mode": "allow",
+      "listName": "Japan working holiday partner countries and regions",
+      "codes": [
+        "AU", "NZ", "CA", "KR", "FR", "DE", "GB", "IE", "DK", "TW",
+        "HK", "NO", "PT", "PL", "SK", "AT", "HU", "ES", "AR", "CL",
+        "IS", "CZ", "LT", "SE", "EE", "NL", "UY", "FI", "LV", "LU",
+        "MT", "IT"
+      ],
+      "text": "Japan runs a working holiday programme with 32 countries and regions, and yours has to be one of them.",
+      "who": "you",
+      "blocking": true,
+      "sources": [
+        {
+          "url": "https://www.mofa.go.jp/j_info/visit/w_holiday/index.html",
+          "publisher": "Ministry of Foreign Affairs of Japan",
+          "retrievedOn": "2026-09-12",
+          "quote": "As of 1 April, 2026, Japan has introduced the programmes with the following 32 countries/regions."
+        }
+      ]
+    },
+    {
+      "id": "age-18-30",
+      "kind": "age",
+      "min": 18,
+      "max": 30,
+      "text": "You must be 18 to 30 years old when you apply for the visa.",
+      "who": "you",
+      "blocking": true,
+      "sources": [
+        {
+          "url": "https://www.mofa.go.jp/j_info/visit/w_holiday/index.html",
+          "publisher": "Ministry of Foreign Affairs of Japan",
+          "retrievedOn": "2026-09-12",
+          "quote": "Being between 18 and 30 years of age both inclusive at the time of application for the visa"
+        }
+      ]
+    },
+    {
+      "id": "age-limit-four-countries",
+      "kind": "manual",
+      "text": "Australian, Canadian, South Korean and Irish applicants have a lower limit of 18 to 25, unless the two governments have agreed to extend it to 30.",
+      "who": "you",
+      "blocking": false,
+      "sources": [
+        {
+          "url": "https://www.mofa.go.jp/j_info/visit/w_holiday/index.html",
+          "publisher": "Ministry of Foreign Affairs of Japan",
+          "retrievedOn": "2026-09-12",
+          "quote": "As for Australia, Canada, South Korea and Ireland, an applicant should be between 18 and 25 years of age except in those cases where the competent authorities of each applicable country and Japan agree to extend the limitation of age to 30 years."
+        }
+      ]
+    },
+    {
+      "id": "requirements-vary-by-nationality",
+      "kind": "manual",
+      "text": "The exact requirements differ by nationality, so check the Japanese embassy or consulate for your country before you apply.",
+      "who": "authority",
+      "blocking": false,
+      "sources": [
+        {
+          "url": "https://www.mofa.go.jp/j_info/visit/w_holiday/index.html",
+          "publisher": "Ministry of Foreign Affairs of Japan",
+          "retrievedOn": "2026-09-12",
+          "quote": "The requirements may vary depending on the nationality of the applicant."
+        }
+      ]
+    },
+    {
+      "id": "residing-in-country",
+      "kind": "manual",
+      "text": "For most partner countries you have to be living in your country of nationality when you apply. Hong Kong and Taiwan residents apply on their own passport instead.",
+      "who": "you",
+      "blocking": true,
+      "sources": [
+        {
+          "url": "https://www.mofa.go.jp/j_info/visit/w_holiday/index.html",
+          "publisher": "Ministry of Foreign Affairs of Japan",
+          "retrievedOn": "2026-09-12",
+          "quote": "an applicant must be currently residing in his or her country of nationality"
+        },
+        {
+          "url": "https://www.mofa.go.jp/j_info/visit/w_holiday/index.html",
+          "publisher": "Ministry of Foreign Affairs of Japan",
+          "retrievedOn": "2026-09-12",
+          "quote": "for a resident in Hong Kong, an applicant must possess a valid HKSAR or British National Overseas passport; for a resident in Taiwan, an applicant must possess a valid passport of Taiwan."
+        }
+      ]
+    },
+    {
+      "id": "purpose-is-holiday",
+      "kind": "manual",
+      "text": "Your main purpose has to be spending a holiday in Japan, not taking a job.",
+      "who": "you",
+      "blocking": true,
+      "sources": [
+        {
+          "url": "https://www.mofa.go.jp/j_info/visit/w_holiday/index.html",
+          "publisher": "Ministry of Foreign Affairs of Japan",
+          "retrievedOn": "2026-09-12",
+          "quote": "Intending primarily to spend holiday in Japan for a specific length of time."
+        }
+      ]
+    },
+    {
+      "id": "no-dependents",
+      "kind": "manual",
+      "text": "You cannot bring dependents or children with you.",
+      "who": "you",
+      "blocking": true,
+      "sources": [
+        {
+          "url": "https://www.mofa.go.jp/j_info/visit/w_holiday/index.html",
+          "publisher": "Ministry of Foreign Affairs of Japan",
+          "retrievedOn": "2026-09-12",
+          "quote": "Not being accompanied by dependents or children."
+        }
+      ]
+    },
+    {
+      "id": "passport-and-return-ticket",
+      "kind": "manual",
+      "text": "You need a valid passport and either a return ticket or enough money to buy one.",
+      "who": "you",
+      "blocking": true,
+      "sources": [
+        {
+          "url": "https://www.mofa.go.jp/j_info/visit/w_holiday/index.html",
+          "publisher": "Ministry of Foreign Affairs of Japan",
+          "retrievedOn": "2026-09-12",
+          "quote": "Possessing a valid passport of his or her country/region and a return travel ticket or sufficient funds with which to purchase such a ticket."
+        }
+      ]
+    },
+    {
+      "id": "funds-for-initial-stay",
+      "kind": "manual",
+      "text": "You need reasonable savings to support yourself at the start of your stay. How much counts as reasonable is set by the embassy that handles your application.",
+      "who": "you",
+      "blocking": true,
+      "sources": [
+        {
+          "url": "https://www.mofa.go.jp/j_info/visit/w_holiday/index.html",
+          "publisher": "Ministry of Foreign Affairs of Japan",
+          "retrievedOn": "2026-09-12",
+          "quote": "Possessing reasonable funds for the maintenance of his/her stay during the initial period of stay in Japan."
+        }
+      ]
+    },
+    {
+      "id": "good-health",
+      "kind": "manual",
+      "text": "You have to be in good health.",
+      "who": "you",
+      "blocking": true,
+      "sources": [
+        {
+          "url": "https://www.mofa.go.jp/j_info/visit/w_holiday/index.html",
+          "publisher": "Ministry of Foreign Affairs of Japan",
+          "retrievedOn": "2026-09-12",
+          "quote": "Being in good health."
+        }
+      ]
+    },
+    {
+      "id": "not-had-one-before",
+      "kind": "manual",
+      "text": "You must not have been issued a Japanese working holiday visa before, apart from the exceptions below.",
+      "who": "you",
+      "blocking": true,
+      "sources": [
+        {
+          "url": "https://www.mofa.go.jp/j_info/visit/w_holiday/index.html",
+          "publisher": "Ministry of Foreign Affairs of Japan",
+          "retrievedOn": "2026-09-12",
+          "quote": "Never having been issued a Japanese working holiday visa in the past."
+        }
+      ]
+    },
+    {
+      "id": "second-visa-exceptions",
+      "kind": "manual",
+      "text": "Some nationalities can now take part twice: Canada, the United Kingdom, New Zealand, Denmark, Austria, Germany, Ireland, Slovakia, South Korea and Taiwan.",
+      "who": "you",
+      "blocking": false,
+      "sources": [
+        {
+          "url": "https://www.mofa.go.jp/j_info/visit/w_holiday/index.html",
+          "publisher": "Ministry of Foreign Affairs of Japan",
+          "retrievedOn": "2026-09-12",
+          "quote": "Starting from 1 December, 2024, the nationals of Canada, United Kingdom, New Zealand, Denmark, and Austria are allowed to participate in the Working Holiday Programmes twice in lifetime"
+        },
+        {
+          "url": "https://www.mofa.go.jp/j_info/visit/w_holiday/index.html",
+          "publisher": "Ministry of Foreign Affairs of Japan",
+          "retrievedOn": "2026-09-12",
+          "quote": "Starting from 1 January, 2025, the nationals of Germany, Ireland, and Slovakia are allowed to participate in the Working Holiday Programmes twice in lifetime (two inconsecutive one-year stays in total)."
+        },
+        {
+          "url": "https://www.mofa.go.jp/j_info/visit/w_holiday/index.html",
+          "publisher": "Ministry of Foreign Affairs of Japan",
+          "retrievedOn": "2026-09-12",
+          "quote": "Starting from 1 October, 2025, the nationals of South Korea are allowed to participate in the Working Holiday Programmes twice in lifetime (two inconsecutive one-year stays in total)."
+        },
+        {
+          "url": "https://www.mofa.go.jp/j_info/visit/w_holiday/index.html",
+          "publisher": "Ministry of Foreign Affairs of Japan",
+          "retrievedOn": "2026-09-12",
+          "quote": "Starting from 1 February, 2026, the people of Taiwan are allowed to participate in the Working Holiday Programmes twice in lifetime (two inconsecutive one-year stays in total)."
+        }
+      ]
+    },
+    {
+      "id": "annual-cap",
+      "kind": "manual",
+      "text": "Japan limits how many of these visas some countries get each year, so places can run out.",
+      "who": "authority",
+      "blocking": false,
+      "sources": [
+        {
+          "url": "https://www.mofa.go.jp/j_info/visit/w_holiday/index.html",
+          "publisher": "Ministry of Foreign Affairs of Japan",
+          "retrievedOn": "2026-09-12",
+          "quote": "Maximum number of visas issued per year"
+        }
+      ]
+    },
+    {
+      "id": "work-is-incidental",
+      "kind": "manual",
+      "text": "You can work, but only as a side part of your holiday to supplement your travel funds.",
+      "who": "you",
+      "blocking": false,
+      "sources": [
+        {
+          "url": "https://www.mofa.go.jp/j_info/visit/w_holiday/index.html",
+          "publisher": "Ministry of Foreign Affairs of Japan",
+          "retrievedOn": "2026-09-12",
+          "quote": "Participants in the working holiday programmes are allowed to engage in employment as an incidental activity of their holidays for the purpose of supplementing their travel funds."
+        }
+      ]
+    },
+    {
+      "id": "prohibited-workplaces",
+      "kind": "manual",
+      "text": "You cannot work at bars, cabarets, nightclubs, gambling places or other premises affecting public morals, and doing so means deportation.",
+      "who": "you",
+      "blocking": false,
+      "sources": [
+        {
+          "url": "https://www.mofa.go.jp/j_info/visit/w_holiday/index.html",
+          "publisher": "Ministry of Foreign Affairs of Japan",
+          "retrievedOn": "2026-09-12",
+          "quote": "The working holiday programmes participants are strictly prohibited from working at bars, cabarets, nightclubs, gambling establishments and other premises affecting public morals in Japan. If a participant works at such a place, he or she is deemed to violate Immigration Control and Refugee Recognition Act and will face deportation"
+        }
+      ]
+    },
+    {
+      "id": "notify-municipal-office",
+      "kind": "manual",
+      "text": "Once you settle somewhere in Japan you have 14 days to register at the municipal office.",
+      "who": "you",
+      "blocking": false,
+      "sources": [
+        {
+          "url": "https://www.mofa.go.jp/j_info/visit/w_holiday/index.html",
+          "publisher": "Ministry of Foreign Affairs of Japan",
+          "retrievedOn": "2026-09-12",
+          "quote": "The working holiday programmes participants must visit the municipal office where they live and notify the Ministry of Justice where they live within 14 days of finding a place to settle down."
+        }
+      ]
+    }
+  ],
+  "verified": null
+}
