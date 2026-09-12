@@ -15,9 +15,12 @@ Briefing for the next sessions. Read `CLAUDE.md` for the rules; this file is the
   green** as of commit `92b90d4`. Every earlier run had failed at the install step: `vitest` was added
   with npm, which does not update `bun.lock`, and CI installs with `bun install --frozen-lockfile`.
   Lovable ran `bun install` to fix it. Read the dependency note in `CLAUDE.md` before adding a package.
-- Streams C and R-SG are done. Stream D (discovery) is running. **R-JP has not run yet**: there is no
-  `src/data/jp`, no `stream/r-jp` commits and nothing in `docs/research/jp.md`. Its worktree is created
-  and waiting at `../visa-navigator-r-jp`. E and U are open.
+- Streams C and R-SG are done. Stream D (discovery) is running. **R-JP has started**: the Japan Working
+  Holiday route landed in `14e7db8` with 16 quoted requirements and 8 engine tests, so Japanese data now
+  reaches the UI. Four Japanese routes are still open, and `docs/research/jp.md` says where each one
+  stands and what it needs. E and U are open.
+- 7 routes, 58 requirements, all sourced, none verified by a person yet. `check:sources` says 86 of 86
+  quotes are still live on their official pages.
 
 ## What each session inherits
 
@@ -60,7 +63,7 @@ with scripts/land.sh when every check is green."**
 | done | `c` | Drift check, CI, weekly cron, the review page | Landed 2026-09-12 |
 | done | `r-sg` | The Singapore routes as data files | Landed 2026-09-12 |
 | running | `d` | Discovery from public posts; picks target nationalities | Chrome, when it asks |
-| next | `r-jp` | The Japan routes as data files | No |
+| part done | `r-jp` | The Japan routes as data files. Working Holiday landed; Engineer/Specialist, Highly Skilled Professional, J-Find and the job-hunting Designated Activities are left | Three questions for you in `docs/research/jp.md` |
 | next | `u` | UI changes through Lovable (run from the main folder, no worktree) | No |
 | after R-JP | `e` | New rule kinds the research needs | Yes, it's your TS practice |
 
