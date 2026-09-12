@@ -1,0 +1,99 @@
+{
+  "schemaVersion": 1,
+  "id": "sg-training-employment-pass",
+  "destination": "SG",
+  "name": "Training Employment Pass",
+  "summary": "A pass for practical training in Singapore, valid for up to 3 months and not renewable. It fits students whose training attachment is part of their course, or trainees sent by a foreign office or subsidiary of the employer, rather than someone taking an ordinary job.",
+  "officialUrl": "https://www.mom.gov.sg/passes-and-permits/training-employment-pass/eligibility",
+  "requiresEmployer": true,
+  "requirements": [
+    {
+      "id": "student-or-trainee",
+      "kind": "manual",
+      "text": "You must be a foreign student whose training attachment is part of your course of study, or a trainee from the employer's foreign office or subsidiary.",
+      "who": "you",
+      "blocking": true,
+      "sources": [
+        {
+          "url": "https://www.mom.gov.sg/passes-and-permits/training-employment-pass/eligibility",
+          "publisher": "Ministry of Manpower, Singapore",
+          "retrievedOn": "2026-09-11",
+          "quote": "You can apply for a Training Employment Pass (TEP) if you wish to hire a foreign student or a trainee from a foreign office or subsidiary."
+        },
+        {
+          "url": "https://www.mom.gov.sg/passes-and-permits/training-employment-pass/eligibility",
+          "publisher": "Ministry of Manpower, Singapore",
+          "retrievedOn": "2026-09-11",
+          "quote": "The training attachment in Singapore must be part of their course of study."
+        }
+      ]
+    },
+    {
+      "id": "salary-or-institution",
+      "kind": "manual",
+      "text": "A student must be studying at an acceptable institution or earn a fixed monthly salary of at least S$3,000. A trainee from a foreign office must earn at least S$3,000.",
+      "who": "employer",
+      "blocking": true,
+      "sources": [
+        {
+          "url": "https://www.mom.gov.sg/passes-and-permits/training-employment-pass/eligibility",
+          "publisher": "Ministry of Manpower, Singapore",
+          "retrievedOn": "2026-09-11",
+          "quote": "They must be studying at an acceptable institution or earn a fixed monthly salary of at least $3,000."
+        },
+        {
+          "url": "https://www.mom.gov.sg/passes-and-permits/training-employment-pass/eligibility",
+          "publisher": "Ministry of Manpower, Singapore",
+          "retrievedOn": "2026-09-11",
+          "quote": "To hire a trainee from your foreign office or subsidiary: They must earn a fixed monthly salary of at least $3,000."
+        }
+      ]
+    },
+    {
+      "id": "one-per-training-type",
+      "kind": "manual",
+      "text": "If you have held a Training Employment Pass before, you cannot get another one for the same type of training.",
+      "who": "authority",
+      "blocking": false,
+      "sources": [
+        {
+          "url": "https://www.mom.gov.sg/passes-and-permits/training-employment-pass/eligibility",
+          "publisher": "Ministry of Manpower, Singapore",
+          "retrievedOn": "2026-09-11",
+          "quote": "If the candidate has held a TEP before, they will not be eligible for another one for the same type of training."
+        }
+      ]
+    },
+    {
+      "id": "employer-application-volume",
+      "kind": "manual",
+      "text": "MOM may reject the application if the employer has a high number or proportion of these passes compared with similar companies in its industry.",
+      "who": "authority",
+      "blocking": false,
+      "sources": [
+        {
+          "url": "https://www.mom.gov.sg/passes-and-permits/training-employment-pass/eligibility",
+          "publisher": "Ministry of Manpower, Singapore",
+          "retrievedOn": "2026-09-11",
+          "quote": "Your application may be rejected if your company has a high number or proportion of TEP applications or holders compared to similar companies in your industry."
+        }
+      ]
+    },
+    {
+      "id": "duration-3-months",
+      "kind": "manual",
+      "text": "The pass is valid for up to 3 months and cannot be renewed.",
+      "who": "you",
+      "blocking": false,
+      "sources": [
+        {
+          "url": "https://www.mom.gov.sg/passes-and-permits/training-employment-pass/eligibility",
+          "publisher": "Ministry of Manpower, Singapore",
+          "retrievedOn": "2026-09-11",
+          "quote": "The Training Employment Pass is valid for up to 3 months and is not renewable."
+        }
+      ]
+    }
+  ],
+  "verified": null
+}

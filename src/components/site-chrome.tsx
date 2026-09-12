@@ -32,7 +32,7 @@ export function SiteFooter() {
       <div className="mx-auto max-w-4xl px-5 py-8">
         <p className="prose-measure text-sm leading-relaxed text-muted-foreground">
           Information, not legal advice. Rules change, so every rule links to its official source and
-          shows when it was last checked.
+          shows when a person last verified it.
         </p>
       </div>
     </footer>

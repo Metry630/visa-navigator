@@ -1,5 +1,6 @@
 import { Check, CircleHelp, ExternalLink, X } from "lucide-react";
 import type { Checker, Outcome, RouteStatus, Source } from "@/engine";
+import { formatDate } from "@/components/format-date";
 
 const STATUS_TEXT: Record<RouteStatus, string> = {
   open: "Open",
@@ -53,7 +54,7 @@ export function OutcomeTag({ outcome }: { outcome: Outcome }) {
 
 export function SourceLink({ source }: { source: Source }) {
   return (
-    <span className="inline-flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
+    <span className="inline-flex min-w-0 flex-wrap items-center gap-2 text-xs text-muted-foreground">
       <a
         href={source.url}
         target="_blank"
@@ -65,7 +66,7 @@ export function SourceLink({ source }: { source: Source }) {
         <span className="sr-only">opens in a new tab</span>
       </a>
       <span>
-        {source.publisher}. Checked {source.retrievedOn}
+        {source.publisher}. Retrieved {formatDate(source.retrievedOn)}
       </span>
     </span>
   );

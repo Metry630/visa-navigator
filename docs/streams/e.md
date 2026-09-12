@@ -14,6 +14,9 @@ narrowing, zod).
 - Keep `types.ts` changes additive. If the UI needs a new field (for example nationality-specific notes on a
   route), add it and hand stream U the UI request.
 - Keep `check-data`'s grounding rules working for every new kind: any number a user can see must be in a quote.
-- Coordinate with stream C on the optional `check: "manual"` source flag.
+- Stream C has landed the optional `check: "manual"` source flag on `SourceSchema` in `schema.ts`
+  (`z.enum(["auto", "manual"]).optional()`). It is additive, the engine ignores it, and the drift
+  check skips those sources and reports how many it skipped. Nothing to do unless you change how
+  sources are shaped.
 
 **Land.** `scripts/land.sh`.

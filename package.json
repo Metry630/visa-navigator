@@ -11,9 +11,11 @@
     "lint": "eslint .",
     "format": "prettier --write .",
     "test": "vitest run",
-    "typecheck": "tsc --noEmit",
+    "typecheck": "tsc --noEmit && tsc -p tsconfig.scripts.json",
     "check:data": "tsx scripts/check-data.ts",
-    "check:sources": "tsx scripts/check-sources.ts"
+    "check:sources": "tsx scripts/check-sources.ts",
+    "readme:metrics": "tsx scripts/readme-metrics.ts",
+    "review": "tsx scripts/review/serve.ts"
   },
   "overrides": {
     "rolldown": "1.2.1"
