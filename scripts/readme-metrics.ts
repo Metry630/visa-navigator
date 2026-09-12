@@ -44,9 +44,13 @@ if (existsSync(LAST_CHECK)) {
     found: number;
     checked: number;
     skipped: number;
+    unreachable: number;
   };
   const skipped = last.skipped ? `, ${last.skipped} checked by hand` : "";
-  live = `${last.found} of ${last.checked} still on their official page${skipped}, last checked ${last.on}`;
+  // A page that refuses the fetcher is not a quote that moved, and reporting the two as one number
+  // would understate how much of the data is still standing.
+  const unreachable = last.unreachable ? `, ${last.unreachable} on pages that did not answer` : "";
+  live = `${last.found} of ${last.checked} confirmed still on their official page${skipped}${unreachable}, last checked ${last.on}`;
 }
 
 const block = [
