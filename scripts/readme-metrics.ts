@@ -47,13 +47,10 @@ if (existsSync(LAST_CHECK)) {
     unreachable: number;
   };
   const skipped = last.skipped ? `, ${last.skipped} checked by hand` : "";
-  // Unreachable is not drift. A publisher blocking the fetcher would otherwise read here as
-  // "21 quotes have moved", which is a much worse claim than the true one.
-  const unreachable = last.unreachable
-    ? `, ${last.unreachable} unreachable because the publisher is blocking the fetcher`
-    : "";
-  const denominator = last.checked - (last.unreachable ?? 0);
-  live = `${last.found} of ${denominator} still on their official page${skipped}${unreachable}, last checked ${last.on}`;
+  // A page that refuses the fetcher is not a quote that moved, and reporting the two as one number
+  // would understate how much of the data is still standing.
+  const unreachable = last.unreachable ? `, ${last.unreachable} on pages that did not answer` : "";
+  live = `${last.found} of ${last.checked} confirmed still on their official page${skipped}${unreachable}, last checked ${last.on}`;
 }
 
 const block = [

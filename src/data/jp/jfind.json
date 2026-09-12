@@ -1,0 +1,198 @@
+{
+  "schemaVersion": 1,
+  "id": "jp-jfind",
+  "destination": "JP",
+  "name": "J-Find (Designated Activities, Future Creation Individual)",
+  "summary": "A job-hunting visa for graduates of highly ranked universities, with no employer needed. Your university has to be in the top 100 of at least 2 of the 3 world university rankings the agency uses, your degree has to be less than 5 years old, and you need savings of 200,000 yen. It gives you up to 2 years in Japan to find work or prepare to start a business.",
+  "officialUrl": "https://www.moj.go.jp/isa/applications/status/designatedactivities51.html",
+  "requiresEmployer": false,
+  "requirements": [
+    {
+      "id": "top-100-university",
+      "kind": "manual",
+      "text": "Your university has to be in the top 100 of at least 2 of the 3 world university rankings the agency uses, whether you took your degree there or completed a graduate course there.",
+      "who": "you",
+      "blocking": true,
+      "sources": [
+        {
+          "url": "https://www.moj.go.jp/isa/applications/status/designatedactivities51.html",
+          "publisher": "Immigration Services Agency of Japan",
+          "retrievedOn": "2026-09-12",
+          "quote": "３つの世界大学ランキング（※１）中、２つ以上で１００位以内にランクインしている大学（※２）を卒業、又はその大学の大学院の課程を修了して学位又は専門職学位を授与されていること。"
+        },
+        {
+          "url": "https://www.moj.go.jp/isa/content/001401538.pdf",
+          "publisher": "Immigration Services Agency of Japan",
+          "retrievedOn": "2026-09-12",
+          "check": "manual",
+          "quote": "(*1) (1) QS World University Rankings published by Quacquarelli Simmons, (2) THE World University Rankings published by The Times, (3) Academic Ranking of World Universities published by Shanghai Ranking Consultancy"
+        }
+      ]
+    },
+    {
+      "id": "check-the-published-list",
+      "kind": "manual",
+      "text": "Check your university against the list the agency publishes, which was built from the rankings as of January 2026, and against the current rankings as well.",
+      "who": "you",
+      "blocking": true,
+      "sources": [
+        {
+          "url": "https://www.moj.go.jp/isa/applications/status/designatedactivities51.html",
+          "publisher": "Immigration Services Agency of Japan",
+          "retrievedOn": "2026-09-12",
+          "quote": "対象となる大学は、以下を御参照ください（令和８年１月時点のランキングに基づき作成されているため、申請の際は、必ず最新の３つの世界大学ランキングも併せて御確認下さい。）。"
+        },
+        {
+          "url": "https://www.moj.go.jp/isa/content/001394994.pdf",
+          "publisher": "Immigration Services Agency of Japan",
+          "retrievedOn": "2026-09-12",
+          "check": "manual",
+          "quote": "A list of Universities eligible for J-Find"
+        },
+        {
+          "url": "https://www.moj.go.jp/isa/content/001394994.pdf",
+          "publisher": "Immigration Services Agency of Japan",
+          "retrievedOn": "2026-09-12",
+          "check": "manual",
+          "quote": "As of January 2026"
+        }
+      ]
+    },
+    {
+      "id": "degree-from-that-university",
+      "kind": "degree",
+      "minLevel": "bachelor",
+      "text": "You need a degree or professional degree at bachelor's level or above from that university.",
+      "who": "you",
+      "blocking": true,
+      "sources": [
+        {
+          "url": "https://www.moj.go.jp/isa/applications/status/designatedactivities51.html",
+          "publisher": "Immigration Services Agency of Japan",
+          "retrievedOn": "2026-09-12",
+          "quote": "大学又は大学院を卒業（又は修了）し、学士以上の学位を取得していることを証する文書"
+        }
+      ]
+    },
+    {
+      "id": "graduated-within-5-years",
+      "kind": "manual",
+      "text": "No more than 5 years can have passed since the day your degree was awarded.",
+      "who": "you",
+      "blocking": true,
+      "sources": [
+        {
+          "url": "https://www.moj.go.jp/isa/applications/status/designatedactivities51.html",
+          "publisher": "Immigration Services Agency of Japan",
+          "retrievedOn": "2026-09-12",
+          "quote": "上記の対象大学を卒業し、又は対象大学の大学院の課程を修了して、学位又は専門職学位（学位規則（昭和２８年文部省令第９号）第５条の２に規定する専門職学位をいい、外国において授与されたこれに相当する学位を含む。）を授与された日から５年以内の方。"
+        },
+        {
+          "url": "https://www.moj.go.jp/isa/content/001401538.pdf",
+          "publisher": "Immigration Services Agency of Japan",
+          "retrievedOn": "2026-09-12",
+          "check": "manual",
+          "quote": "Within 5 years after graduation"
+        }
+      ]
+    },
+    {
+      "id": "savings-for-living-costs",
+      "kind": "manual",
+      "text": "You have to show savings of at least 200,000 yen at the time you apply, to live on at the start of your stay.",
+      "who": "you",
+      "blocking": true,
+      "sources": [
+        {
+          "url": "https://www.moj.go.jp/isa/applications/status/designatedactivities51.html",
+          "publisher": "Immigration Services Agency of Japan",
+          "retrievedOn": "2026-09-12",
+          "quote": "滞在当初の生計維持費として、申請の時点において、申請人の預貯金の額が日本円に換算して２０万円以上あること。"
+        },
+        {
+          "url": "https://www.moj.go.jp/isa/content/001401538.pdf",
+          "publisher": "Immigration Services Agency of Japan",
+          "retrievedOn": "2026-09-12",
+          "check": "manual",
+          "quote": "Possession of 200,000 yen for living expenses at the beginning of stay"
+        }
+      ]
+    },
+    {
+      "id": "age-18-or-older",
+      "kind": "age",
+      "min": 18,
+      "text": "You have to be 18 or older.",
+      "who": "you",
+      "blocking": true,
+      "sources": [
+        {
+          "url": "https://www.mofa.go.jp/ca/fna/page22e_001037.html",
+          "publisher": "Ministry of Foreign Affairs of Japan",
+          "retrievedOn": "2026-09-12",
+          "quote": "Individual at the age of 18 years or older who satisfies the following conditions and wish to participate in job hunting, entrepreneurial activity, or other remunerative activity for 2 years in Japan."
+        }
+      ]
+    },
+    {
+      "id": "job-hunting-or-starting-a-business",
+      "kind": "manual",
+      "text": "The visa is for looking for a job or preparing to start a business, and you can take work to supplement the money you need while you do it.",
+      "who": "you",
+      "blocking": true,
+      "sources": [
+        {
+          "url": "https://www.moj.go.jp/isa/applications/status/designatedactivities51.html",
+          "publisher": "Immigration Services Agency of Japan",
+          "retrievedOn": "2026-09-12",
+          "quote": "優秀な海外大学等を卒業等した方が、本邦において「就職活動」又は「起業準備活動」を行う場合、在留資格「特定活動」（未来創造人材）を付与され、最長２年間の在留が可能となります。"
+        },
+        {
+          "url": "https://www.moj.go.jp/isa/content/001401538.pdf",
+          "publisher": "Immigration Services Agency of Japan",
+          "retrievedOn": "2026-09-12",
+          "check": "manual",
+          "quote": "Employment to supplement the funds necessary to carry out the above activities"
+        }
+      ]
+    },
+    {
+      "id": "up-to-2-years",
+      "kind": "manual",
+      "text": "You can stay up to 2 years in total, counting any earlier stay on a similar job-hunting or start-up scheme.",
+      "who": "authority",
+      "blocking": false,
+      "sources": [
+        {
+          "url": "https://www.moj.go.jp/isa/content/001401538.pdf",
+          "publisher": "Immigration Services Agency of Japan",
+          "retrievedOn": "2026-09-12",
+          "check": "manual",
+          "quote": "It means maximum period of stay is a total of 2 years, including past stays using similar programs such as Designated Activities (Continued Job Hunting), the"
+        }
+      ]
+    },
+    {
+      "id": "certificate-of-eligibility",
+      "kind": "manual",
+      "text": "Coming from outside Japan means a Certificate of Eligibility is applied for first, and you use it to get the visa.",
+      "who": "you",
+      "blocking": false,
+      "sources": [
+        {
+          "url": "https://www.moj.go.jp/isa/applications/status/designatedactivities51.html",
+          "publisher": "Immigration Services Agency of Japan",
+          "retrievedOn": "2026-09-12",
+          "quote": "在留資格認定証明書交付申請"
+        },
+        {
+          "url": "https://www.moj.go.jp/isa/applications/status/designatedactivities51.html",
+          "publisher": "Immigration Services Agency of Japan",
+          "retrievedOn": "2026-09-12",
+          "quote": "新しくこの在留資格で日本への入国を希望する場合の申請です。"
+        }
+      ]
+    }
+  ],
+  "verified": null
+}

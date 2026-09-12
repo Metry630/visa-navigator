@@ -1,0 +1,259 @@
+{
+  "schemaVersion": 1,
+  "id": "jp-engineer-specialist",
+  "destination": "JP",
+  "name": "Engineer / Specialist in Humanities / International Services",
+  "summary": "The status of residence most foreign graduates work in Japan on. An employer in Japan contracts you for work that needs specialist knowledge from the sciences or the humanities, or a foreign culture's outlook. You qualify through a university degree in a related subject, a specialist course at a Japanese vocational school, ten years of experience or a listed information-processing qualification, and the pay has to match what a Japanese national doing the same work would get.",
+  "officialUrl": "https://www.moj.go.jp/isa/applications/status/gijinkoku.html",
+  "requiresEmployer": true,
+  "requirements": [
+    {
+      "id": "contract-with-organisation-in-japan",
+      "kind": "manual",
+      "text": "You need a contract with a public or private organisation in Japan, so the job offer comes first.",
+      "who": "employer",
+      "blocking": true,
+      "sources": [
+        {
+          "url": "https://www.moj.go.jp/isa/applications/status/gijinkoku.html",
+          "publisher": "Immigration Services Agency of Japan",
+          "retrievedOn": "2026-09-12",
+          "quote": "本邦の公私の機関との契約に基づいて行う理学、工学その他の自然科学の分野若しくは法律学、経済学、社会学その他の人文科学の分野に属する技術若しくは知識を要する業務"
+        }
+      ]
+    },
+    {
+      "id": "professional-field",
+      "kind": "manual",
+      "text": "The work has to need technical or specialist knowledge from the natural sciences or the humanities, or thought and sensitivity based on a foreign culture.",
+      "who": "employer",
+      "blocking": true,
+      "sources": [
+        {
+          "url": "https://www.moj.go.jp/isa/applications/status/gijinkoku.html",
+          "publisher": "Immigration Services Agency of Japan",
+          "retrievedOn": "2026-09-12",
+          "quote": "又は外国の文化に基盤を有する思考若しくは感受性を必要とする業務に従事する活動"
+        },
+        {
+          "url": "https://www.moj.go.jp/isa/applications/status/gijinkoku.html",
+          "publisher": "Immigration Services Agency of Japan",
+          "retrievedOn": "2026-09-12",
+          "quote": "該当例としては、機械工学等の技術者、通訳、デザイナー、私企業の語学教師、マーケティング業務従事者等。"
+        }
+      ]
+    },
+    {
+      "id": "degree-in-related-subject",
+      "kind": "degree",
+      "minLevel": "bachelor",
+      "text": "You qualify if you graduated from university in a subject related to the work, or had education at an equivalent or higher level.",
+      "who": "you",
+      "blocking": false,
+      "sources": [
+        {
+          "url": "https://www.moj.go.jp/isa/content/001366995.pdf",
+          "publisher": "Immigration Services Agency of Japan",
+          "retrievedOn": "2026-09-12",
+          "check": "manual",
+          "quote": "当該技術若しくは知識に関連する科目を専攻して大学を卒業し、又はこれと同等以上の教育を受けたこと。"
+        }
+      ]
+    },
+    {
+      "id": "alternatives-to-a-degree",
+      "kind": "manual",
+      "text": "Without a related degree you can qualify instead with a specialist course at a Japanese vocational school, or with ten years of practical experience, which counts the years you studied the subject at school or university.",
+      "who": "you",
+      "blocking": false,
+      "sources": [
+        {
+          "url": "https://www.moj.go.jp/isa/content/001366995.pdf",
+          "publisher": "Immigration Services Agency of Japan",
+          "retrievedOn": "2026-09-12",
+          "check": "manual",
+          "quote": "当該技術又は知識に関連する科目を専攻して本邦の専修学校の専門課程又は専攻科を修了（当該修了に関し法務大臣が告示をもって定める要件に該当する場合に限る。）したこと。"
+        },
+        {
+          "url": "https://www.moj.go.jp/isa/content/001366995.pdf",
+          "publisher": "Immigration Services Agency of Japan",
+          "retrievedOn": "2026-09-12",
+          "check": "manual",
+          "quote": "十年以上の実務経験（大学、高等専門学校、高等学校、中等教育学校の後期課程又は専修学校の専門課程若しくは専攻科において当該技術又は知識に関連する科目を専攻した期間を含む。）を有すること。"
+        }
+      ]
+    },
+    {
+      "id": "it-qualification-instead",
+      "kind": "manual",
+      "text": "For information-processing work, passing an examination or holding a qualification that the Minister of Justice has listed takes the place of the education and experience test.",
+      "who": "you",
+      "blocking": false,
+      "sources": [
+        {
+          "url": "https://www.moj.go.jp/isa/content/001366995.pdf",
+          "publisher": "Immigration Services Agency of Japan",
+          "retrievedOn": "2026-09-12",
+          "check": "manual",
+          "quote": "情報処理に関する技術又は知識を要する業務に従事しようとする場合で、法務大臣が告示をもって定める情報処理技術に関する試験に合格し又は法務大臣が告示をもって定める情報処理技術に関する資格を有しているときは、この限りでない。"
+        }
+      ]
+    },
+    {
+      "id": "international-services-experience",
+      "kind": "manual",
+      "text": "If the job is the foreign-culture kind, such as translation, interpreting, language teaching, public relations, advertising, overseas trade or design, you also need three years of relevant experience, unless you are a university graduate doing translation, interpreting or language teaching.",
+      "who": "you",
+      "blocking": false,
+      "sources": [
+        {
+          "url": "https://www.moj.go.jp/isa/content/001366995.pdf",
+          "publisher": "Immigration Services Agency of Japan",
+          "retrievedOn": "2026-09-12",
+          "check": "manual",
+          "quote": "翻訳、通訳、語学の指導、広報、宣伝又は海外取引業務、服飾若しくは室内装飾に係るデザイン、商品開発その他これらに類似する業務に従事すること。"
+        },
+        {
+          "url": "https://www.moj.go.jp/isa/content/001366995.pdf",
+          "publisher": "Immigration Services Agency of Japan",
+          "retrievedOn": "2026-09-12",
+          "check": "manual",
+          "quote": "従事しようとする業務に関連する業務について三年以上の実務経験を有すること。ただし、大学を卒業した者が翻訳、通訳又は語学の指導に係る業務に従事する場合は、この限りでない。"
+        }
+      ]
+    },
+    {
+      "id": "pay-comparable-to-a-japanese-national",
+      "kind": "manual",
+      "text": "The employer has to pay you at least what a Japanese national doing the same work would be paid.",
+      "who": "employer",
+      "blocking": true,
+      "sources": [
+        {
+          "url": "https://www.moj.go.jp/isa/content/001366995.pdf",
+          "publisher": "Immigration Services Agency of Japan",
+          "retrievedOn": "2026-09-12",
+          "check": "manual",
+          "quote": "日本人が従事する場合に受ける報酬と同等額以上の報酬を受けること。"
+        }
+      ]
+    },
+    {
+      "id": "certificate-of-eligibility",
+      "kind": "manual",
+      "text": "Coming from outside Japan means a Certificate of Eligibility is applied for first, and you use it to get the visa.",
+      "who": "employer",
+      "blocking": false,
+      "sources": [
+        {
+          "url": "https://www.moj.go.jp/isa/applications/status/gijinkoku.html",
+          "publisher": "Immigration Services Agency of Japan",
+          "retrievedOn": "2026-09-12",
+          "quote": "在留資格認定証明書交付申請"
+        },
+        {
+          "url": "https://www.moj.go.jp/isa/applications/status/gijinkoku.html",
+          "publisher": "Immigration Services Agency of Japan",
+          "retrievedOn": "2026-09-12",
+          "quote": "新しくこの在留資格で日本への入国を希望する場合の申請です。"
+        }
+      ]
+    },
+    {
+      "id": "employer-category",
+      "kind": "manual",
+      "text": "Ask the employer which immigration category it falls into. An employer with no document for a higher category counts as Category 4, and the language rule below applies to Category 3 and 4.",
+      "who": "employer",
+      "blocking": false,
+      "sources": [
+        {
+          "url": "https://www.moj.go.jp/isa/applications/status/gijinkoku.html",
+          "publisher": "Immigration Services Agency of Japan",
+          "retrievedOn": "2026-09-12",
+          "quote": "上記カテゴリーのいずれかに該当することを証明する文書　適宜（提出可能な書類がない場合は、カテゴリー４に該当することとなります。）"
+        },
+        {
+          "url": "https://www.moj.go.jp/isa/applications/status/gijinkoku.html",
+          "publisher": "Immigration Services Agency of Japan",
+          "retrievedOn": "2026-09-12",
+          "quote": "令和８年４月１５日（水）以降の申請から、カテゴリー３又は４に該当する場合は、以下の添付書類を追加で提出いただく必要があります。"
+        }
+      ]
+    },
+    {
+      "id": "language-b2-customer-facing",
+      "kind": "manual",
+      "text": "If the employer is in Category 3 or 4 and the job is mainly customer-facing work that uses language skills, the application has to include proof of CEFR B2 ability in the language you use at work.",
+      "who": "you",
+      "blocking": false,
+      "effective": { "from": "2026-04-15" },
+      "sources": [
+        {
+          "url": "https://www.moj.go.jp/isa/applications/status/gijinkoku.html",
+          "publisher": "Immigration Services Agency of Japan",
+          "retrievedOn": "2026-09-12",
+          "quote": "令和８年４月１５日（水）以降の申請から、カテゴリー３又は４に該当する場合は、以下の添付書類を追加で提出いただく必要があります。"
+        },
+        {
+          "url": "https://www.moj.go.jp/isa/applications/status/gijinkoku.html",
+          "publisher": "Immigration Services Agency of Japan",
+          "retrievedOn": "2026-09-12",
+          "quote": "（主に言語能力を用いて対人業務等に従事する場合）業務上使用する言語について、ＣＥＦＲ・Ｂ２相当の言語能力を有することを証する資料"
+        },
+        {
+          "url": "https://www.moj.go.jp/isa/applications/status/gijinkoku.html",
+          "publisher": "Immigration Services Agency of Japan",
+          "retrievedOn": "2026-09-12",
+          "quote": "申請職種が「翻訳・通訳」やホテルフロント業務等の「接客」"
+        }
+      ]
+    },
+    {
+      "id": "language-b2-already-met",
+      "kind": "manual",
+      "text": "You already count as CEFR B2 in Japanese if you hold JLPT N2 or above, scored 400 or more on the BJT business Japanese test, have lived in Japan 20 years, or graduated from a Japanese university, college, vocational course or high school.",
+      "who": "you",
+      "blocking": false,
+      "effective": { "from": "2026-04-15" },
+      "sources": [
+        {
+          "url": "https://www.moj.go.jp/isa/applications/status/gijinkoku.html",
+          "publisher": "Immigration Services Agency of Japan",
+          "retrievedOn": "2026-09-12",
+          "quote": "注１：以下に該当する場合は、ＣＥＦＲ・Ｂ２相当の日本語能力を有するものとみなします。"
+        },
+        {
+          "url": "https://www.moj.go.jp/isa/applications/status/gijinkoku.html",
+          "publisher": "Immigration Services Agency of Japan",
+          "retrievedOn": "2026-09-12",
+          "quote": "ＪＬＰＴ・Ｎ２以上を取得していること"
+        },
+        {
+          "url": "https://www.moj.go.jp/isa/applications/status/gijinkoku.html",
+          "publisher": "Immigration Services Agency of Japan",
+          "retrievedOn": "2026-09-12",
+          "quote": "ＢＪＴビジネス日本語能力テストにおいて４００点以上を取得していること"
+        },
+        {
+          "url": "https://www.moj.go.jp/isa/applications/status/gijinkoku.html",
+          "publisher": "Immigration Services Agency of Japan",
+          "retrievedOn": "2026-09-12",
+          "quote": "中長期在留者として２０年以上本邦に在留していること"
+        },
+        {
+          "url": "https://www.moj.go.jp/isa/applications/status/gijinkoku.html",
+          "publisher": "Immigration Services Agency of Japan",
+          "retrievedOn": "2026-09-12",
+          "quote": "本邦の大学を卒業し、又は本邦の高等専門学校若しくは専修学校の専門課程若しくは専攻科を修了していること"
+        },
+        {
+          "url": "https://www.moj.go.jp/isa/applications/status/gijinkoku.html",
+          "publisher": "Immigration Services Agency of Japan",
+          "retrievedOn": "2026-09-12",
+          "quote": "我が国の義務教育を修了し高等学校を卒業していること"
+        }
+      ]
+    }
+  ],
+  "verified": null
+}
