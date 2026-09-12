@@ -296,7 +296,7 @@ describe("JP Working Holiday", () => {
 describe("JP catalogue", () => {
   it("lists the Japanese routes", () => {
     const jp = listRoutes().filter((r) => r.destination === "JP");
-    expect(jp.map((r) => r.routeId)).toEqual(["jp-working-holiday"]);
+    expect(jp.map((r) => r.routeId)).toEqual(["jp-engineer-specialist", "jp-working-holiday"]);
     expect(jp.every((r) => r.verifiedOn === null || ISO_DATE.test(r.verifiedOn))).toBe(true);
   });
 

@@ -9,17 +9,13 @@
 import { readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { RouteSchema, type Route } from "../src/engine/schema";
+import { numbers } from "./numbers";
 
 const DATA = join(import.meta.dirname, "..", "src", "data");
 const release = process.argv.includes("--release");
 const STALE_DAYS = 90;
 const errors: string[] = [];
 const warnings: string[] = [];
-
-/** Numbers as digit strings, so "S$5,600" and "$5,600" both become "5600". */
-function numbers(text: string): string[] {
-  return (text.match(/\d[\d,]*(?:\.\d+)?/g) ?? []).map((n) => n.replace(/,/g, ""));
-}
 
 const routes: { file: string; route: Route }[] = [];
 for (const dir of readdirSync(DATA, { withFileTypes: true }).filter((d) => d.isDirectory())) {

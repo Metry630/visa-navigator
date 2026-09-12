@@ -5,6 +5,7 @@
 // The page shows what the data says and what the source says. It decides nothing. Every approval is
 // a key the maintainer pressed, and only a route whose every requirement carries one gets stamped.
 import type { Requirement, Route } from "../../src/engine/schema";
+import { numbers, splitOnNumbers, toAsciiDigits } from "../numbers";
 
 export type Decision = "approve" | "reject";
 export interface Note {
@@ -21,22 +22,17 @@ const esc = (s: string): string =>
     (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c] as string,
   );
 
-/** Numbers as digit strings, so "S$5,600" and "$5,600" both become "5600". Mirrors check-data.ts. */
-function numbers(text: string): string[] {
-  return (text.match(/\d[\d,]*(?:\.\d+)?/g) ?? []).map((n) => n.replace(/,/g, ""));
-}
-
 /**
  * Wraps every number in <mark>. A number that also appears on the other side of the comparison is
  * marked "same", so a figure in the requirement text that is missing from the quotes (or a figure in
- * a quote that the text changed) stands out instead of blending in.
+ * a quote that the text changed) stands out instead of blending in. Full-width digits are marked
+ * too, and against their ASCII form, so a Japanese quote lines up with an English sentence.
  */
 function markNumbers(text: string, shared: Set<string>): string {
-  const parts = text.split(/(\d(?:[\d,]*\d)?(?:\.\d+)?)/g);
-  return parts
+  return splitOnNumbers(text)
     .map((part, i) => {
       if (i % 2 === 0) return esc(part);
-      const plain = part.replace(/,/g, "");
+      const plain = toAsciiDigits(part).replace(/,/g, "");
       return `<mark class="${shared.has(plain) ? "same" : "only"}">${esc(part)}</mark>`;
     })
     .join("");
