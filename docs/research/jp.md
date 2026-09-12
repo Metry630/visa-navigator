@@ -13,6 +13,9 @@ Pages saved so far (all fetched 2026-09-12):
 | `jp-gijinkoku.txt` | ISA, Residence status "Engineer/Specialist in Humanities/International Services" |
 | `jp-gijinkoku-kijun.txt` | ISA, 該当する活動・上陸許可基準について (PDF linked from that page) |
 | `jp-gijinkoku-meikakuka.txt` | ISA, 「技術・人文知識・国際業務」の在留資格の明確化等について (index of PDFs, nothing quotable) |
+| `jp-jfind-isa.txt` | ISA, 優秀な海外大学等を卒業した者が起業活動・就職活動を行う場合（J-Find） |
+| `jp-jfind-universities.txt` | ISA, A list of Universities eligible for J-Find (PDF, as of January 2026) |
+| `jp-jfind-outline-en.txt` | ISA, Outline J-Find (PDF, English) |
 
 ## In
 
@@ -79,6 +82,43 @@ their ASCII form for both `check:data` and the review page, so ＣＥＦＲ・�
 out as "ten years" and "three years" in the requirement text: **the reviewer has to check those two by
 eye, because no automatic check covers them.**
 
+**J-Find, the Future Creation Individual visa** (`src/data/jp/jfind.json`). Done. 9 requirements. A
+job-hunting visa with no employer, which makes it one of the few routes a graduate can start on their
+own.
+
+- **The ISA page is much better than the MOFA one and is now the primary source.** MOFA only says
+  "an eligible university (PDF)". ISA gives the actual test: top 100 in two or more of three world
+  rankings (QS, THE, and Shanghai's ARWU), a degree awarded within the last five years, and savings of
+  ２０万円. The route's `officialUrl` is the ISA page.
+- ISA also publishes an English outline PDF, which is where the figures "200,000 yen" and "5 years"
+  come from in ASCII. The Japanese page writes them ２０万円 and ５年, which fold to "20" and "5", so
+  the yen figure needed the English source to ground at all.
+- The university-list PDF is quoted and marked `"check": "manual"`, per the default agreed for this
+  batch. Two quotes only, its title and "As of January 2026", because the list itself is nearly 700
+  lines and the route asks the user to check it rather than reproducing it. The list is a snapshot; ISA
+  says on the page to check the current three rankings as well, which is its own requirement.
+- **No Indonesian university is on the list**, and that is not a data gap, it is the rule. J-Find is
+  closed to most Indonesian graduates and open to graduates of the same ranked universities whatever
+  their nationality, which is a good example of why the route data is keyed on the university and not
+  on where you are from.
+- The five-year window is `manual`. `Profile.graduationYear` exists but the engine has no rule kind for
+  "within N years of graduating". **Third case for stream E**, and the easiest of the three.
+- Age 18 or older is the one condition only MOFA states, so that requirement carries the MOFA source.
+
+**⚠️ MOFA is returning 403 to the fetcher, for the whole site.** It started today, part way through this
+stream: `check:sources` reached the working-holiday page on the first run and got 403 on every later
+one, including `https://www.mofa.go.jp/index.html`. A browser user agent, a Referer, HTTP/1.1 and a
+cookie jar all still get 403, so it looks like an IP block rather than a header check, and probably one
+the drift check earned by fetching the same page repeatedly. Effects:
+
+- Every quote on `jp-working-holiday` (16 sources) and the age rule on `jp-jfind` reads as `unreachable`,
+  so the weekly job fails and opens an issue for a page that has not actually changed.
+- Nothing is wrong with the data. The quotes were taken while the page was reachable and are still in
+  `.sources/jp-working-holiday.txt` and `.sources/jp-jfind-mofa.txt`.
+- For stream C to decide: wait it out, slow the fetcher down, or treat a 403 differently from a missing
+  quote in the report. Marking these sources `"check": "manual"` would silence it, but that flag is for
+  pages the fetcher cannot read, not for pages that have blocked us, so it would hide a real problem.
+
 ## Still to do
 
 **Highly Skilled Professional.** The MOFA page is thin: period of stay 5 years, and the documents. The
@@ -87,20 +127,16 @@ either a Japanese-language source quoted verbatim or PDF sources marked `"check"
 points test itself needs a new rule kind from stream E. Until then its points requirement has to be
 `manual`.
 
-**J-Find (Designated Activities, Future Creation Individual).** MOFA page is saved and readable. It gives
-three conditions: a qualification from an eligible university at bachelor's, master's or PhD level, awarded
-in the last 5 years, and savings of approximately 200,000 yen. The catch is that the list of eligible
-universities is a PDF, so the university condition has to be `manual` with the PDF marked
-`"check": "manual"`. Period of stay is 1 year with an extension to 2 years.
-
 **Designated Activities for job hunting.** Not yet checked. The brief's guess is that it is only for
 graduates of Japanese universities, which would put it out of scope for someone applying from abroad. If
 that is right it goes in this file with the reason and gets no route file.
 
 ## Questions for Joshua
 
-1. J-Find's university list is a PDF. Do we quote the PDF and mark the source `manual`, or link the list
-   and leave the whole condition to the applicant? The second is less work and less likely to go stale.
+1. ~~J-Find's university list is a PDF. Do we quote the PDF and mark the source `manual`, or link the
+   list and leave the whole condition to the applicant?~~ Went with quoting the PDF and marking it
+   `manual`, on the default agreed for this batch. Only the title and the date are quoted, so there is
+   very little to go stale, and the requirement still tells the user to check the live rankings.
 2. The Highly Skilled Professional points table only exists in Japanese in a form we can quote. Are you
    happy to verify a Japanese quote with an English `text` beside it? You can read it against the source,
    the review page shows both.
