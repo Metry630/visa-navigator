@@ -212,8 +212,10 @@ describe("SG Work Holiday Pass (Work and Holiday Visa Programmes)", () => {
   });
 });
 
+const ISO_DATE = /^\d{4}-\d{2}-\d{2}$/;
+
 describe("SG catalogue", () => {
-  it("lists every Singapore route and leaves them all unverified", () => {
+  it("lists every Singapore route", () => {
     const sg = listRoutes().filter((r) => r.destination === "SG");
     expect(sg.map((r) => r.routeId)).toEqual([
       "sg-employment-pass",
@@ -223,7 +225,9 @@ describe("SG catalogue", () => {
       "sg-work-and-holiday-pass",
       "sg-work-holiday-pass",
     ]);
-    expect(sg.every((r) => r.verifiedOn === null)).toBe(true);
+    // verifiedOn moves from null to a stamped date as the review page approves each route; either
+    // is a valid state, but never anything else.
+    expect(sg.every((r) => r.verifiedOn === null || ISO_DATE.test(r.verifiedOn))).toBe(true);
   });
 
   it("gives every requirement of every SG route at least one source", () => {
@@ -290,10 +294,10 @@ describe("JP Working Holiday", () => {
 });
 
 describe("JP catalogue", () => {
-  it("lists the Japanese routes and leaves them unverified", () => {
+  it("lists the Japanese routes", () => {
     const jp = listRoutes().filter((r) => r.destination === "JP");
     expect(jp.map((r) => r.routeId)).toEqual(["jp-working-holiday"]);
-    expect(jp.every((r) => r.verifiedOn === null)).toBe(true);
+    expect(jp.every((r) => r.verifiedOn === null || ISO_DATE.test(r.verifiedOn))).toBe(true);
   });
 
   it("gives every requirement of every JP route at least one source", () => {

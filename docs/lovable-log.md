@@ -8,8 +8,9 @@ Pro Lite gives no monthly credits, so the budget is what is left of the 300 one-
 | 2026-09-12 | 1.3 | `6f1ea19` | Plan for the four-part UI batch. The agent paused for plan approval rather than editing. |
 | 2026-09-12 | 3.0 | `61571d0` | The batch: "Retrieved" instead of "Checked" on source lines, footer and home trust line reworded, dates rendered as 1 Jan 2027 through one helper, methodology source link pointed at the repo, 375px pass over /check and /results. |
 | 2026-09-12 | 0.7 | `92b90d4` | Ran `bun install` so `bun.lock` matched `package.json` and CI stopped failing at the install step, plus the repeated home trust sentence. |
+| 2026-09-12 | 0.7 | `6939406` | Reordered the checklist groups so "Ask the employer" leads each route card, and gave that heading slightly more weight. From discovery: 21 of 99 coded posts were employer confusion, the single biggest category. |
 
-**Spent so far: 5.0.** 303 were left on 2026-09-11, so about 298 remain against a v0 budget of ~150.
+**Spent so far: 5.7.** 303 were left on 2026-09-11, so about 297 remain against a v0 budget of ~150.
 
 Notes that save credits:
 
