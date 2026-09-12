@@ -198,6 +198,41 @@ Joshua stamped `jp-working-holiday` and left one comment on it.
   embassy is gone; the text now says the page gives no figure. The embassy advice it was reaching for
   already has its own requirement, `requirements-vary-by-nationality`, with its own quote.
 
+## Translating the Japanese quotes (2026-09-12)
+
+All three new Japan routes are sourced almost entirely from Japanese ISA pages: 43 of their quotes are
+Japanese, and `jp-engineer-specialist` has no English source at all. Joshua reads English only, so the
+review was unreviewable as built. Every one of those 43 quotes now carries a literal `translation`, and
+`check:data` errors on a CJK quote without one.
+
+Translating them turned up five requirements whose English text dropped something the Japanese carries.
+All five are fixed. They are worth reading as a set, because they are the same failure four times: the
+qualifier goes and the rule gets broader than the source.
+
+1. **`jp-engineer-specialist#alternatives-to-a-degree`.** The vocational-school route is
+   「当該修了に関し法務大臣が告示をもって定める要件に該当する場合に限る」, limited to courses meeting
+   requirements the Minister of Justice has published. The text offered the route with no condition.
+2. **`jp-engineer-specialist#language-b2-already-met`.** Two in one requirement. The 20-year route needs
+   中長期在留者 status, mid-to-long-term resident, which was missing. And 「我が国の義務教育を修了し高等
+   学校を卒業」 is compulsory education **and** high school; the text read as high school alone.
+3. **`jp-engineer-specialist#international-services-experience`.** The listed fields are specifically
+   服飾若しくは室内装飾に係るデザイン, design relating to clothing or interior decoration, plus
+   商品開発, product development. The text had a bare "design" and no product development.
+4. **`jp-highly-skilled-professional#where-the-points-come-from`.** The ISA page lists 研究実績,
+   research achievements, as a points category. The text had put age in its place. Age is real but comes
+   from a different source, so both appear now.
+5. **`jp-highly-skilled-professional#one-of-three-activity-types`.** "Three activity types" was in
+   neither quote. `check:data` cannot catch a spelled-out number, so the count is gone rather than
+   sourced. The id keeps its old name.
+
+None of these would have been caught by `check:data`, which checks that numbers the user sees appear in
+a quote. Every one of the five is a dropped word, not a wrong number.
+
+**Still honest to say:** a route verified by someone reading a translation is a weaker stamp than one
+verified against an English source. What the reviewer can check independently is the numbers, the dates
+and the Latin-script tokens (CEFR B2, JLPT N2, BJT 400), which the review page highlights on both sides.
+What he is taking on trust is the prose. Worth deciding whether the route detail page should say so.
+
 ## Questions for Joshua
 
 1. ~~J-Find's university list is a PDF. Do we quote the PDF and mark the source `manual`, or link the

@@ -17,6 +17,16 @@ export const SourceSchema = z.object({
    * re-reads them when the route is next verified.
    */
   check: z.enum(["auto", "manual"]).optional(),
+  /**
+   * Unofficial literal English rendering of a quote that is not in English. Required by
+   * `check:data` whenever the quote contains CJK characters, because the maintainer verifies in
+   * English and cannot check a Japanese quote against an English `text` without it.
+   *
+   * Deliberately literal, not readable: it keeps the hedges, the scope words and the parenthetical
+   * conditions that a summary drops, since dropping those is the failure this field exists to catch.
+   * It is never shown to users as a rule and the engine ignores it.
+   */
+  translation: z.string().min(1).optional(),
 });
 
 const base = {

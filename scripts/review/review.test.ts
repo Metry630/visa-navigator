@@ -82,6 +82,47 @@ describe("renderPage", () => {
     expect(html).toContain('<mark class="only">6,000</mark>');
   });
 
+  it("shows a translation under a quote the reviewer cannot read", () => {
+    // The reviewer works in English. Without this the Japanese quote sits next to an English
+    // requirement text with nothing tying the two together, and approving it means nothing.
+    const ja: Route = RouteSchema.parse({
+      ...route,
+      id: "jp-test-route",
+      destination: "JP",
+      officialUrl: "https://www.moj.go.jp/",
+      requirements: [
+        {
+          id: "points",
+          kind: "manual",
+          text: "Your points have to add up to 70 or more.",
+          who: "authority",
+          blocking: true,
+          sources: [
+            {
+              url: "https://www.moj.go.jp/",
+              publisher: "Immigration Services Agency of Japan",
+              retrievedOn: "2026-09-12",
+              quote: "ポイントの合計が一定点数（７０点）に達した場合",
+              translation: "Where the total of the points reaches a set score (70 points)",
+            },
+          ],
+        },
+      ],
+    });
+    const html = renderPage([ja], {}, "joshua");
+    expect(html).toContain('<blockquote class="translation" lang="en">');
+    expect(html).toContain("Where the total of the points reaches a set score");
+    expect(html).toContain("unofficial translation");
+    // The full-width 70 in the quote and the ASCII 70 in the text are the same number, so both
+    // sides must be marked as shared rather than as appearing on one side only.
+    expect(html).toContain('<mark class="same">７０</mark>');
+    expect(html).toContain('<mark class="same">70</mark>');
+  });
+
+  it("leaves an English quote without a translation line", () => {
+    expect(renderPage([route], {}, "joshua")).not.toContain('class="translation"');
+  });
+
   it("shows a route as unverified until a person approves every requirement", () => {
     expect(renderPage([route], {}, "joshua")).toContain("not yet verified");
     const done = renderPage(

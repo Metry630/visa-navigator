@@ -82,6 +82,13 @@ rejections and comments go to `research/review-notes.md`. Nothing else may write
   the SG Employment Pass qualifying salary rises for new applications from 1 Jan 2027.
 - `verified` is written only by the review page when the maintainer approves a route. Never set it by
   hand and never from a model. Unverified routes show "Not yet verified".
+- **A quote that is not in English carries a `translation`.** `check:data` errors on any quote with
+  CJK characters and no `translation`. Joshua verifies in English only, so a Japanese quote beside an
+  English `text` with nothing linking them makes the review a formality. The translation is
+  deliberately literal rather than readable: it keeps the parentheticals, the "however" clauses and
+  the "limited to cases where" conditions, because a dropped qualifier is the thing it exists to
+  catch. Translating the three Japan routes turned up five of them. It is never shown to users as a
+  rule and the engine ignores it.
 - A source may carry `"check": "manual"` when the drift check can't read the page, a PDF or a page
   rendered by JavaScript. `check:sources` skips those and reports how many it skipped, so a person
   re-reads them when the route is next verified. Use it only when the fetcher really can't read the

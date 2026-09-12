@@ -67,7 +67,8 @@ function renderRequirement(route: Route, req: Requirement, note: Note | undefine
     .map(
       (s) => `<figure class="quote">
   <blockquote>${markNumbers(s.quote, shown)}</blockquote>
-  <figcaption>${esc(s.publisher)} · retrieved ${esc(s.retrievedOn)}${s.check === "manual" ? " · not auto-checked" : ""}
+${s.translation ? `  <blockquote class="translation" lang="en">${markNumbers(s.translation, shown)}</blockquote>` : ""}
+  <figcaption>${esc(s.publisher)} · retrieved ${esc(s.retrievedOn)}${s.check === "manual" ? " · not auto-checked" : ""}${s.translation ? " · unofficial translation" : ""}
     <button class="open" data-url="${esc(s.url)}">Open source</button>
   </figcaption>
 </figure>`,
@@ -159,6 +160,7 @@ export function renderPage(routes: Route[], state: State, by: string): string {
  .text{font-size:1rem;margin:.5rem 0 .8rem}
  .quote{margin:.6rem 0;border-left:3px solid #e0e0dc;padding:.1rem .8rem}
  .quote blockquote{margin:0;font-size:.9rem;white-space:pre-wrap}
+ .quote blockquote.translation{margin-top:.4rem;padding-top:.4rem;border-top:1px dotted #d5d5d0;color:#555;font-style:italic}
  .quote figcaption{font-size:.76rem;color:#888;margin-top:.3rem;display:flex;gap:.5rem;align-items:center}
  mark{padding:0 .12em;border-radius:2px;background:#fff3a3}
  mark.same{background:#dcf0dc}

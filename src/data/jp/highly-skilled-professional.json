@@ -18,14 +18,15 @@
           "url": "https://www.moj.go.jp/isa/applications/resources/newimmiact_3_system_index.html",
           "publisher": "Immigration Services Agency of Japan",
           "retrievedOn": "2026-09-12",
-          "quote": "「学歴」、「職歴」、「年収」などの項目ごとにポイントを設け、ポイントの合計が一定点数（７０点）に達した場合に、出入国在留管理上の優遇措置を与える"
+          "quote": "「学歴」、「職歴」、「年収」などの項目ごとにポイントを設け、ポイントの合計が一定点数（７０点）に達した場合に、出入国在留管理上の優遇措置を与える",
+          "translation": "Points are set for each item, such as \"academic background\", \"work history\" and \"annual income\", and where the total of the points reaches a set score (70 points), preferential measures in immigration and residence administration are granted"
         }
       ]
     },
     {
       "id": "one-of-three-activity-types",
       "kind": "manual",
-      "text": "You have to fit one of the three activity types, and for a graduate that is normally advanced specialist or technical work, under a contract with an organisation in Japan.",
+      "text": "You have to fit one of the activity types the scheme defines, and for a graduate that is normally advanced specialist or technical work, under a contract with an organisation in Japan.",
       "who": "you",
       "blocking": true,
       "sources": [
@@ -33,13 +34,15 @@
           "url": "https://www.moj.go.jp/isa/applications/resources/newimmiact_3_system_index.html",
           "publisher": "Immigration Services Agency of Japan",
           "retrievedOn": "2026-09-12",
-          "quote": "高度専門・技術活動「高度専門職1号(ロ)」"
+          "quote": "高度専門・技術活動「高度専門職1号(ロ)」",
+          "translation": "Advanced specialised and technical activities: \"Highly Skilled Professional (i)(b)\""
         },
         {
           "url": "https://www.moj.go.jp/isa/applications/resources/newimmiact_3_system_index.html",
           "publisher": "Immigration Services Agency of Japan",
           "retrievedOn": "2026-09-12",
-          "quote": "本邦の公私の機関との契約に基づいて行う自然科学又は人文科学の分野に属する知識又は技術を要する業務に従事する活動"
+          "quote": "本邦の公私の機関との契約に基づいて行う自然科学又は人文科学の分野に属する知識又は技術を要する業務に従事する活動",
+          "translation": "Activities engaging in work requiring knowledge or technology in the fields of the natural sciences or the humanities, performed on the basis of a contract with a public or private organisation in Japan"
         }
       ]
     },
@@ -70,14 +73,15 @@
           "url": "https://www.moj.go.jp/isa/applications/resources/newimmiact_3_system_index.html",
           "publisher": "Immigration Services Agency of Japan",
           "retrievedOn": "2026-09-12",
-          "quote": "就労の在留資格に関する要件（在留資格該当性・上陸許可基準適合性）を満たす者の中から高度外国人材を認定する仕組みとし、在留資格「高度専門職」が付与されます。"
+          "quote": "就労の在留資格に関する要件（在留資格該当性・上陸許可基準適合性）を満たす者の中から高度外国人材を認定する仕組みとし、在留資格「高度専門職」が付与されます。",
+          "translation": "The scheme certifies highly skilled foreign professionals from among those who meet the requirements relating to a work status of residence (falling under a status of residence, and conformity with the criteria for landing permission), and the status of residence \"Highly Skilled Professional\" is granted."
         }
       ]
     },
     {
       "id": "where-the-points-come-from",
       "kind": "manual",
-      "text": "Points come from your academic background, your professional career, your annual salary and your age, which is scored in bands starting at 29 or under.",
+      "text": "Points come from your academic background, your professional career, your annual salary and your research record, and separately from your age, which is scored in bands starting at 29 or under.",
       "who": "you",
       "blocking": false,
       "sources": [
@@ -85,7 +89,8 @@
           "url": "https://www.moj.go.jp/isa/applications/resources/newimmiact_3_evaluate_index.html",
           "publisher": "Immigration Services Agency of Japan",
           "retrievedOn": "2026-09-12",
-          "quote": "それぞれの活動の特性に応じて、「学歴」、「職歴」、「年収」、「研究実績」などの項目ごとにポイントを設定し"
+          "quote": "それぞれの活動の特性に応じて、「学歴」、「職歴」、「年収」、「研究実績」などの項目ごとにポイントを設定し",
+          "translation": "Points are set for each item, such as \"academic background\", \"work history\", \"annual income\" and \"research achievements\", according to the characteristics of each activity"
         },
         {
           "url": "https://www.moj.go.jp/isa/content/001398892.pdf",
@@ -130,7 +135,8 @@
           "url": "https://www.moj.go.jp/isa/applications/resources/newimmiact_3_evaluate_index.html",
           "publisher": "Immigration Services Agency of Japan",
           "retrievedOn": "2026-09-12",
-          "quote": "令和８年１月時点の大学ランキングに基づき作成されているため、申請の際は、必ず最新の３つの世界大学ランキング（※）も併せて御確認下さい。"
+          "quote": "令和８年１月時点の大学ランキングに基づき作成されているため、申請の際は、必ず最新の３つの世界大学ランキング（※）も併せて御確認下さい。",
+          "translation": "Because it was compiled on the basis of the university rankings as of January Reiwa 8, when applying please be sure to check the latest three world university rankings (*) as well."
         }
       ]
     },
@@ -145,13 +151,15 @@
           "url": "https://www.moj.go.jp/isa/applications/resources/newimmiact_3_preferential_index.html",
           "publisher": "Immigration Services Agency of Japan",
           "retrievedOn": "2026-09-12",
-          "quote": "高度外国人材に対しては、法律上の最長の在留期間である「5年」が一律に付与されます。"
+          "quote": "高度外国人材に対しては、法律上の最長の在留期間である「5年」が一律に付与されます。",
+          "translation": "Highly skilled foreign professionals are uniformly granted \"5 years\", the longest period of stay under the law."
         },
         {
           "url": "https://www.moj.go.jp/isa/applications/resources/newimmiact_3_preferential_index.html",
           "publisher": "Immigration Services Agency of Japan",
           "retrievedOn": "2026-09-12",
-          "quote": "※この期間は更新することができます。"
+          "quote": "※この期間は更新することができます。",
+          "translation": "* This period can be renewed."
         }
       ]
     },
@@ -166,7 +174,8 @@
           "url": "https://www.moj.go.jp/isa/applications/resources/newimmiact_3_preferential_index.html",
           "publisher": "Immigration Services Agency of Japan",
           "retrievedOn": "2026-09-12",
-          "quote": "永住許可を受けるためには、原則として引き続き10年以上日本に在留していることが必要ですが、高度外国人材としての活動を引き続き3年間行っている場合や、高度外国人材の中でも特に高度と認められる方（80点以上の方）については、高度外国人材としての活動を引き続き1年間行っている場合に永住許可の対象となります。"
+          "quote": "永住許可を受けるためには、原則として引き続き10年以上日本に在留していることが必要ですが、高度外国人材としての活動を引き続き3年間行っている場合や、高度外国人材の中でも特に高度と認められる方（80点以上の方）については、高度外国人材としての活動を引き続き1年間行っている場合に永住許可の対象となります。",
+          "translation": "To receive permission for permanent residence it is, in principle, necessary to have resided in Japan continuously for 10 years or more; however, where a person has carried out activities as a highly skilled foreign professional continuously for 3 years, or in the case of a person recognised as especially highly skilled among highly skilled foreign professionals (a person with 80 points or more), where they have carried out activities as a highly skilled foreign professional continuously for 1 year, they become eligible for permission for permanent residence."
         }
       ]
     },
@@ -181,7 +190,8 @@
           "url": "https://www.moj.go.jp/isa/applications/resources/newimmiact_3_preferential_index.html",
           "publisher": "Immigration Services Agency of Japan",
           "retrievedOn": "2026-09-12",
-          "quote": "高度外国人材の配偶者の場合は、学歴・職歴などの要件を満たさない場合でも、これらの在留資格に該当する活動を行うことができます。"
+          "quote": "高度外国人材の配偶者の場合は、学歴・職歴などの要件を満たさない場合でも、これらの在留資格に該当する活動を行うことができます。",
+          "translation": "In the case of the spouse of a highly skilled foreign professional, even where requirements such as academic background and work history are not met, they may carry out activities falling under these statuses of residence."
         }
       ]
     },
@@ -196,13 +206,15 @@
           "url": "https://www.moj.go.jp/isa/applications/resources/newimmiact_3_system_index.html",
           "publisher": "Immigration Services Agency of Japan",
           "retrievedOn": "2026-09-12",
-          "quote": "※「高度専門職2号」は「高度専門職1号」で3年以上活動を行っていた方が対象になります。"
+          "quote": "※「高度専門職2号」は「高度専門職1号」で3年以上活動を行っていた方が対象になります。",
+          "translation": "* \"Highly Skilled Professional (ii)\" covers persons who have carried out activities under \"Highly Skilled Professional (i)\" for 3 years or more."
         },
         {
           "url": "https://www.moj.go.jp/isa/applications/resources/newimmiact_3_system_index.html",
           "publisher": "Immigration Services Agency of Japan",
           "retrievedOn": "2026-09-12",
-          "quote": "b. 在留期間が無期限となる"
+          "quote": "b. 在留期間が無期限となる",
+          "translation": "b. The period of stay becomes indefinite"
         }
       ]
     }

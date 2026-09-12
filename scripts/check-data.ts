@@ -1,7 +1,8 @@
 // Checks every route file in src/data before it can merge:
 //   1. schema: parses against RouteSchema, ids are unique, currencies match the destination
 //   2. grounding: every number a user sees (rule text, route summary, salary tables) appears in a quote
-//   3. verification: reported; with --release, every route must carry a person's stamp
+//   3. translation: a quote containing CJK carries one, so the maintainer can review in English
+//   4. verification: reported; with --release, every route must carry a person's stamp
 // The live-page drift check is stream C's job (scripts/check-sources.ts).
 //
 //   npm run check:data              # development: unverified routes are warnings
@@ -30,6 +31,16 @@ for (const dir of readdirSync(DATA, { withFileTypes: true }).filter((d) => d.isD
   }
 }
 
+/**
+ * True for a quote the maintainer cannot read. He verifies in English only, so a Japanese quote
+ * without a literal rendering beside it makes the review a formality: there is nothing to compare
+ * the requirement text against. Kana and CJK ideographs, plus the full-width forms the ISA pages
+ * use for digits and Latin letters.
+ */
+function needsTranslation(quote: string): boolean {
+  return /[\u3040-\u30ff\u3400-\u4dbf\u4e00-\u9fff\uf900-\ufaff\uff00-\uffef]/.test(quote);
+}
+
 const seen = new Set<string>();
 for (const { file, route } of routes) {
   if (seen.has(route.id)) errors.push(`${file}: duplicate route id ${route.id}`);
@@ -46,6 +57,12 @@ for (const { file, route } of routes) {
     const where = `${file}#${req.id}`;
     if (reqIds.has(req.id)) errors.push(`${where}: duplicate requirement id`);
     reqIds.add(req.id);
+
+    for (const s of req.sources) {
+      if (needsTranslation(s.quote) && !s.translation) {
+        errors.push(`${where}: quote from ${s.publisher} is not in English and has no translation`);
+      }
+    }
 
     const quoted = new Set(req.sources.flatMap((s) => numbers(s.quote)));
     for (const n of numbers(req.text)) {
