@@ -11,8 +11,13 @@ Briefing for the next sessions. Read `CLAUDE.md` for the rules; this file is the
   number checked against its quote by script. **None verified by a person yet.**
 - Stream C landed: CI on every push, a weekly drift check that opens an issue when a quote moves, the
   review page (`npm run review`), and a README coverage block.
-- `npm test` (31 tests), `npm run typecheck` and `npm run check:data` are green.
-- Streams C and R-SG are done. Stream D (discovery) is running. R-JP, E and U are open.
+- `npm test` (31 tests), `npm run typecheck` and `npm run check:data` are green, and **CI on GitHub is
+  green** as of commit `92b90d4`. Every earlier run had failed at the install step: `vitest` was added
+  with npm, which does not update `bun.lock`, and CI installs with `bun install --frozen-lockfile`.
+  Lovable ran `bun install` to fix it. Read the dependency note in `CLAUDE.md` before adding a package.
+- Streams C and R-SG are done. Stream D (discovery) is running. **R-JP has not run yet**: there is no
+  `src/data/jp`, no `stream/r-jp` commits and nothing in `docs/research/jp.md`. Its worktree is created
+  and waiting at `../visa-navigator-r-jp`. E and U are open.
 
 ## What each session inherits
 
