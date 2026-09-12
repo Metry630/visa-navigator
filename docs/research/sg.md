@@ -77,10 +77,10 @@ comments were resolved as follows.
   supported a per-head scale. The page in fact publishes a flat rate: "the S Pass levy rate has been
   harmonised to $650 across all sectors and levy tiers". The requirement now gives that figure and
   carries two quotes from the levy page instead of the quota sentence it had before.
-- **`sg-s-pass#self-assessment`** ("it has to be the employer that does so"). Already correct in the data
-  at review time: `who` is `employer` and the text reads "The employer should run MOM's Self-Assessment
-  Tool first". Worth working out whether the review page served a stale copy, because that would mean
-  part of the hour went on a file that had already moved.
+- **`sg-s-pass#self-assessment`** ("it has to be the employer that does so"). No change needed, and the
+  review page was not at fault. `git show` on every commit that has touched the file shows `who` has been
+  `employer` since it was created in `616cf54`, with the text already reading "The employer should run
+  MOM's Self-Assessment Tool first". So the comment agrees with the data rather than correcting it.
 
 ## Questions for Joshua while verifying
 
