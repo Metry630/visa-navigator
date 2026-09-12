@@ -40,7 +40,7 @@ export const Route = createFileRoute("/results")({
   component: Results,
 });
 
-const CHECKER_ORDER: Checker[] = ["you", "employer", "authority"];
+const CHECKER_ORDER: Checker[] = ["employer", "you", "authority"];
 
 function ProfileSummary({ profile }: { profile: Profile }) {
   const names = listNationalities();
@@ -112,7 +112,13 @@ function RouteCard({ route }: { route: RouteResult }) {
           if (items.length === 0) return null;
           return (
             <section key={who}>
-              <h4 className="text-sm font-semibold tracking-wide uppercase">
+              <h4
+                className={
+                  who === "employer"
+                    ? "text-base font-semibold tracking-wide uppercase"
+                    : "text-sm font-semibold tracking-wide uppercase"
+                }
+              >
                 {CHECKER_HEADING[who]}
               </h4>
               <ul className="mt-2 space-y-3">
