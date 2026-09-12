@@ -16,6 +16,12 @@ Pages saved so far (all fetched 2026-09-12):
 | `jp-jfind-isa.txt` | ISA, 優秀な海外大学等を卒業した者が起業活動・就職活動を行う場合（J-Find） |
 | `jp-jfind-universities.txt` | ISA, A list of Universities eligible for J-Find (PDF, as of January 2026) |
 | `jp-jfind-outline-en.txt` | ISA, Outline J-Find (PDF, English) |
+| `jp-hsp-isa.txt` | ISA, 高度人材ポイント制による出入国在留管理上の優遇制度 (index) |
+| `jp-hsp-system.txt` | ISA, 高度人材ポイント制とは？ |
+| `jp-hsp-evaluate.txt` | ISA, ポイント評価の仕組みは？ |
+| `jp-hsp-preferential.txt` | ISA, どのような優遇措置が受けられる？ |
+| `jp-hsp-leaflet-en.txt` | ISA, Points-Based Preferential Immigration Treatment (PDF, English) |
+| `jp-student-jobhunting.txt` | ISA, 留学生の就職 |
 
 ## In
 
@@ -119,17 +125,52 @@ the drift check earned by fetching the same page repeatedly. Effects:
   quote in the report. Marking these sources `"check": "manual"` would silence it, but that flag is for
   pages the fetcher cannot read, not for pages that have blocked us, so it would hide a real problem.
 
+**Highly Skilled Professional** (`src/data/jp/highly-skilled-professional.json`). Done. 11 requirements.
+MOFA's page really is thin, so this is sourced from the four ISA pages on 高度人材ポイント制 plus the
+English leaflet ISA publishes.
+
+- **The points table could not be quoted at all, and that is the finding.** The ordinance version
+  (評価項目・配点（法務省令）, `930001658.pdf`) is vertical Japanese, and `pdftotext` returns it one
+  character per column, so nothing in it is quotable. The English leaflet is a two-page PDF whose first
+  page is a flat image with no text layer, and whose second page is the table: its rows and their point
+  values come out on separate lines and out of reading order, so a row's label and its score cannot be
+  tied together from the text. A model could read the rendered page, but reading numbers off an image
+  is exactly the step this project does not allow.
+- So **no point value is in the data except the 70 total**, which comes from the ISA HTML page in
+  Japanese (一定点数（７０点）) and is auto-checked. The route names what scores points, in the agency's
+  own categories, and sends the user to the official table. That is less than we wanted and more than we
+  can currently prove; if the table is worth encoding, it needs a person to transcribe it once and the
+  review page to check it.
+- Two quotes do come from the English leaflet, both whole sentences that survive extraction intact and
+  were checked against the rendered page: the 3 million yen minimum salary, and the JLPT N1 bonus item.
+  They carry `"check": "manual"`.
+- **The 3 million yen floor is `manual`, not a `salary-floor`.** Two reasons, and the second is the
+  interesting one. It is flat, with no age table, and `salary-floor` requires `byAge` rows. And the
+  figure is written ３００万円 in Japanese, which the grounding check reads as "300", so an amount of
+  3000000 could not be grounded against any Japanese source; only the English leaflet's "3 million yen"
+  makes the sentence groundable at all, and "3 million" is not "3000000" either. **Fourth case for
+  stream E:** a flat floor with no age band. Worth doing, since this is the only JP figure that could be
+  compared against `Profile.expectedSalary`.
+- Realistically this route is a stretch for a new graduate: a bachelor's degree and a first salary do
+  not get near 70 without the bonus items. That belongs in the UI's framing rather than in the data, so
+  nothing in the route file says it.
+
+**Designated Activities for job hunting.** Out, with no route file. ISA files it under 留学生の就職 and
+the guideline is titled 留学生の就職支援に係る「特定活動」（本邦大学等卒業者）についてのガイドライン:
+本邦大学等卒業者 means graduates of universities **in Japan**. Someone applying from abroad cannot use
+it, so it is out of scope for this product's user. J-Find is the equivalent for graduates of overseas
+universities and is in.
+
 ## Still to do
 
-**Highly Skilled Professional.** The MOFA page is thin: period of stay 5 years, and the documents. The
-points table itself is on ISA pages that MOFA links to in Japanese, plus PDFs. So this route needs
-either a Japanese-language source quoted verbatim or PDF sources marked `"check": "manual"`, and the
-points test itself needs a new rule kind from stream E. Until then its points requirement has to be
-`manual`.
+Nothing in this stream. Every route in the brief is either a file in `src/data/jp/` or recorded above
+with the reason it is out. What is left is verification, which is Joshua's stamp on the review page, and
+the four rule kinds stream E would need to make the JP routes decide more from the profile:
 
-**Designated Activities for job hunting.** Not yet checked. The brief's guess is that it is only for
-graduates of Japanese universities, which would put it out of scope for someone applying from abroad. If
-that is right it goes in this file with the reason and gets no route file.
+1. A per-nationality age limit (Working Holiday).
+2. A group of requirements where meeting one is enough (Engineer/Specialist's four ways in).
+3. "Within N years of graduating" (J-Find).
+4. A flat salary floor with no age table (Highly Skilled Professional).
 
 ## Questions for Joshua
 
@@ -137,8 +178,17 @@ that is right it goes in this file with the reason and gets no route file.
    list and leave the whole condition to the applicant?~~ Went with quoting the PDF and marking it
    `manual`, on the default agreed for this batch. Only the title and the date are quoted, so there is
    very little to go stale, and the requirement still tells the user to check the live rankings.
-2. The Highly Skilled Professional points table only exists in Japanese in a form we can quote. Are you
-   happy to verify a Japanese quote with an English `text` beside it? You can read it against the source,
-   the review page shows both.
+2. ~~The Highly Skilled Professional points table only exists in Japanese in a form we can quote. Are you
+   happy to verify a Japanese quote with an English `text` beside it?~~ Partly answered and partly
+   overtaken. Japanese quote with English `text` is the pattern used on both the Engineer/Specialist and
+   the Highly Skilled Professional routes, so you will be reading Japanese on the review page either
+   way. The points table itself turned out not to be quotable from any machine-readable source at all,
+   in Japanese or English, so the question that is left is a different one: **is 70 points and a list of
+   what scores enough, or do you want the table transcribed by hand once and checked on the review
+   page?** Hand transcription is the only way to get the numbers, and it is the kind of thing that goes
+   stale.
 3. Working Holiday is not really a graduate work route. It is in because it is genuinely open to young
    people with no employer, which is rare, but it should probably read differently on the results page.
+   Left for stream U.
+4. New: MOFA has blocked the fetcher (see above). It only affects `check:sources`, not the data or the
+   app, but the weekly job will keep failing until someone decides what to do about it.
