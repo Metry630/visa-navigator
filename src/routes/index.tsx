@@ -64,8 +64,8 @@ function Home() {
       <div className="prose-measure mt-14 space-y-2 border-t border-border pt-8 text-sm text-muted-foreground">
         <p>Singapore and Japan today. More countries are being added.</p>
         <p>
-          Every rule links to an official source and a person verifies it before it is marked
-          verified.
+          Every rule links to an official source, and a person checks each one
+          against it.
         </p>
       </div>
     </div>
