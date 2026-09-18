@@ -54,30 +54,19 @@ export function OutcomeTag({ outcome }: { outcome: Outcome }) {
 
 export function SourceLink({ source }: { source: Source }) {
   return (
-    <span className="block min-w-0">
-      <span className="block border-l-2 border-primary pl-3 text-sm leading-relaxed text-muted-foreground italic">
-        {source.quote}
-      </span>
-      {source.translation && (
-        <span className="mt-2 block border-l-2 border-border pl-3 text-sm leading-relaxed text-muted-foreground">
-          <span className="mb-1 block text-xs font-medium not-italic">unofficial translation</span>
-          {source.translation}
-        </span>
-      )}
-      <span className="mt-2 inline-flex min-w-0 flex-wrap items-center gap-2 text-xs text-muted-foreground">
-        <a
-          href={source.url}
-          target="_blank"
-          rel="noreferrer noopener"
-          className="inline-flex items-center gap-1 rounded-sm font-medium text-primary underline underline-offset-2"
-        >
-          Source
-          <ExternalLink aria-hidden="true" className="size-3" />
-          <span className="sr-only">opens in a new tab</span>
-        </a>
-        <span>
-          {source.publisher}. Retrieved {formatDate(source.retrievedOn)}
-        </span>
+    <span className="inline-flex min-w-0 flex-wrap items-center gap-2 text-xs text-muted-foreground">
+      <a
+        href={source.url}
+        target="_blank"
+        rel="noreferrer noopener"
+        className="inline-flex items-center gap-1 rounded-sm font-medium text-primary underline underline-offset-2"
+      >
+        Source
+        <ExternalLink aria-hidden="true" className="size-3" />
+        <span className="sr-only">opens in a new tab</span>
+      </a>
+      <span>
+        {source.publisher}. Retrieved {formatDate(source.retrievedOn)}
       </span>
     </span>
   );
