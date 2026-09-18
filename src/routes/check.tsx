@@ -1,5 +1,5 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
   DESTINATIONS,
   encodeProfile,
@@ -95,6 +95,9 @@ function CheckPage() {
   const [step, setStep] = useState(0);
   const [search, setSearch] = useState("");
   const [error, setError] = useState<string | null>(null);
+  const stepHeadingRef = useRef<HTMLHeadingElement>(null);
+  const previousStepRef = useRef(step);
+  const invalidFieldRef = useRef<string | null>(null);
   const [form, setForm] = useState<FormState>({
     nationality: "",
     secondNationality: "",
@@ -118,6 +121,27 @@ function CheckPage() {
 
   const update = (patch: Partial<FormState>) => setForm((prev) => ({ ...prev, ...patch }));
 
+  useEffect(() => {
+    if (previousStepRef.current === step) return;
+    previousStepRef.current = step;
+    if (invalidFieldRef.current) {
+      document.getElementById(invalidFieldRef.current)?.focus();
+      invalidFieldRef.current = null;
+      return;
+    }
+    stepHeadingRef.current?.focus();
+  }, [step]);
+
+  function focusInvalidField(current: number) {
+    const fieldId = current === 0 ? "nationality" : current === 1 ? "age" : current === 3 ? "years" : null;
+    if (!fieldId) return;
+    if (current === step) {
+      document.getElementById(fieldId)?.focus();
+      return;
+    }
+    invalidFieldRef.current = fieldId;
+  }
+
   function validateStep(current: number): string | null {
     if (current === 0 && !form.nationality) return "Choose your nationality to continue.";
     if (current === 1) {
@@ -139,14 +163,17 @@ function CheckPage() {
     const problem = validateStep(step);
     if (problem) {
       setError(problem);
+      focusInvalidField(step);
       return;
     }
     setError(null);
+      invalidFieldRef.current = null;
     setStep((s) => Math.min(s + 1, STEP_TITLES.length - 1));
   }
 
   function back() {
     setError(null);
+    invalidFieldRef.current = null;
     setStep((s) => Math.max(s - 1, 0));
   }
 
@@ -156,6 +183,7 @@ function CheckPage() {
       if (problem) {
         setStep(i);
         setError(problem);
+        focusInvalidField(i);
         return;
       }
     }
@@ -191,8 +219,14 @@ function CheckPage() {
       </p>
 
       <div className="mt-8">
-        <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3 text-sm">
-          <span className="min-w-0 font-medium">{STEP_TITLES[step]}</span>
+        <div
+          className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3 text-sm"
+          aria-live="polite"
+          aria-atomic="true"
+        >
+          <h2 ref={stepHeadingRef} tabIndex={-1} className="min-w-0 font-sans text-sm font-medium outline-none">
+            {STEP_TITLES[step]}
+          </h2>
           <span className="shrink-0 text-muted-foreground">
             Step {step + 1} of {STEP_TITLES.length}
           </span>

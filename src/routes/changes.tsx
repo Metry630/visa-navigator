@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ExternalLink } from "lucide-react";
+import { EvidenceQuote } from "@/components/evidence-quote";
 import { formatDate } from "@/components/format-date";
 import { getRoute, listRoutes, type RequirementView, type RouteDetail } from "@/engine";
 
@@ -62,15 +63,7 @@ function DatedRules({ rules }: { rules: DatedRule[] }) {
                 <div className="mt-4 space-y-4">
                   {requirement.sources.map((source) => (
                     <div key={source.url + source.quote}>
-                      <blockquote className="border-l-2 border-primary pl-3 text-sm leading-relaxed text-muted-foreground italic">
-                        {source.quote}
-                      </blockquote>
-                      {source.translation && (
-                        <div className="mt-2 border-l-2 border-border pl-3 text-sm leading-relaxed text-muted-foreground">
-                          <p className="mb-1 text-xs font-medium">unofficial translation</p>
-                          <p>{source.translation}</p>
-                        </div>
-                      )}
+                      <EvidenceQuote quote={source.quote} translation={source.translation} />
                       <p className="mt-2 text-xs text-muted-foreground">
                         {source.publisher}. Retrieved {formatDate(source.retrievedOn)}.{" "}
                         <a
