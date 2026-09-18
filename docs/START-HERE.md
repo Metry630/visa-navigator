@@ -82,6 +82,20 @@ check runs on Node, so `npm run check:sources` is the only probe that answers th
 
 Settled: the name is **Visa Routes**.
 
+## Everything that is not data is finished
+
+As of 2026-09-18 the non-data work is done and the runbook is `docs/LAUNCH.md`.
+
+- **CI gates** tests, types, data, lint and build. Lint became possible after one whitespace-only pass
+  over 26 code files; `.prettierignore` now excludes markdown and vendored directories so prose is
+  never reflowed.
+- **The project is actually open source**: `LICENSE` (Apache-2.0), `LICENSE-DATA` (CC BY 4.0 for
+  `src/data/`), `CONTRIBUTING.md`, an issue form for "a rule is wrong", and a README written for a
+  person rather than the build brief it used to be.
+- **The UI is feature-complete for v0**: `/check`, `/results`, `/routes`, `/routes/:id`, `/changes`,
+  `/pack`, `/methodology`, a sitemap and robots served from the request origin, a real 1200x630 share
+  card, and focus plus live-region handling on the form.
+
 ## Lovable (stream U)
 
 10.4 credits spent of about 303. Credits have never been the constraint. Batches, one message each,

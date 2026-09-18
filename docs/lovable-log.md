@@ -23,7 +23,9 @@ Pro Lite gives no monthly credits, so the budget is what is left of the 300 one-
 
 | 2026-09-18 | 4.9 | `72cdc8f` | Batch 6. The all-closed notice on `/results`, a real 1200x630 `public/og.png` screenshotted from a new internal `/og` page with Playwright, an origin-derived `og:image`, and Bahasa Indonesia, Hindi and Tagalog added to the language list. |
 
-**Spent so far: ~33.2.** 303 were left on 2026-09-11, so about 270 remain against a v0 budget of ~150.
+| 2026-09-18 | ~1.5 | `183bc88` | Removed `twitter:card` from all eight child routes so the root's `summary_large_image` applies, and dropped a duplicated `og:type` where a child repeated the root's value. |
+
+**Spent so far: ~34.7.** 303 were left on 2026-09-11, so about 268 remain against a v0 budget of ~150.
 
 Batch 6 is the one to learn from, in both directions.
 
