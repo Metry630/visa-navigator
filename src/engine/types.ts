@@ -41,7 +41,7 @@ export interface Source {
    * the quote, labelled as unofficial, never in place of it. Most Japan routes are sourced from
    * Japanese pages, so without this the route pages are unreadable to an English-speaking reader.
    */
-  translation?: string;
+  translation?: string | undefined;
 }
 
 export interface ChecklistItem {
