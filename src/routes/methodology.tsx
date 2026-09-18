@@ -7,13 +7,13 @@ export const Route = createFileRoute("/methodology")({
       {
         name: "description",
         content:
-          "Every rule on Visa Routes comes from an official government page, quotes its source, and is checked by a person and re-confirmed weekly.",
+          "Every rule on Visa Routes comes from an official government page, quotes its source, and is checked by a person.",
       },
       { property: "og:title", content: "Methodology: how Visa Routes checks the rules | Visa Routes" },
       {
         property: "og:description",
         content:
-          "How rules are collected, quoted, verified by hand and re-confirmed against the live pages each week.",
+          "How rules are collected, quoted, translated, verified by hand and monitored for changes.",
       },
       { property: "og:type", content: "article" },
       { property: "og:url", content: "/methodology" },
@@ -38,8 +38,12 @@ const POINTS = [
     body: "A route is marked as verified only after a person has read every requirement against its source. Until then the route shows a Not yet verified label.",
   },
   {
+    title: "Translations are reading aids",
+    body: "Most Japan rules are quoted from Japanese government pages. Every non-English quote carries an unofficial literal English translation, with the original always shown as the evidence. A model never translates a rule into the requirement text itself.",
+  },
+  {
     title: "Weekly automated re-checks",
-    body: "Automated checks fetch each source page every week and confirm the quote still appears. When a quote no longer matches, the rule is flagged for review.",
+    body: "Every quote is re-fetched from its live page each week. When a quote has moved, an issue is opened for a person to re-read it. A page the checker cannot reach is reported separately and is not treated as a changed rule.",
   },
 ];
 

@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { listRoutes } from "@/engine";
 
-const STATIC_PATHS = ["/", "/check", "/routes", "/methodology"];
+const STATIC_PATHS = ["/", "/check", "/routes", "/changes", "/methodology"];
 
 function escapeXml(value: string): string {
   return value.replace(
