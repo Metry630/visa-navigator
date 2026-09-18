@@ -13,6 +13,9 @@ export function SiteHeader() {
           <Link to="/check" className={linkClass} activeProps={{ className: "text-foreground" }}>
             Check
           </Link>
+          <Link to="/routes" className={linkClass} activeProps={{ className: "text-foreground" }}>
+            Routes
+          </Link>
           <Link
             to="/methodology"
             className={linkClass}
@@ -30,6 +33,10 @@ export function SiteFooter() {
   return (
     <footer className="mt-20 border-t border-border bg-surface">
       <div className="mx-auto max-w-4xl px-5 py-8">
+        <p className="font-serif font-semibold text-foreground">Visa Routes</p>
+        <p className="prose-measure mt-1 text-sm leading-relaxed text-muted-foreground">
+          Work visa routes for new graduates, with every rule linked to its official source.
+        </p>
         <p className="prose-measure text-sm leading-relaxed text-muted-foreground">
           Information, not legal advice. Rules change, so every rule links to its official source and
           shows when a person last verified it.

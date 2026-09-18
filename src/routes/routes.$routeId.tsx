@@ -12,17 +12,27 @@ export const Route = createFileRoute("/routes/$routeId")({
   head: ({ loaderData }) => {
     if (!loaderData) {
       return {
-        meta: [{ title: "Route not found" }, { name: "robots", content: "noindex" }],
+        meta: [
+          { title: "Route not found | Visa Routes" },
+          { name: "description", content: "This route could not be found on Visa Routes." },
+          { property: "og:title", content: "Route not found | Visa Routes" },
+          { property: "og:description", content: "This route could not be found on Visa Routes." },
+          { name: "robots", content: "noindex" },
+        ],
       };
     }
     const { detail } = loaderData;
     return {
       meta: [
-        { title: `${detail.name}: requirements and sources` },
+        { title: `${detail.name}: requirements and sources | Visa Routes` },
         { name: "description", content: detail.summary },
-        { property: "og:title", content: `${detail.name}: requirements and sources` },
+        { property: "og:title", content: `${detail.name}: requirements and sources | Visa Routes` },
         { property: "og:description", content: detail.summary },
+        { property: "og:type", content: "article" },
+        { property: "og:url", content: `/routes/${detail.routeId}` },
+        { name: "twitter:card", content: "summary" },
       ],
+      links: [{ rel: "canonical", href: `/routes/${detail.routeId}` }],
     };
   },
   component: RouteDetailPage,
@@ -79,6 +89,12 @@ function RouteDetailPage() {
                   <blockquote className="border-l-2 border-primary pl-3 text-sm leading-relaxed text-muted-foreground italic">
                     {s.quote}
                   </blockquote>
+                  {s.translation && (
+                    <div className="mt-2 border-l-2 border-border pl-3 text-sm leading-relaxed text-muted-foreground">
+                      <p className="mb-1 text-xs font-medium">unofficial translation</p>
+                      <p>{s.translation}</p>
+                    </div>
+                  )}
                   <p className="mt-2 text-xs text-muted-foreground">
                     {s.publisher}. Retrieved {formatDate(s.retrievedOn)}.{" "}
                     <a

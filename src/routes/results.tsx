@@ -24,17 +24,19 @@ export const Route = createFileRoute("/results")({
   },
   head: () => ({
     meta: [
-      { title: "Your work visa routes" },
+      { title: "Your work visa routes | Visa Routes" },
       {
         name: "description",
         content:
           "Your work visa routes in Singapore and Japan, with a checklist for each route and a link to every official rule.",
       },
-      { property: "og:title", content: "Your work visa routes" },
+      { property: "og:title", content: "Your work visa routes | Visa Routes" },
       {
         property: "og:description",
         content: "Routes marked open, dependent on an employer, or closed, with official sources.",
       },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
     ],
   }),
   component: Results,
