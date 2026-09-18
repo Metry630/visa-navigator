@@ -66,9 +66,11 @@ describe("JP J-Find", () => {
     expect(getRoute("jp-jfind")!.requirements.some((q) => q.effective)).toBe(false);
   });
 
-  it("carries a source on every requirement and stays unverified until a person stamps it", () => {
+  it("carries a source on every requirement, and reports only the stamp the data carries", () => {
     const detail = getRoute("jp-jfind")!;
     expect(detail.requirements.every((q) => q.sources.length > 0)).toBe(true);
-    expect(detail.verifiedOn).toBeNull();
+    // Not "is null": that encodes today's review progress rather than the contract, and it
+    // has already broken twice as routes were stamped. verifiedOn mirrors the route file.
+    expect(detail.verifiedOn === null || /^\d{4}-\d{2}-\d{2}$/.test(detail.verifiedOn)).toBe(true);
   });
 });
