@@ -9,8 +9,21 @@ Pro Lite gives no monthly credits, so the budget is what is left of the 300 one-
 | 2026-09-12 | 3.0 | `61571d0` | The batch: "Retrieved" instead of "Checked" on source lines, footer and home trust line reworded, dates rendered as 1 Jan 2027 through one helper, methodology source link pointed at the repo, 375px pass over /check and /results. |
 | 2026-09-12 | 0.7 | `92b90d4` | Ran `bun install` so `bun.lock` matched `package.json` and CI stopped failing at the install step, plus the repeated home trust sentence. |
 | 2026-09-12 | 0.7 | `6939406` | Reordered the checklist groups so "Ask the employer" leads each route card, and gave that heading slightly more weight. From discovery: 21 of 99 coded posts were employer confusion, the single biggest category. |
+| 2026-09-18 | 0 | - | Project knowledge rewritten: the settled name and strapline, `public/` added to what Lovable owns, the non-English quote rule, "never hardcode a route", and "do it all in one turn". Knowledge costs nothing; only `send_message` does. |
+| 2026-09-18 | 4.7 | `d1c0d36` | Batch 1. Route library at `/routes` built on `listRoutes()`, translations rendered under quotes, per-page titles, descriptions, OG and canonical tags, "Visa Routes" and the strapline made consistent. Sitemap declined, see below. |
 
-**Spent so far: 5.7.** 303 were left on 2026-09-11, so about 297 remain against a v0 budget of ~150.
+**Spent so far: 10.4.** 303 were left on 2026-09-11, so about 293 remain against a v0 budget of ~150.
+
+Two things worth knowing from batch 1:
+
+- **Say where a change applies, not just what it is.** "Show the translation everywhere a quote is
+  rendered" was read as "render the quote everywhere too", so `SourceLink` started printing full
+  government quotes on every checklist line of `/results`, which buries a page that is meant to be
+  scanned. The agent did what was asked; the request was too broad. Batch 2 reverts it.
+- **A refusal can be worth arguing with.** It skipped the sitemap because no public domain is known.
+  That is true but not a blocker: this is TanStack Start, so a server route can build absolute URLs
+  from the incoming request's own origin, which is right on the preview domain and stays right after
+  publishing. Asked again in batch 2 with that spelled out.
 
 Notes that save credits:
 
