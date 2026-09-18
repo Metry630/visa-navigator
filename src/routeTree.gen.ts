@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ChangesRouteImport } from './routes/changes'
 import { Route as CheckRouteImport } from './routes/check'
 import { Route as MethodologyRouteImport } from './routes/methodology'
 import { Route as PackRouteImport } from './routes/pack'
@@ -23,6 +24,11 @@ import { Route as RoutesRouteIdRouteImport } from './routes/routes.$routeId'
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ChangesRoute = ChangesRouteImport.update({
+  id: '/changes',
+  path: '/changes',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CheckRoute = CheckRouteImport.update({
@@ -73,6 +79,7 @@ const RoutesRouteIdRoute = RoutesRouteIdRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/changes': typeof ChangesRoute
   '/check': typeof CheckRoute
   '/methodology': typeof MethodologyRoute
   '/pack': typeof PackRoute
@@ -85,6 +92,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/changes': typeof ChangesRoute
   '/check': typeof CheckRoute
   '/methodology': typeof MethodologyRoute
   '/pack': typeof PackRoute
@@ -97,6 +105,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/changes': typeof ChangesRoute
   '/check': typeof CheckRoute
   '/methodology': typeof MethodologyRoute
   '/pack': typeof PackRoute
@@ -111,6 +120,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/changes'
     | '/check'
     | '/methodology'
     | '/pack'
@@ -123,6 +133,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/changes'
     | '/check'
     | '/methodology'
     | '/pack'
@@ -134,6 +145,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/changes'
     | '/check'
     | '/methodology'
     | '/pack'
@@ -147,6 +159,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ChangesRoute: typeof ChangesRoute
   CheckRoute: typeof CheckRoute
   MethodologyRoute: typeof MethodologyRoute
   PackRoute: typeof PackRoute
@@ -163,6 +176,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/changes': {
+      id: '/changes'
+      path: '/changes'
+      fullPath: '/changes'
+      preLoaderRoute: typeof ChangesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/check': {
@@ -246,6 +266,7 @@ const RoutesRouteWithChildren =
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ChangesRoute: ChangesRoute,
   CheckRoute: CheckRoute,
   MethodologyRoute: MethodologyRoute,
   PackRoute: PackRoute,
