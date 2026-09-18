@@ -20,7 +20,6 @@ export const Route = createFileRoute("/methodology")({
       },
       { property: "og:type", content: "article" },
       { property: "og:url", content: "/methodology" },
-      { name: "twitter:card", content: "summary" },
     ],
     links: [{ rel: "canonical", href: "/methodology" }],
   }),

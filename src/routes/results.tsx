@@ -38,8 +38,6 @@ export const Route = createFileRoute("/results")({
         property: "og:description",
         content: "Routes marked open, dependent on an employer, or closed, with official sources.",
       },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary" },
     ],
   }),
   component: Results,
