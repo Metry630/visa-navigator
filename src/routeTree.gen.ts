@@ -14,6 +14,7 @@ import { Route as CheckRouteImport } from './routes/check'
 import { Route as MethodologyRouteImport } from './routes/methodology'
 import { Route as ResultsRouteImport } from './routes/results'
 import { Route as RoutesRouteImport } from './routes/routes'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as RoutesIndexRouteImport } from './routes/routes.index'
 import { Route as RoutesRouteIdRouteImport } from './routes/routes.$routeId'
 
@@ -42,6 +43,11 @@ const RoutesRoute = RoutesRouteImport.update({
   path: '/routes',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const RoutesIndexRoute = RoutesIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -59,6 +65,7 @@ export interface FileRoutesByFullPath {
   '/methodology': typeof MethodologyRoute
   '/results': typeof ResultsRoute
   '/routes': typeof RoutesRouteWithChildren
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/routes/$routeId': typeof RoutesRouteIdRoute
   '/routes/': typeof RoutesIndexRoute
 }
@@ -67,6 +74,7 @@ export interface FileRoutesByTo {
   '/check': typeof CheckRoute
   '/methodology': typeof MethodologyRoute
   '/results': typeof ResultsRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/routes/$routeId': typeof RoutesRouteIdRoute
   '/routes': typeof RoutesIndexRoute
 }
@@ -77,6 +85,7 @@ export interface FileRoutesById {
   '/methodology': typeof MethodologyRoute
   '/results': typeof ResultsRoute
   '/routes': typeof RoutesRouteWithChildren
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/routes/$routeId': typeof RoutesRouteIdRoute
   '/routes/': typeof RoutesIndexRoute
 }
@@ -88,6 +97,7 @@ export interface FileRouteTypes {
     | '/methodology'
     | '/results'
     | '/routes'
+    | '/sitemap.xml'
     | '/routes/$routeId'
     | '/routes/'
   fileRoutesByTo: FileRoutesByTo
@@ -96,6 +106,7 @@ export interface FileRouteTypes {
     | '/check'
     | '/methodology'
     | '/results'
+    | '/sitemap.xml'
     | '/routes/$routeId'
     | '/routes'
   id:
@@ -105,6 +116,7 @@ export interface FileRouteTypes {
     | '/methodology'
     | '/results'
     | '/routes'
+    | '/sitemap.xml'
     | '/routes/$routeId'
     | '/routes/'
   fileRoutesById: FileRoutesById
@@ -115,6 +127,7 @@ export interface RootRouteChildren {
   MethodologyRoute: typeof MethodologyRoute
   ResultsRoute: typeof ResultsRoute
   RoutesRoute: typeof RoutesRouteWithChildren
+  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -154,6 +167,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RoutesRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/routes/': {
       id: '/routes/'
       path: '/'
@@ -190,6 +210,7 @@ const rootRouteChildren: RootRouteChildren = {
   MethodologyRoute: MethodologyRoute,
   ResultsRoute: ResultsRoute,
   RoutesRoute: RoutesRouteWithChildren,
+  SitemapDotxmlRoute: SitemapDotxmlRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
