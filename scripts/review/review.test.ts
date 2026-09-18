@@ -169,9 +169,8 @@ describe("fingerprint", () => {
   });
 
   it("ignores key order, so a reformatted file is not a changed rule", () => {
-    const reordered = JSON.parse(
-      JSON.stringify({ sources: req.sources, who: req.who, ...req }),
-    ) as typeof req;
+    const entries = Object.entries(req as Record<string, unknown>).reverse();
+    const reordered = Object.fromEntries(entries) as typeof req;
     expect(fingerprint(reordered)).toBe(fingerprint(req));
   });
 

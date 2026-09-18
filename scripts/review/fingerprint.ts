@@ -33,18 +33,23 @@ export function fingerprint(req: Requirement): string {
   return createHash("sha256").update(canonical(req)).digest("hex").slice(0, 16);
 }
 
+/**
+ * The parts of a review note these two care about. Declared here rather than imported from page.ts,
+ * because page.ts imports this module.
+ */
+export interface DecisionNote {
+  decision?: string;
+  hash?: string;
+  on?: string;
+  comments?: string[];
+}
+
 /** An approval only counts while it still matches what is on disk. */
-export function isApproved(
-  note: { decision?: string; hash?: string } | undefined,
-  req: Requirement,
-): boolean {
+export function isApproved(note: DecisionNote | undefined, req: Requirement): boolean {
   return note?.decision === "approve" && note.hash === fingerprint(req);
 }
 
 /** An approval that was given, but for text that has since changed. */
-export function isStale(
-  note: { decision?: string; hash?: string } | undefined,
-  req: Requirement,
-): boolean {
+export function isStale(note: DecisionNote | undefined, req: Requirement): boolean {
   return note?.decision === "approve" && note.hash !== fingerprint(req);
 }
