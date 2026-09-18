@@ -16,9 +16,7 @@ export const Route = createFileRoute("/")({
         content:
           "Work visa routes for new graduates, with every rule linked to its official source.",
       },
-      { property: "og:type", content: "website" },
       { property: "og:url", content: "/" },
-      { name: "twitter:card", content: "summary" },
     ],
     links: [{ rel: "canonical", href: "/" }],
   }),

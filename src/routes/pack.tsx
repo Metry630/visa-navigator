@@ -46,8 +46,6 @@ export const Route = createFileRoute("/pack")({
         content:
           "A one-page summary of what an employer has to confirm or provide for one work visa route, with a link to every official source.",
       },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary" },
       { name: "robots", content: "noindex" },
     ],
   }),
