@@ -233,6 +233,25 @@ verified against an English source. What the reviewer can check independently is
 and the Latin-script tokens (CEFR B2, JLPT N2, BJT 400), which the review page highlights on both sides.
 What he is taking on trust is the prose. Worth deciding whether the route detail page should say so.
 
+## The Working Holiday country list was verified by hand (2026-09-18)
+
+`jp-working-holiday#partner-country` is a `nationality-list` of 32 ISO codes, and it decides whether
+the route opens or closes for a given nationality. Nothing sourced it: the only quote reads "As of 1
+April, 2026, Japan has introduced the programmes with the following 32 countries/regions" and names
+none of them. MOFA renders the list as a table (index, country, year of initiation, maximum visas per
+year), so there is no contiguous run of country names to quote.
+
+All 32 were checked against that table on 2026-09-18 by parsing the country cell out of each row of
+`.sources/jp-working-holiday.txt` and mapping it to its ISO code. **All 32 match, with nothing missing
+and nothing extra.** Redo it the same way if the page changes: the row order is index, name, year,
+maximum.
+
+`check:data` now warns how many of a list's countries are actually named in a quote, so a list with no
+evidence behind it says so on every run, and errors on a code that is not in `countries.json` or that
+appears twice. That last one matters more than it sounds: the schema only asked for two uppercase
+letters, so "UK" instead of "GB" would have passed every check and quietly closed the route for
+British applicants.
+
 ## Questions for Joshua
 
 1. ~~J-Find's university list is a PDF. Do we quote the PDF and mark the source `manual`, or link the

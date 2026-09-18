@@ -2,7 +2,8 @@
 //   1. schema: parses against RouteSchema, ids are unique, currencies match the destination
 //   2. grounding: every number a user sees (rule text, route summary, salary tables) appears in a quote
 //   3. translation: a quote containing CJK carries one, so the maintainer can review in English
-//   4. verification: reported; with --release, every route must carry a person's stamp
+//   4. nationality lists: every code is a real country, and how much of the list a quote actually backs
+//   5. verification: reported; with --release, every route must carry a person's stamp
 // The live-page drift check is stream C's job (scripts/check-sources.ts).
 //
 //   npm run check:data              # development: unverified routes are warnings
@@ -10,6 +11,11 @@
 import { readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { RouteSchema, type Route } from "../src/engine/schema";
+
+const COUNTRIES: { code: string; name: string }[] = JSON.parse(
+  readFileSync(join(import.meta.dirname, "..", "src", "data", "countries.json"), "utf8"),
+);
+const COUNTRY_NAME = new Map(COUNTRIES.map((c) => [c.code, c.name]));
 import { numbers } from "./numbers";
 
 const DATA = join(import.meta.dirname, "..", "src", "data");
@@ -68,6 +74,29 @@ for (const { file, route } of routes) {
     for (const n of numbers(req.text)) {
       if (!quoted.has(n)) errors.push(`${where}: text: ${n} is not in any of its quotes`);
     }
+    if (req.kind === "nationality-list") {
+      // `codes` drives whether the engine opens or closes a route, and the schema only asks for two
+      // uppercase letters. "UK" instead of "GB", or a typo, would pass every other check and quietly
+      // give one nationality the wrong answer.
+      for (const code of req.codes) {
+        if (!COUNTRY_NAME.has(code)) errors.push(`${where}: ${code} is not a country in countries.json`);
+      }
+      const dupes = req.codes.filter((c, i) => req.codes.indexOf(c) !== i);
+      if (dupes.length) errors.push(`${where}: duplicate codes ${[...new Set(dupes)].join(", ")}`);
+
+      // How much of the list does the evidence actually name? A long list is often a table on the
+      // page, which cannot be quoted as one run, so this is a warning and not a failure. It is how
+      // jp-working-holiday#partner-country was found: 32 codes and not one country named in a quote.
+      const quoted = req.sources.map((s) => `${s.quote} ${s.translation ?? ""}`).join(" ");
+      const named = req.codes.filter((c) => quoted.includes(COUNTRY_NAME.get(c) ?? "\u0000")).length;
+      if (named < req.codes.length) {
+        warnings.push(
+          `${where}: ${named} of ${req.codes.length} countries in this list are named in a quote` +
+            (named === 0 ? " (nothing backs the list itself)" : ""),
+        );
+      }
+    }
+
     if (req.kind === "salary-floor") {
       const expected = route.destination === "SG" ? ["SGD", "month"] : ["JPY", "year"];
       if (req.currency !== expected[0] || req.period !== expected[1]) {
