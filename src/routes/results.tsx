@@ -278,7 +278,7 @@ function Results() {
             <h2 className="text-2xl font-semibold">{destination.name}</h2>
             <div className="mt-4 space-y-5">
               {destination.routes.map((route) => (
-                <RouteCard key={route.routeId} route={route} />
+                <RouteCard key={route.routeId} route={route} p={p} />
               ))}
             </div>
           </section>
