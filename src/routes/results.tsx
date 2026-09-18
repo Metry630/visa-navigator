@@ -182,7 +182,7 @@ function RouteHeading({ route }: { route: RouteResult }) {
   );
 }
 
-function RouteCard({ route }: { route: RouteResult }) {
+function RouteCard({ route, p }: { route: RouteResult; p: string }) {
   if (route.status === "closed") {
     return (
       <details className="group min-w-0 rounded-lg border border-border bg-card">
@@ -197,6 +197,7 @@ function RouteCard({ route }: { route: RouteResult }) {
         </summary>
         <div className="border-t border-border px-4 pb-4 sm:px-5 sm:pb-5">
           <RouteChecklist route={route} />
+          <EmployerPackLink route={route} p={p} />
         </div>
       </details>
     );
@@ -206,6 +207,7 @@ function RouteCard({ route }: { route: RouteResult }) {
     <article className="min-w-0 rounded-lg border border-border bg-card p-4 sm:p-5">
       <RouteHeading route={route} />
       <RouteChecklist route={route} />
+      <EmployerPackLink route={route} p={p} />
     </article>
   );
 }
