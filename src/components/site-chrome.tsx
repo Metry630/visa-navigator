@@ -4,7 +4,7 @@ export function SiteHeader() {
   const linkClass =
     "rounded-sm px-1 py-1 text-sm text-muted-foreground transition-colors hover:text-foreground";
   return (
-    <header className="border-b border-border bg-background">
+    <header className="border-b border-border bg-background print:hidden">
       <div className="mx-auto flex max-w-4xl flex-wrap items-center justify-between gap-3 px-5 py-4">
         <Link to="/" className="font-serif text-lg font-semibold tracking-tight text-foreground">
           Visa Routes
@@ -31,7 +31,7 @@ export function SiteHeader() {
 
 export function SiteFooter() {
   return (
-    <footer className="mt-20 border-t border-border bg-surface">
+    <footer className="mt-20 border-t border-border bg-surface print:hidden">
       <div className="mx-auto max-w-4xl px-5 py-8">
         <p className="font-serif font-semibold text-foreground">Visa Routes</p>
         <p className="prose-measure mt-1 text-sm leading-relaxed text-muted-foreground">

@@ -82,6 +82,21 @@ function ProfileSummary({ profile }: { profile: Profile }) {
   );
 }
 
+function EmployerPackLink({ route, p }: { route: RouteResult; p: string }) {
+  if (!route.checklist.some((item) => item.who === "employer")) return null;
+  return (
+    <p className="mt-5 text-sm">
+      <Link
+        to="/pack"
+        search={{ p, route: route.routeId }}
+        className="inline-block rounded-sm py-1 text-muted-foreground underline underline-offset-2 hover:text-foreground"
+      >
+        Send this to your employer
+      </Link>
+    </p>
+  );
+}
+
 function RouteChecklist({ route }: { route: RouteResult }) {
   return (
     <>
