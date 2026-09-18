@@ -16,8 +16,9 @@ leaves the branches alone.
 
 ## Where things stand (2026-09-18)
 
-**10 routes, 93 requirements, 93 of 93 sourced, 4 of 10 verified by a person.** 92 tests, typecheck
-and `check:data` green. Drift check: **135 of 135 quotes live**, 0 moved, 18 checked by hand.
+**10 routes, 93 requirements, 93 of 93 sourced, 4 of 10 verified by a person.** 92 tests, and
+typecheck, lint, `check:data` and `build` all green, all four now gates in CI. Drift check:
+**135 of 135 quotes live**, 0 moved, 18 checked by hand.
 
 The verified count went down on purpose. Four processing-time requirements were added, and an audit of
 the Singapore routes found three requirements whose text did not match its own sources. Six routes now
@@ -31,6 +32,13 @@ J-Find 10 and Highly Skilled Professional 11.
 | Japan | Working Holiday, Engineer/Specialist, J-Find, Highly Skilled Professional | 0 of 4 |
 
 Streams C, R-SG, R-JP and D are done. U is running. E is open and is Joshua's.
+
+### Publishing is held on purpose
+
+Joshua decided on 2026-09-18 not to publish while the data is part-verified. Nothing technical is in
+the way: tests, typecheck, lint, `check:data`, `check:sources` and `build` are all green, and
+`deploy_project` costs no credits. **`docs/LAUNCH.md` is the runbook** and every command in it has been
+run, with only the `--release` gate failing as expected.
 
 ### The publish gate
 

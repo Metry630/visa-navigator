@@ -1,0 +1,103 @@
+# Launch runbook
+
+Publishing is **held on purpose**, not blocked by anything technical. Joshua decided on 2026-09-18 not
+to put it in front of anyone while the data is part-verified. Everything else is finished, so this
+list is what is left, and it is meant to be followed rather than remembered.
+
+`deploy_project` costs no Lovable credits. Only `send_message` to the agent does.
+
+## 1. Finish the review
+
+```bash
+cd ~/kerjaan/lovable/visa-navigator      # main, NOT one of the -c / -d / -r-jp / -r-sg worktrees
+npm run review -- --by joshua            # http://127.0.0.1:4178
+```
+
+Keys: `J` and `K` move, `A` approves, `R` rejects, `C` comments.
+
+The gate is `npm run check:data -- --release` reporting `verified 10/10` with **no error lines**. Until
+then it errors once per unverified route.
+
+Two things the page does for you. A requirement whose text or sources changed since you approved it
+shows as **needs re-reading** and does not count, so an edit can never inherit an old approval. And on
+startup the server clears any stamp its approvals no longer justify, naming what it cleared and why,
+so a route cannot sit there claiming to be verified when it is not.
+
+## 2. Run every check
+
+```bash
+npm test                 # 92 tests
+npm run typecheck
+npm run lint
+npm run check:data -- --release
+npm run check:sources
+npm run build
+```
+
+Read each exit status directly. **Do not pipe a checker into `tail` or put it on the left of `&&`** —
+both discard the exit code and report green on red. That mistake pushed two red CI runs on 18 Sep.
+
+`check:sources` exits non-zero only when a quote has **moved**. A page that did not answer is reported
+separately and is not a failure, because that is usually the publisher rate-limiting the fetcher and it
+has cleared on its own before. If it reports unreachable pages, diagnose with `npm run check:sources`
+and not with `curl`: MOFA answers Node's `fetch` and refuses `curl`, so curl cannot tell you whether
+the drift check can read a page.
+
+## 3. Tell Pints first
+
+**This is a hard gate and the easiest one to forget.** Per `CLAUDE.local.md`, Calvin confirmed in
+writing that personal open-source work on Joshua's own time and hardware is fine, and asked him to
+"sound off if there is any conflict of interest". So Gabriel or Calvin hears about it before anything
+public goes out under his name.
+
+Do this before publishing, not between publishing and posting.
+
+## 4. Publish
+
+```
+mcp__lovable__deploy_project   # project e24dc628-aae5-421c-99fa-969c29510ffb
+```
+
+## 5. Check the live site
+
+The things most likely to be wrong are the ones that only exist once there is a real domain, because
+every absolute URL is built from the incoming request's origin.
+
+- `curl https://<domain>/robots.txt` — the `Sitemap:` line is an **absolute** URL on the real domain.
+  A relative one is silently ignored by every crawler, which would make the whole SEO pass inert.
+- `curl https://<domain>/sitemap.xml` — one URL per route plus the five static pages (`/`, `/check`,
+  `/routes`, `/changes`, `/methodology`), all on the real domain, and **no `/results`**, which would
+  carry a profile. Count it rather than trusting a number written here, which has already gone stale
+  once:
+
+  ```bash
+  curl -s https://<domain>/sitemap.xml | grep -c '<loc>'
+  ls src/data/*/*.json | wc -l          # routes; the sitemap should be this plus 5
+  ```
+- One route page, for example `/routes/jp-jfind`, serves its own `<title>`, description and OG tags,
+  and an absolute `og:image`.
+- A Japanese-sourced route shows the unofficial translation under each original quote.
+- `/pack?p=...&route=...` prints to one page with the full quotes expanded and no nav or buttons.
+- An unverified route still says **Not yet verified** on its card.
+
+## 6. Then watch one number
+
+`get_project_analytics`, weekly.
+
+The number that matters is arrivals on `/routes` and `/routes/:id` **from search**, broken out by page
+rather than aggregate. That is the whole thesis of the route library: discovery found people being told
+on Reddit that J-Find does not exist while others corrected them, and the point of those pages is to
+be findable by someone searching that. If it stays at zero, the SEO work did not land, however good
+the pages look.
+
+Total visitors is the vanity number. Ignore it.
+
+## What is deliberately not here
+
+- **A launch post.** Not drafted. It goes out under Joshua's name, so he writes or approves it, after
+  step 3.
+- **The five Reddit reply candidates** in `research/discovery/reply-candidates.md`. Threads where a
+  sourced answer would genuinely help, and every one is now answerable from the data. Nothing has been
+  posted and nothing should be without him.
+- **A custom domain.** Not decided. The lovable.app subdomain works, and nothing in the code hardcodes
+  a host, so moving later costs nothing.
