@@ -13,7 +13,7 @@ function QuoteText({ text, translation = false }: { text: string; translation?: 
 
   return (
     <>
-      <details className="group quote-disclosure">
+      <details className="group quote-disclosure print:hidden">
         <summary className="cursor-pointer list-none marker:content-none [&::-webkit-details-marker]:hidden">
           <span className={`${quoteClass} quote-preview block`}>{opening}</span>
           <span className="quote-toggle mt-2 inline-block rounded-sm text-xs font-medium text-primary underline underline-offset-2">
@@ -28,9 +28,9 @@ function QuoteText({ text, translation = false }: { text: string; translation?: 
         )}
       </details>
       {translation ? (
-        <p className={`${quoteClass} quote-print-full`}>{text}</p>
+        <p className={`${quoteClass} hidden print:block`}>{text}</p>
       ) : (
-        <blockquote className={`${quoteClass} quote-print-full`}>{text}</blockquote>
+        <blockquote className={`${quoteClass} hidden print:block`}>{text}</blockquote>
       )}
     </>
   );
