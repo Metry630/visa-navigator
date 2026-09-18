@@ -207,6 +207,22 @@
           "translation": "Furthermore, by submitting or presenting the issued Certificate of Eligibility when applying for a visa at an overseas diplomatic mission, or when applying for landing, a visa can be issued and landing permission obtained promptly."
         }
       ]
+    },
+    {
+      "id": "coe-processing-time",
+      "kind": "manual",
+      "text": "The agency's published standard processing period for a Certificate of Eligibility is 1 to 3 months, so this is the step to start early.",
+      "who": "authority",
+      "blocking": false,
+      "sources": [
+        {
+          "url": "https://www.moj.go.jp/isa/applications/procedures/16-1.html",
+          "publisher": "Immigration Services Agency of Japan",
+          "retrievedOn": "2026-09-18",
+          "quote": "標準処理期間 １か月～３か月",
+          "translation": "Standard processing period: 1 month to 3 months"
+        }
+      ]
     }
   ],
   "verified": null

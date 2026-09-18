@@ -179,6 +179,22 @@
       ]
     },
     {
+      "id": "coe-processing-time",
+      "kind": "manual",
+      "text": "The agency's published standard processing period for a Certificate of Eligibility is 1 to 3 months, so this is the step to start early.",
+      "who": "authority",
+      "blocking": false,
+      "sources": [
+        {
+          "url": "https://www.moj.go.jp/isa/applications/procedures/16-1.html",
+          "publisher": "Immigration Services Agency of Japan",
+          "retrievedOn": "2026-09-18",
+          "quote": "標準処理期間 １か月～３か月",
+          "translation": "Standard processing period: 1 month to 3 months"
+        }
+      ]
+    },
+    {
       "id": "employer-category",
       "kind": "manual",
       "text": "Ask the employer which immigration category it falls into. An employer with no document for a higher category counts as Category 4, and the language rule below applies to Category 3 and 4.",

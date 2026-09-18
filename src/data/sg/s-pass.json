@@ -540,6 +540,27 @@
       ]
     },
     {
+      "id": "processing-time",
+      "kind": "manual",
+      "text": "MOM says an online application is processed or given an update within 10 business days, and that it may take longer than that.",
+      "who": "authority",
+      "blocking": false,
+      "sources": [
+        {
+          "url": "https://www.mom.gov.sg/passes-and-permits/s-pass/apply-for-a-pass",
+          "publisher": "Ministry of Manpower, Singapore",
+          "retrievedOn": "2026-09-18",
+          "quote": "Processing time: Processed or given an update within 10 business days."
+        },
+        {
+          "url": "https://www.mom.gov.sg/passes-and-permits/s-pass/apply-for-a-pass",
+          "publisher": "Ministry of Manpower, Singapore",
+          "retrievedOn": "2026-09-18",
+          "quote": "Your processing time may take longer than 10 working days."
+        }
+      ]
+    },
+    {
       "id": "quota",
       "kind": "manual",
       "text": "Ask the employer whether it has quota left. S Pass holders are capped at 10% of a services company's workforce and 15% in construction, manufacturing, marine shipyard and process.",
@@ -612,5 +633,5 @@
       ]
     }
   ],
-  "verified": { "by": "joshua", "on": "2026-09-18" }
+  "verified": null
 }

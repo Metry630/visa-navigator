@@ -13,19 +13,105 @@
       "text": "Your fixed monthly salary must be at least S$5,600 if you are 23 or below, rising with age to S$10,700 at 45 or above.",
       "who": "you",
       "blocking": true,
-      "effective": { "to": "2026-12-31" },
+      "effective": {
+        "to": "2026-12-31"
+      },
       "currency": "SGD",
       "period": "month",
       "sector": "all-except-financial-services",
       "byAge": [
-        { "age": 23, "amount": 5600 }, { "age": 24, "amount": 5832 }, { "age": 25, "amount": 6064 },
-        { "age": 26, "amount": 6295 }, { "age": 27, "amount": 6527 }, { "age": 28, "amount": 6759 },
-        { "age": 29, "amount": 6991 }, { "age": 30, "amount": 7223 }, { "age": 31, "amount": 7455 },
-        { "age": 32, "amount": 7686 }, { "age": 33, "amount": 7918 }, { "age": 34, "amount": 8150 },
-        { "age": 35, "amount": 8382 }, { "age": 36, "amount": 8614 }, { "age": 37, "amount": 8845 },
-        { "age": 38, "amount": 9077 }, { "age": 39, "amount": 9309 }, { "age": 40, "amount": 9541 },
-        { "age": 41, "amount": 9773 }, { "age": 42, "amount": 10005 }, { "age": 43, "amount": 10236 },
-        { "age": 44, "amount": 10468 }, { "age": 45, "amount": 10700 }
+        {
+          "age": 23,
+          "amount": 5600
+        },
+        {
+          "age": 24,
+          "amount": 5832
+        },
+        {
+          "age": 25,
+          "amount": 6064
+        },
+        {
+          "age": 26,
+          "amount": 6295
+        },
+        {
+          "age": 27,
+          "amount": 6527
+        },
+        {
+          "age": 28,
+          "amount": 6759
+        },
+        {
+          "age": 29,
+          "amount": 6991
+        },
+        {
+          "age": 30,
+          "amount": 7223
+        },
+        {
+          "age": 31,
+          "amount": 7455
+        },
+        {
+          "age": 32,
+          "amount": 7686
+        },
+        {
+          "age": 33,
+          "amount": 7918
+        },
+        {
+          "age": 34,
+          "amount": 8150
+        },
+        {
+          "age": 35,
+          "amount": 8382
+        },
+        {
+          "age": 36,
+          "amount": 8614
+        },
+        {
+          "age": 37,
+          "amount": 8845
+        },
+        {
+          "age": 38,
+          "amount": 9077
+        },
+        {
+          "age": 39,
+          "amount": 9309
+        },
+        {
+          "age": 40,
+          "amount": 9541
+        },
+        {
+          "age": 41,
+          "amount": 9773
+        },
+        {
+          "age": 42,
+          "amount": 10005
+        },
+        {
+          "age": 43,
+          "amount": 10236
+        },
+        {
+          "age": 44,
+          "amount": 10468
+        },
+        {
+          "age": 45,
+          "amount": 10700
+        }
       ],
       "sources": [
         {
@@ -48,19 +134,105 @@
       "text": "From 1 Jan 2027 the minimum rises to S$6,000 if you are 23 or below, and to S$11,500 at 45 or above. It applies to new applications from that date, and to renewals of passes expiring from 1 Jan 2028.",
       "who": "you",
       "blocking": true,
-      "effective": { "from": "2027-01-01" },
+      "effective": {
+        "from": "2027-01-01"
+      },
       "currency": "SGD",
       "period": "month",
       "sector": "all-except-financial-services",
       "byAge": [
-        { "age": 23, "amount": 6000 }, { "age": 24, "amount": 6250 }, { "age": 25, "amount": 6500 },
-        { "age": 26, "amount": 6750 }, { "age": 27, "amount": 7000 }, { "age": 28, "amount": 7250 },
-        { "age": 29, "amount": 7500 }, { "age": 30, "amount": 7750 }, { "age": 31, "amount": 8000 },
-        { "age": 32, "amount": 8250 }, { "age": 33, "amount": 8500 }, { "age": 34, "amount": 8750 },
-        { "age": 35, "amount": 9000 }, { "age": 36, "amount": 9250 }, { "age": 37, "amount": 9500 },
-        { "age": 38, "amount": 9750 }, { "age": 39, "amount": 10000 }, { "age": 40, "amount": 10250 },
-        { "age": 41, "amount": 10500 }, { "age": 42, "amount": 10750 }, { "age": 43, "amount": 11000 },
-        { "age": 44, "amount": 11250 }, { "age": 45, "amount": 11500 }
+        {
+          "age": 23,
+          "amount": 6000
+        },
+        {
+          "age": 24,
+          "amount": 6250
+        },
+        {
+          "age": 25,
+          "amount": 6500
+        },
+        {
+          "age": 26,
+          "amount": 6750
+        },
+        {
+          "age": 27,
+          "amount": 7000
+        },
+        {
+          "age": 28,
+          "amount": 7250
+        },
+        {
+          "age": 29,
+          "amount": 7500
+        },
+        {
+          "age": 30,
+          "amount": 7750
+        },
+        {
+          "age": 31,
+          "amount": 8000
+        },
+        {
+          "age": 32,
+          "amount": 8250
+        },
+        {
+          "age": 33,
+          "amount": 8500
+        },
+        {
+          "age": 34,
+          "amount": 8750
+        },
+        {
+          "age": 35,
+          "amount": 9000
+        },
+        {
+          "age": 36,
+          "amount": 9250
+        },
+        {
+          "age": 37,
+          "amount": 9500
+        },
+        {
+          "age": 38,
+          "amount": 9750
+        },
+        {
+          "age": 39,
+          "amount": 10000
+        },
+        {
+          "age": 40,
+          "amount": 10250
+        },
+        {
+          "age": 41,
+          "amount": 10500
+        },
+        {
+          "age": 42,
+          "amount": 10750
+        },
+        {
+          "age": 43,
+          "amount": 11000
+        },
+        {
+          "age": 44,
+          "amount": 11250
+        },
+        {
+          "age": 45,
+          "amount": 11500
+        }
       ],
       "sources": [
         {
@@ -89,19 +261,105 @@
       "text": "If the employer is in financial services, the minimum is higher: S$6,200 if you are 23 or below, rising to S$11,800 at 45 or above.",
       "who": "employer",
       "blocking": false,
-      "effective": { "to": "2026-12-31" },
+      "effective": {
+        "to": "2026-12-31"
+      },
       "currency": "SGD",
       "period": "month",
       "sector": "financial-services",
       "byAge": [
-        { "age": 23, "amount": 6200 }, { "age": 24, "amount": 6455 }, { "age": 25, "amount": 6709 },
-        { "age": 26, "amount": 6964 }, { "age": 27, "amount": 7218 }, { "age": 28, "amount": 7473 },
-        { "age": 29, "amount": 7727 }, { "age": 30, "amount": 7982 }, { "age": 31, "amount": 8236 },
-        { "age": 32, "amount": 8491 }, { "age": 33, "amount": 8745 }, { "age": 34, "amount": 9000 },
-        { "age": 35, "amount": 9255 }, { "age": 36, "amount": 9509 }, { "age": 37, "amount": 9764 },
-        { "age": 38, "amount": 10018 }, { "age": 39, "amount": 10273 }, { "age": 40, "amount": 10527 },
-        { "age": 41, "amount": 10782 }, { "age": 42, "amount": 11036 }, { "age": 43, "amount": 11291 },
-        { "age": 44, "amount": 11545 }, { "age": 45, "amount": 11800 }
+        {
+          "age": 23,
+          "amount": 6200
+        },
+        {
+          "age": 24,
+          "amount": 6455
+        },
+        {
+          "age": 25,
+          "amount": 6709
+        },
+        {
+          "age": 26,
+          "amount": 6964
+        },
+        {
+          "age": 27,
+          "amount": 7218
+        },
+        {
+          "age": 28,
+          "amount": 7473
+        },
+        {
+          "age": 29,
+          "amount": 7727
+        },
+        {
+          "age": 30,
+          "amount": 7982
+        },
+        {
+          "age": 31,
+          "amount": 8236
+        },
+        {
+          "age": 32,
+          "amount": 8491
+        },
+        {
+          "age": 33,
+          "amount": 8745
+        },
+        {
+          "age": 34,
+          "amount": 9000
+        },
+        {
+          "age": 35,
+          "amount": 9255
+        },
+        {
+          "age": 36,
+          "amount": 9509
+        },
+        {
+          "age": 37,
+          "amount": 9764
+        },
+        {
+          "age": 38,
+          "amount": 10018
+        },
+        {
+          "age": 39,
+          "amount": 10273
+        },
+        {
+          "age": 40,
+          "amount": 10527
+        },
+        {
+          "age": 41,
+          "amount": 10782
+        },
+        {
+          "age": 42,
+          "amount": 11036
+        },
+        {
+          "age": 43,
+          "amount": 11291
+        },
+        {
+          "age": 44,
+          "amount": 11545
+        },
+        {
+          "age": 45,
+          "amount": 11800
+        }
       ],
       "sources": [
         {
@@ -124,19 +382,105 @@
       "text": "From 1 Jan 2027 the financial services minimum rises to S$6,600 if you are 23 or below, and to S$12,700 at 45 or above. It applies to new applications from that date, and to renewals of passes expiring from 1 Jan 2028.",
       "who": "employer",
       "blocking": false,
-      "effective": { "from": "2027-01-01" },
+      "effective": {
+        "from": "2027-01-01"
+      },
       "currency": "SGD",
       "period": "month",
       "sector": "financial-services",
       "byAge": [
-        { "age": 23, "amount": 6600 }, { "age": 24, "amount": 6877 }, { "age": 25, "amount": 7155 },
-        { "age": 26, "amount": 7432 }, { "age": 27, "amount": 7709 }, { "age": 28, "amount": 7986 },
-        { "age": 29, "amount": 8264 }, { "age": 30, "amount": 8541 }, { "age": 31, "amount": 8818 },
-        { "age": 32, "amount": 9095 }, { "age": 33, "amount": 9373 }, { "age": 34, "amount": 9650 },
-        { "age": 35, "amount": 9927 }, { "age": 36, "amount": 10205 }, { "age": 37, "amount": 10482 },
-        { "age": 38, "amount": 10759 }, { "age": 39, "amount": 11036 }, { "age": 40, "amount": 11314 },
-        { "age": 41, "amount": 11591 }, { "age": 42, "amount": 11868 }, { "age": 43, "amount": 12145 },
-        { "age": 44, "amount": 12423 }, { "age": 45, "amount": 12700 }
+        {
+          "age": 23,
+          "amount": 6600
+        },
+        {
+          "age": 24,
+          "amount": 6877
+        },
+        {
+          "age": 25,
+          "amount": 7155
+        },
+        {
+          "age": 26,
+          "amount": 7432
+        },
+        {
+          "age": 27,
+          "amount": 7709
+        },
+        {
+          "age": 28,
+          "amount": 7986
+        },
+        {
+          "age": 29,
+          "amount": 8264
+        },
+        {
+          "age": 30,
+          "amount": 8541
+        },
+        {
+          "age": 31,
+          "amount": 8818
+        },
+        {
+          "age": 32,
+          "amount": 9095
+        },
+        {
+          "age": 33,
+          "amount": 9373
+        },
+        {
+          "age": 34,
+          "amount": 9650
+        },
+        {
+          "age": 35,
+          "amount": 9927
+        },
+        {
+          "age": 36,
+          "amount": 10205
+        },
+        {
+          "age": 37,
+          "amount": 10482
+        },
+        {
+          "age": 38,
+          "amount": 10759
+        },
+        {
+          "age": 39,
+          "amount": 11036
+        },
+        {
+          "age": 40,
+          "amount": 11314
+        },
+        {
+          "age": 41,
+          "amount": 11591
+        },
+        {
+          "age": 42,
+          "amount": 11868
+        },
+        {
+          "age": 43,
+          "amount": 12145
+        },
+        {
+          "age": 44,
+          "amount": 12423
+        },
+        {
+          "age": 45,
+          "amount": 12700
+        }
       ],
       "sources": [
         {
@@ -171,6 +515,33 @@
           "publisher": "Ministry of Manpower, Singapore",
           "retrievedOn": "2026-09-11",
           "quote": "Employers must continue to meet the Fair Consideration Framework (FCF) job advertising requirement before submitting new EP applications."
+        }
+      ]
+    },
+    {
+      "id": "processing-time",
+      "kind": "manual",
+      "text": "MOM says an online application is processed or given an update within 10 business days, and 6 weeks for most cases where the company has no Singapore-registered office. It also says an application may take longer than that.",
+      "who": "authority",
+      "blocking": false,
+      "sources": [
+        {
+          "url": "https://www.mom.gov.sg/passes-and-permits/employment-pass/apply-for-a-pass",
+          "publisher": "Ministry of Manpower, Singapore",
+          "retrievedOn": "2026-09-18",
+          "quote": "Processing time: Processed or given an update within 10 business days."
+        },
+        {
+          "url": "https://www.mom.gov.sg/passes-and-permits/employment-pass/apply-for-a-pass",
+          "publisher": "Ministry of Manpower, Singapore",
+          "retrievedOn": "2026-09-18",
+          "quote": "For overseas company without a Singapore-registered company: within 6 weeks for most cases."
+        },
+        {
+          "url": "https://www.mom.gov.sg/passes-and-permits/employment-pass/apply-for-a-pass",
+          "publisher": "Ministry of Manpower, Singapore",
+          "retrievedOn": "2026-09-18",
+          "quote": "Your processing time may take longer than 10 working days."
         }
       ]
     },
@@ -241,5 +612,5 @@
       ]
     }
   ],
-  "verified": { "by": "joshua", "on": "2026-09-18" }
+  "verified": null
 }
