@@ -120,7 +120,7 @@
     {
       "id": "bonus-listed-university",
       "kind": "manual",
-      "text": "Graduating from a university the Minister of Justice has listed is another bonus item, and that list is built from the same three world rankings J-Find uses.",
+      "text": "Graduating from a university the Minister of Justice has listed is another bonus item, and the agency asks you to check the latest three world university rankings as well, because its list was compiled from an earlier snapshot of them.",
       "who": "you",
       "blocking": false,
       "sources": [
@@ -182,7 +182,7 @@
     {
       "id": "spouse-can-work",
       "kind": "manual",
-      "text": "Your spouse can do work that would otherwise need its own education and career record.",
+      "text": "Your spouse can work under statuses such as Instructor or Engineer / Specialist in Humanities / International Services without meeting the education and career requirements those normally need.",
       "who": "authority",
       "blocking": false,
       "sources": [
@@ -190,8 +190,8 @@
           "url": "https://www.moj.go.jp/isa/applications/resources/newimmiact_3_preferential_index.html",
           "publisher": "Immigration Services Agency of Japan",
           "retrievedOn": "2026-09-12",
-          "quote": "高度外国人材の配偶者の場合は、学歴・職歴などの要件を満たさない場合でも、これらの在留資格に該当する活動を行うことができます。",
-          "translation": "In the case of the spouse of a highly skilled foreign professional, even where requirements such as academic background and work history are not met, they may carry out activities falling under these statuses of residence."
+          "quote": "配偶者としての在留資格をもって在留する外国人が、在留資格「教育」、「技術・人文知識・国際業務」などに該当する活動を行おうとする場合には、学歴・職歴などの一定の要件を満たし、これらの在留資格を取得する必要がありますが、高度外国人材の配偶者の場合は、学歴・職歴などの要件を満たさない場合でも、これらの在留資格に該当する活動を行うことができます。",
+          "translation": "Where a foreign national residing with a status of residence as a spouse intends to carry out activities falling under statuses of residence such as \"Instructor\" or \"Engineer / Specialist in Humanities / International Services\", they must meet certain requirements such as academic background and work history and obtain those statuses of residence; however, in the case of the spouse of a highly skilled foreign professional, they may carry out activities falling under those statuses of residence even where the academic background and work history requirements are not met."
         }
       ]
     },
