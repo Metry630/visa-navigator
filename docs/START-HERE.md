@@ -2,121 +2,94 @@
 
 Briefing for the next sessions. Read `CLAUDE.md` for the rules; this file is the order of work.
 
-## Where things stand (2026-09-12, end of day)
+## Run it from the right folder
 
-**10 routes, 89 requirements, 89 of 89 sourced, 5 of 10 stamped by a person.**
+There are five copies of this project on disk, one per stream, and `.review/state.json` is gitignored
+so it does **not** follow between them. `visa-navigator-r-jp` is the trap: it carries all ten routes
+and so looks like the finished project, but it sits on an old branch with no translations and none of
+the review progress. Always work in `~/kerjaan/lovable/visa-navigator`, on `main`. The four stream
+worktrees have all landed and can be deleted.
+
+## Where things stand (2026-09-18)
+
+**10 routes, 89 requirements, 89 of 89 sourced, 6 of 10 verified by a person.** 90 tests, typecheck
+and `check:data` green. Drift check: **126 of 126 quotes live**, 0 moved, 18 checked by hand.
 
 | Destination | Routes | Stamped |
 |---|---|---|
-| Singapore | Employment Pass, S Pass, EntrePass, Training Employment Pass, Work Holiday Pass, Work and Holiday Pass | 4 of 6 |
-| Japan | Working Holiday, Engineer/Specialist, J-Find, Highly Skilled Professional | 1 of 4 |
+| Singapore | Employment Pass, S Pass, EntrePass, Training Employment Pass, Work Holiday, Work and Holiday | **6 of 6, done** |
+| Japan | Working Holiday, Engineer/Specialist, J-Find, Highly Skilled Professional | 0 of 4 |
 
-`npm test` (68 tests), `npm run typecheck` and `npm run check:data` are green. CI on GitHub is green.
-Drift check: 102 quotes confirmed live, 0 moved, 18 checked by hand, 21 unreachable (all MOFA, see below).
-
-Streams C, R-SG, R-JP and D are all **done**. E and U are open.
+Streams C, R-SG, R-JP and D are done. U is running. E is open and is Joshua's.
 
 ### The publish gate
 
-`npm run check:data -- --release` errors on the five unstamped routes: `sg/employment-pass`,
-`sg/s-pass`, `jp/engineer-specialist`, `jp/jfind`, `jp/highly-skilled-professional`. Nothing publishes
-until all five carry a person's stamp. That is 50 requirements and it is the only thing between the
-project and a public URL.
+`npm run check:data -- --release` errors on the four Japan routes. Nothing publishes until all four
+carry a stamp. Working Holiday needs **one** requirement (`funds-for-initial-stay`, rewritten after it
+was first stamped); Engineer/Specialist needs 4 of 11; J-Find and Highly Skilled Professional are
+untouched at 9 and 11.
 
-### The first review landed (2026-09-12)
+### Approvals now carry a fingerprint
 
-Joshua reviewed all seven routes that existed at the time and stamped five. Three of his four comments
-were real findings and are fixed in `9f633b1`; the fourth agreed with the data. Full write-up in
-`docs/research/sg.md` and `docs/research/jp.md` under "Resolved from the 2026-09-12 review". The one
-that matters: the EP 2027 salary floor stated only half its own rule, since the quote covers new
-applications from 1 Jan 2027 **and** renewals of passes expiring from 1 Jan 2028, and the text named
-only the first. `check:data` could not have caught it, because it checks that numbers the user sees
-appear in a quote, not that everything in a quote reaches the user.
+An approval records a hash of the requirement it was given for, and an approval whose hash no longer
+matches the file is not an approval: the review page shows it as "needs re-reading" and the route
+loses its stamp. This exists because on 12 Sep a stamped route had a requirement rewritten underneath
+it and the stamp survived. See `scripts/review/fingerprint.ts`.
 
-### MOFA is blocking the fetcher
+### The Japanese quotes are translated
 
-Started 2026-09-12, site-wide, including `mofa.go.jp/index.html`. Browser user agent, Referer,
-HTTP/1.1 and a cookie jar all still get 403, while MOM returns 200 in the same run, so it is an IP
-block rather than drift. 21 quotes are affected, all on the Working Holiday route. The data is fine and
-the snapshots are in `.sources/`. Deliberately **not** marked `check: "manual"`, because that flag is
-for pages the fetcher can never read, not pages that blocked us. The weekly job will keep failing until
-this is decided. Written up as question 4 in `docs/research/jp.md`.
+43 quotes across the three newer Japan routes, each with a literal English rendering in
+`source.translation`. `check:data` errors on a CJK quote without one. They render in the review page
+and, since batch 1, on the public route pages too. Translating them caught five requirements whose
+English was broader than its source; see `docs/research/jp.md`.
+
+### MOFA is fine, and curl lies about it
+
+The 12 Sep "MOFA is blocking us" finding is over, and was also reached with the wrong instrument.
+`curl` still gets 403 from mofa.go.jp while Node's `fetch` gets 200 from the same machine. The drift
+check runs on Node, so `npm run check:sources` is the only probe that answers the question.
 
 ## Joshua's checkpoints
 
-1. ⭐ **Stamp the remaining five routes.** `npm run review`, then http://127.0.0.1:4178. J and K move,
-   A approves, R rejects, C comments. A route is stamped only when every requirement in it is approved.
-   50 requirements. Do Employment Pass and S Pass first: they are the two highest-traffic routes in the
-   discovery data and they unblock Singapore on its own.
-2. **Two Japan research questions**, both in `docs/research/jp.md`: whether the Highly Skilled
-   Professional points table gets transcribed by hand once (no machine-readable official source exists
-   for it), and what to do about the MOFA 403.
-3. **Decide the MOFA 403:** wait it out, slow the fetcher, or report a 403 differently from a moved
-   quote.
-4. **Stream E is yours** (TypeScript practice): new rule kinds, list in `docs/research/sg.md` and
-   `docs/research/jp.md` under "Needs a new kind". Four are queued; item 4 (new application versus
-   renewal) came out of your own review.
-5. **Before cancelling LinkedIn Premium,** check Lovable Settings → Plans for the Pro Lite end date.
-6. **Pints prep** this week: the TypeScript sections of the Udemy course.
+1. ⭐ **Stamp the four Japan routes.** `npm run review -- --by joshua`, then http://127.0.0.1:4178.
+   Working Holiday is one requirement. Every Japanese quote now has an English rendering under it.
+2. **Two Japan research questions** in `docs/research/jp.md`: whether the Highly Skilled Professional
+   points table gets transcribed by hand (recommendation: no, not until stream E has a points-test
+   rule kind, since a transcribed table is data nothing can evaluate), and whether the route detail
+   page should say out loud that a route was verified through a translation.
+3. **Stream E is yours**, whenever you want the TypeScript practice. Four rule kinds are queued in
+   `docs/research/sg.md` and `docs/research/jp.md`; item 4, new application versus renewal, came out
+   of your own review.
+4. **Before cancelling LinkedIn Premium,** check Lovable Settings → Plans for the Pro Lite end date.
 
-Settled 2026-09-12, no longer open: the name is **Visa Routes**.
+Settled: the name is **Visa Routes**.
 
-## What Lovable does next (stream U, from the main folder)
+## Lovable (stream U)
 
-Decided 2026-09-12. The problem being fixed is that Lovable had been used as a copy-editing service,
-5.7 credits of about 297 across four messages, while stream D's discovery produced a ranked list of five
-real user confusions and the UI answered roughly one of them. Credits are not the constraint. Three
-feature-sized batches, one message each, each answering something the discovery measured.
+10.4 credits spent of about 303. Credits have never been the constraint. Batches, one message each,
+logged in `docs/lovable-log.md`.
 
-**Batch 1: name, strapline, route library, SEO.** `set_project_knowledge` first, which costs nothing.
-Then one message: a `/routes` index built on the `listRoutes()` the engine already exports and the UI
-has never called, per-route meta and OG tags on `routes.$routeId.tsx`, and a `sitemap.xml` generated
-from `listRoutes()`. Discovery confusion #3 was people being told on Reddit that J-Find does not exist
-while others corrected them; nobody searching for that can currently reach this site.
-
-**Batch 2: results rework and sharing.** `results.tsx` renders a flat wall of equal cards with closed
-routes taking the same space as open ones, and no share affordance even though the profile is already
-in the URL. Order open first, collapse closed, add a share button, add a Singapore versus Japan
-summary. Every share URL goes through one module (`src/lib/share-link.ts`) so a backend could later
-issue short ids without any caller changing.
-
-**Batch 3: employer pack.** The largest measured confusion, 21 of 99 posts, biggest in both countries.
-A `/pack` route rendering only the `who: "employer"` checklist items for one route, each with its quote
-and "Retrieved <date>", written for someone who has never sponsored anyone, with a print stylesheet
-because it will be forwarded by email.
+- **Batch 1, landed `d1c0d36`, 4.7 credits.** Route library at `/routes` on `listRoutes()`,
+  translations under quotes, per-page titles and OG tags, the name and strapline made consistent.
+- **Batch 2, in flight.** Revert `SourceLink` to compact (batch 1 put full quotes on every `/results`
+  checklist line, which buries the page), a `/sitemap.xml` server route building absolute URLs from
+  the request origin, and the results rework: open routes first, closed ones collapsed, a copy-link
+  button through `src/lib/share-link.ts`, per-destination counts.
+- **Batch 3, queued: the employer pack.** The largest measured confusion, 21 of 99 coded posts,
+  biggest in both countries. A `/pack` route rendering only the `who: "employer"` checklist items for
+  one route, each with its quote and retrieved date, written for someone who has never sponsored
+  anyone, with a print stylesheet because it gets forwarded by email.
 
 Deferred: the rule-change feed. Not built: any backend. The frontend-only rule holds.
 
-Log every message in `docs/lovable-log.md`. Batch, and say "do all of this in one turn" in the request,
-because the agent has once replied with a plan and stopped, and that turn still cost.
-
-## Tabs to open
-
-Two or three at a time; they share one Claude plan. For each stream except U:
-
-```bash
-cd ~/kerjaan/lovable/visa-navigator && scripts/new-stream.sh <id>
-cd ../visa-navigator-<id> && claude
-```
-
-Then paste: **"Read CLAUDE.md, CLAUDE.local.md and docs/streams/<id>.md, then do that stream. Land
-with scripts/land.sh when every check is green."**
-
-| Stream | What it does | State |
-|---|---|---|
-| `c` | Drift check, CI, weekly cron, the review page | Landed |
-| `r-sg` | The Singapore routes as data files | Landed |
-| `d` | Discovery from public posts | Landed: 99 coded posts, five ranked confusions |
-| `r-jp` | The Japan routes as data files | Landed: all four routes |
-| `u` | UI through Lovable, from the main folder, no worktree | Next: the three batches above |
-| `e` | New rule kinds | Yours, whenever you want the TypeScript practice |
+Two things learned the hard way, both in `docs/lovable-log.md`: say *where* a change applies and not
+just what it is, and a refusal is sometimes worth arguing with.
 
 ## What each session inherits
 
-- **offload / `bulk-read`**: yes. `scripts/new-stream.sh` copies `.claude/skills/offload` and
-  `.claude/settings.local.json` into the worktree, because both are untracked and don't follow a worktree.
-- **The Lovable MCP**: yes, at user scope, so every session has it. Only stream U needs it.
-- **`.sources/` does not follow a worktree** and is gitignored. The Singapore snapshots are in
-  `visa-navigator-r-sg/.sources/`, the Japan ones in `visa-navigator-r-jp/.sources/`. Read quotes from
-  there rather than refetching, especially while MOFA is blocking.
-- A new worktree is a new folder, so the first `claude` there asks you to trust it.
+- **offload / `bulk-read` and `code-write`**: yes. Use `code-write` for a file that follows an
+  existing pattern closely, then **typecheck and read it**: vitest does not typecheck, and the last
+  two generated test files passed their tests while failing `tsc`.
+- **The Lovable MCP**: at user scope, so every session has it. Only stream U needs it.
+- **`.sources/` is gitignored and does not follow a worktree.** Read quotes from there rather than
+  refetching.
