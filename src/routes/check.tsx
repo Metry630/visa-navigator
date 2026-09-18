@@ -16,18 +16,22 @@ import { Label } from "@/components/ui/label";
 export const Route = createFileRoute("/check")({
   head: () => ({
     meta: [
-      { title: "Check your work visa options" },
+      { title: "Check your work visa options | Visa Routes" },
       {
         name: "description",
         content:
           "Answer a few short questions about your nationality, age, degree and experience to see the work visa routes open to you.",
       },
-      { property: "og:title", content: "Check your work visa options" },
+      { property: "og:title", content: "Check your work visa options | Visa Routes" },
       {
         property: "og:description",
         content: "A short form. Nothing is stored: your answers stay in the page address.",
       },
+      { property: "og:type", content: "website" },
+      { property: "og:url", content: "/check" },
+      { name: "twitter:card", content: "summary" },
     ],
+    links: [{ rel: "canonical", href: "/check" }],
   }),
   component: CheckPage,
 });

@@ -81,14 +81,12 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { title: "Visa Routes" },
       {
         name: "description",
-        content:
-          "Work visa routes for new graduates, with a checklist and an official source for every rule.",
+        content: "Work visa routes for new graduates, with every rule linked to its official source.",
       },
       { property: "og:title", content: "Visa Routes" },
       {
         property: "og:description",
-        content:
-          "Work visa routes for new graduates, with a checklist and an official source for every rule.",
+        content: "Work visa routes for new graduates, with every rule linked to its official source.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },

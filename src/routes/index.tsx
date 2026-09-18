@@ -4,19 +4,21 @@ import { Button } from "@/components/ui/button";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Visa Routes: work visa options after graduating" },
+      { title: "Visa Routes | Work visa routes for new graduates" },
       {
         name: "description",
-        content:
-          "Enter your nationality, age and degree to see which work visa routes in Singapore and Japan are open to you, with official sources.",
+        content: "Work visa routes for new graduates, with every rule linked to its official source.",
       },
-      { property: "og:title", content: "Visa Routes: work visa options after graduating" },
+      { property: "og:title", content: "Visa Routes | Work visa routes for new graduates" },
       {
         property: "og:description",
-        content:
-          "See which work visa routes are open, which depend on an employer and which are closed, with a link to every official rule.",
+        content: "Work visa routes for new graduates, with every rule linked to its official source.",
       },
+      { property: "og:type", content: "website" },
+      { property: "og:url", content: "/" },
+      { name: "twitter:card", content: "summary" },
     ],
+    links: [{ rel: "canonical", href: "/" }],
   }),
   component: Home,
 });

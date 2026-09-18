@@ -3,19 +3,23 @@ import { createFileRoute } from "@tanstack/react-router";
 export const Route = createFileRoute("/methodology")({
   head: () => ({
     meta: [
-      { title: "Methodology: how Visa Routes checks the rules" },
+      { title: "Methodology: how Visa Routes checks the rules | Visa Routes" },
       {
         name: "description",
         content:
           "Every rule on Visa Routes comes from an official government page, quotes its source, and is checked by a person and re-confirmed weekly.",
       },
-      { property: "og:title", content: "Methodology: how Visa Routes checks the rules" },
+      { property: "og:title", content: "Methodology: how Visa Routes checks the rules | Visa Routes" },
       {
         property: "og:description",
         content:
           "How rules are collected, quoted, verified by hand and re-confirmed against the live pages each week.",
       },
+      { property: "og:type", content: "article" },
+      { property: "og:url", content: "/methodology" },
+      { name: "twitter:card", content: "summary" },
     ],
+    links: [{ rel: "canonical", href: "/methodology" }],
   }),
   component: Methodology,
 });
