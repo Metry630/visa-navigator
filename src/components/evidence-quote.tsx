@@ -29,7 +29,13 @@ function QuoteText({ text, translation = false }: { text: string; translation?: 
   );
 }
 
-export function EvidenceQuote({ quote, translation }: { quote: string; translation?: string }) {
+export function EvidenceQuote({
+  quote,
+  translation,
+}: {
+  quote: string;
+  translation: string | undefined;
+}) {
   return (
     <>
       <QuoteText text={quote} />
