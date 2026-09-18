@@ -12,20 +12,27 @@ function QuoteText({ text, translation = false }: { text: string; translation?: 
   const opening = `${text.slice(0, LONG_QUOTE_LENGTH).trimEnd()}…`;
 
   return (
-    <details className="group quote-disclosure">
-      <summary className="cursor-pointer list-none marker:content-none [&::-webkit-details-marker]:hidden">
-        <span className={`${quoteClass} quote-preview block`}>{opening}</span>
-        <span className="quote-toggle mt-2 inline-block rounded-sm text-xs font-medium text-primary underline underline-offset-2">
-          <span className="group-open:hidden">Show the full quote</span>
-          <span className="hidden group-open:inline">Hide the full quote</span>
-        </span>
-      </summary>
+    <>
+      <details className="group quote-disclosure">
+        <summary className="cursor-pointer list-none marker:content-none [&::-webkit-details-marker]:hidden">
+          <span className={`${quoteClass} quote-preview block`}>{opening}</span>
+          <span className="quote-toggle mt-2 inline-block rounded-sm text-xs font-medium text-primary underline underline-offset-2">
+            <span className="group-open:hidden">Show the full quote</span>
+            <span className="hidden group-open:inline">Hide the full quote</span>
+          </span>
+        </summary>
+        {translation ? (
+          <p className={`${quoteClass} quote-full mt-2`}>{text}</p>
+        ) : (
+          <blockquote className={`${quoteClass} quote-full mt-2`}>{text}</blockquote>
+        )}
+      </details>
       {translation ? (
-        <p className={`${quoteClass} quote-full mt-2`}>{text}</p>
+        <p className={`${quoteClass} quote-print-full`}>{text}</p>
       ) : (
-        <blockquote className={`${quoteClass} quote-full mt-2`}>{text}</blockquote>
+        <blockquote className={`${quoteClass} quote-print-full`}>{text}</blockquote>
       )}
-    </details>
+    </>
   );
 }
 

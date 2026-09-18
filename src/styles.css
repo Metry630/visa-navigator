@@ -184,6 +184,10 @@
   max-width: 68ch;
 }
 
+.quote-print-full {
+  display: none;
+}
+
 /* The employer pack gets forwarded by email and printed to PDF. */
 @media print {
   body {
@@ -207,12 +211,11 @@
     page-break-inside: avoid;
   }
 
-  .quote-preview,
-  .quote-toggle {
+  details.quote-disclosure {
     display: none !important;
   }
 
-  details.quote-disclosure > .quote-full {
+  .quote-print-full {
     display: block !important;
   }
 }
