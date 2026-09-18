@@ -1,0 +1,5 @@
+blank_issues_enabled: true
+contact_links:
+  - name: How the rules are sourced and checked
+    url: https://github.com/Metry630/visa-navigator/blob/main/CONTRIBUTING.md
+    about: Why every rule needs a verbatim quote, and what a good contribution looks like.

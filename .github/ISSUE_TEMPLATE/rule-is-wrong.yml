@@ -1,0 +1,59 @@
+name: A rule is wrong
+description: A visa rule on the site does not match its official page, or the page has changed.
+title: "Rule is wrong: "
+labels: ["rule"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        This is the most useful kind of issue for this project, so thank you.
+
+        The one thing that makes it actionable is the official page. Every rule on the site carries a
+        source link and a "Retrieved" date, so the page it came from is one click from wherever you
+        saw the problem.
+  - type: input
+    id: route
+    attributes:
+      label: Which route
+      description: The name on the card, or the id from the URL, for example sg-employment-pass.
+      placeholder: sg-employment-pass
+    validations:
+      required: true
+  - type: input
+    id: requirement
+    attributes:
+      label: Which requirement
+      description: The sentence that is wrong, or its id if you know it.
+      placeholder: salary-floor-2027
+    validations:
+      required: false
+  - type: input
+    id: url
+    attributes:
+      label: The official page
+      description: A government or official scheme page. Law-firm guides, forums and news articles are useful leads but cannot be used as the source.
+      placeholder: https://www.mom.gov.sg/...
+    validations:
+      required: true
+  - type: textarea
+    id: says
+    attributes:
+      label: What the page says now
+      description: Paste the wording from the page, as it appears, rather than a summary of it. The exact words are what we need, because a dropped "or" or "such as" changes the rule.
+      render: text
+    validations:
+      required: true
+  - type: textarea
+    id: wrong
+    attributes:
+      label: What the site says, and why that is wrong
+      description: Optional. If the difference is subtle, say what it changes for someone reading it.
+    validations:
+      required: false
+  - type: checkboxes
+    id: confirm
+    attributes:
+      label: Before you post
+      options:
+        - label: The link above is a government or official scheme page, not a guide about one.
+          required: true
