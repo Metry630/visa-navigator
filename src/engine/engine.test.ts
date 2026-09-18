@@ -344,3 +344,45 @@ describe("JP catalogue", () => {
     }
   });
 });
+
+describe("a route the engine cannot evaluate is never closed", () => {
+  // The UI gained an "everything here is closed" notice on 2026-09-18, and it turns out to be
+  // unreachable: even for the worst profile the schema allows, every destination keeps at least one
+  // route on "depends". That is not an accident and it is the behaviour worth protecting. A route
+  // whose blocking requirements are all `manual` evaluates them to "unknown", and the engine closes
+  // on "unmet", never on "unknown". Telling someone a route is closed when nothing has actually been
+  // checked would be the same failure as telling them it is open.
+  //
+  // If this test ever fails, someone has made an unevaluatable requirement close a route. That may
+  // be correct, if a new rule kind now really can decide it, but it should be a decision rather than
+  // a side effect.
+  const worst: Profile = {
+    nationalities: ["ID"],
+    age: 17,
+    degree: "none",
+    yearsExperience: 0,
+    languages: [{ code: "en", level: "basic" }],
+    expectedSalary: { SG: 1, JP: 1 },
+  };
+
+  it("keeps an all-manual route at depends for the worst profile the schema allows", () => {
+    for (const destination of evaluate(worst, "2026-10-15")) {
+      const open = destination.routes.filter((r) => r.status !== "closed");
+      expect(open.length).toBeGreaterThan(0);
+      for (const route of open) {
+        const detail = getRoute(route.routeId)!;
+        const blocking = detail.requirements.filter((q) =>
+          route.checklist.some((c) => c.requirementId === q.id && c.outcome === "unknown"),
+        );
+        expect(blocking.length).toBeGreaterThan(0);
+        expect(route.status).toBe("depends");
+      }
+    }
+  });
+
+  it("never reports open for a profile that meets nothing", () => {
+    for (const destination of evaluate(worst, "2026-10-15")) {
+      expect(destination.routes.some((r) => r.status === "open")).toBe(false);
+    }
+  });
+});

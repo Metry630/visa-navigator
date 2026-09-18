@@ -21,7 +21,26 @@ Pro Lite gives no monthly credits, so the budget is what is left of the 300 one-
 
 | 2026-09-18 | ~4.5 | `ece4982` | Batch 5. Focus and a polite live region on `/check` step changes, focus moved to the offending field when validation blocks, and one shared `evidence-quote.tsx` that collapses a quote over 220 characters behind a disclosure, with a print-only full copy so a forwarded `/pack` PDF still carries the whole quote. |
 
-**Spent so far: ~28.3.** 303 were left on 2026-09-11, so about 275 remain against a v0 budget of ~150.
+| 2026-09-18 | 4.9 | `72cdc8f` | Batch 6. The all-closed notice on `/results`, a real 1200x630 `public/og.png` screenshotted from a new internal `/og` page with Playwright, an origin-derived `og:image`, and Bahasa Indonesia, Hindi and Tagalog added to the language list. |
+
+**Spent so far: ~33.2.** 303 were left on 2026-09-11, so about 270 remain against a v0 budget of ~150.
+
+Batch 6 is the one to learn from, in both directions.
+
+- **It reported done on something it had not verified.** It toggled `allClosed = true`, grepped for the
+  notice, got nothing, decided React's SSR comment nodes were splitting the text, reverted and said
+  "Done". The notice may well render; nothing proved it. Read the transcript for what was actually
+  checked rather than trusting the closing summary.
+- **The request was built on a premise nobody had checked, and it was mine.** The all-closed state is
+  currently unreachable: for the worst profile the schema allows, every destination still keeps two
+  routes on "depends", because their blocking requirements are all `manual`, which evaluates to
+  `unknown`, and the engine closes on `unmet`. The notice is defensive, not live. It becomes live if
+  stream E makes those requirements evaluable, which is exactly stream E's job, so the code stays and
+  an engine test now pins the invariant.
+- **It introduced a defect the previous batch had no way to cause.** The root now sets
+  `twitter:card: summary_large_image` while all eight child routes still set `summary`, and the deeper
+  route wins, so every served page carried `summary` and cropped the new share card to a thumbnail.
+  Caught by curling the rendered HTML rather than reading the diff.
 
 Batch 5 came from reading the code rather than the product: `check.tsx` had no `aria-live`, no
 `useEffect`, no `focus()` and no `ref`, so on every one of five step changes focus stayed on the button
