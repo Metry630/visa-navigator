@@ -2,6 +2,7 @@ import { createFileRoute, Link, redirect } from "@tanstack/react-router";
 import { Check, Copy } from "lucide-react";
 import { useMemo, useState } from "react";
 import { decodeProfile, evaluate, type RouteResult } from "@/engine";
+import { EvidenceQuote } from "@/components/evidence-quote";
 import { formatDate } from "@/components/format-date";
 import { Button } from "@/components/ui/button";
 import { buildPackLink } from "@/lib/share-link";
@@ -105,15 +106,7 @@ function PackPage() {
               <div className="mt-4 space-y-4">
                 {item.sources.map((s) => (
                   <div key={s.url + s.quote}>
-                    <blockquote className="border-l-2 border-primary pl-3 text-sm leading-relaxed text-muted-foreground italic">
-                      {s.quote}
-                    </blockquote>
-                    {s.translation && (
-                      <div className="mt-2 border-l-2 border-border pl-3 text-sm leading-relaxed text-muted-foreground">
-                        <p className="mb-1 text-xs font-medium">unofficial translation</p>
-                        <p>{s.translation}</p>
-                      </div>
-                    )}
+                    <EvidenceQuote quote={s.quote} translation={s.translation} />
                     <p className="mt-2 text-xs break-words text-muted-foreground">
                       {s.publisher}. Retrieved {formatDate(s.retrievedOn)}.{" "}
                       <a

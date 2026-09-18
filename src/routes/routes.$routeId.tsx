@@ -1,6 +1,7 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { ExternalLink } from "lucide-react";
 import { DESTINATIONS, getRoute, type Checker } from "@/engine";
+import { EvidenceQuote } from "@/components/evidence-quote";
 import { formatDate } from "@/components/format-date";
 
 export const Route = createFileRoute("/routes/$routeId")({
@@ -86,15 +87,7 @@ function RouteDetailPage() {
             <div className="mt-4 space-y-4">
               {req.sources.map((s) => (
                 <div key={s.url + s.quote}>
-                  <blockquote className="border-l-2 border-primary pl-3 text-sm leading-relaxed text-muted-foreground italic">
-                    {s.quote}
-                  </blockquote>
-                  {s.translation && (
-                    <div className="mt-2 border-l-2 border-border pl-3 text-sm leading-relaxed text-muted-foreground">
-                      <p className="mb-1 text-xs font-medium">unofficial translation</p>
-                      <p>{s.translation}</p>
-                    </div>
-                  )}
+                  <EvidenceQuote quote={s.quote} translation={s.translation} />
                   <p className="mt-2 text-xs text-muted-foreground">
                     {s.publisher}. Retrieved {formatDate(s.retrievedOn)}.{" "}
                     <a
