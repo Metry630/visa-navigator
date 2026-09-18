@@ -9,12 +9,15 @@ export function SiteHeader() {
         <Link to="/" className="font-serif text-lg font-semibold tracking-tight text-foreground">
           Visa Routes
         </Link>
-        <nav aria-label="Main" className="flex items-center gap-5">
+        <nav aria-label="Main" className="flex flex-wrap items-center gap-x-5 gap-y-2">
           <Link to="/check" className={linkClass} activeProps={{ className: "text-foreground" }}>
             Check
           </Link>
           <Link to="/routes" className={linkClass} activeProps={{ className: "text-foreground" }}>
             Routes
+          </Link>
+          <Link to="/changes" className={linkClass} activeProps={{ className: "text-foreground" }}>
+            Changes
           </Link>
           <Link
             to="/methodology"

@@ -51,6 +51,20 @@ function Home() {
         <Button asChild size="lg">
           <Link to="/check">Check my options</Link>
         </Button>
+        <div className="mt-4 flex flex-col items-start gap-2 text-sm sm:flex-row sm:gap-5">
+          <Link
+            to="/routes"
+            className="font-medium text-primary underline underline-offset-2"
+          >
+            Read the routes without answering anything
+          </Link>
+          <Link
+            to="/changes"
+            className="font-medium text-primary underline underline-offset-2"
+          >
+            See what is changing
+          </Link>
+        </div>
       </div>
 
       <ol className="mt-16 grid gap-6 sm:grid-cols-3">
