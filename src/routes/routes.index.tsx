@@ -5,7 +5,7 @@ import { DESTINATIONS, listRoutes } from "@/engine";
 const DESCRIPTION =
   "Work visa routes for new graduates, with every rule linked to its official source.";
 
-export const Route = createFileRoute("/routes")({
+export const Route = createFileRoute("/routes/")({
   head: () => ({
     meta: [
       { title: "Routes covered | Visa Routes" },
