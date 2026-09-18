@@ -40,7 +40,7 @@
     {
       "id": "qualifying-criterion",
       "kind": "manual",
-      "text": "You must also meet at least one of five criteria: funding raised, incubator or accelerator support, a technology business you founded and sold, registered intellectual property, or a research collaboration in Singapore.",
+      "text": "You must also meet at least one of five criteria: funding raised, incubator or accelerator support, a technology business you founded and sold, intellectual property registered with an approved national IP institution, or a research collaboration in Singapore.",
       "who": "you",
       "blocking": true,
       "sources": [
@@ -73,6 +73,12 @@
           "publisher": "Ministry of Manpower, Singapore",
           "retrievedOn": "2026-09-11",
           "quote": "Have a research collaboration in Singapore"
+        },
+        {
+          "url": "https://www.mom.gov.sg/passes-and-permits/entrepass/eligibility",
+          "publisher": "Ministry of Manpower, Singapore",
+          "retrievedOn": "2026-09-18",
+          "quote": "The registered business or proposed business holds Intellectual Property (IP) that is registered with an approved national IP institution ."
         }
       ]
     },
@@ -122,5 +128,5 @@
       ]
     }
   ],
-  "verified": { "by": "joshua", "on": "2026-09-12" }
+  "verified": null
 }

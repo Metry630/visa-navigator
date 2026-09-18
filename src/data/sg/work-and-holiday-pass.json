@@ -15,7 +15,10 @@
       "blocking": true,
       "mode": "allow",
       "listName": "Work and Holiday Visa Programme countries",
-      "codes": ["AU", "NZ"],
+      "codes": [
+        "AU",
+        "NZ"
+      ],
       "sources": [
         {
           "url": "https://www.mom.gov.sg/passes-and-permits/work-and-holiday-visa-programme/eligibility",
@@ -90,6 +93,12 @@
           "publisher": "Ministry of Manpower, Singapore",
           "retrievedOn": "2026-09-11",
           "quote": "Cannot take up free-lance employment."
+        },
+        {
+          "url": "https://www.mom.gov.sg/passes-and-permits/work-and-holiday-visa-programme/eligibility",
+          "publisher": "Ministry of Manpower, Singapore",
+          "retrievedOn": "2026-09-18",
+          "quote": "Work as employees of organisations registered with the Registry of Societies (ROS)."
         }
       ]
     },
@@ -109,5 +118,5 @@
       ]
     }
   ],
-  "verified": { "by": "joshua", "on": "2026-09-12" }
+  "verified": null
 }

@@ -99,7 +99,7 @@
     {
       "id": "regulated-professions",
       "kind": "manual",
-      "text": "To work in medicine, dentistry, pharmacy, architecture or law you must still meet the registration requirements to practise in Singapore.",
+      "text": "If you will be working in a profession such as medicine, dentistry, pharmacy, architecture or law, you must also meet the registration requirements to practise in Singapore.",
       "who": "authority",
       "blocking": false,
       "sources": [
@@ -112,5 +112,5 @@
       ]
     }
   ],
-  "verified": { "by": "joshua", "on": "2026-09-12" }
+  "verified": null
 }
