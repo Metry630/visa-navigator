@@ -17,7 +17,14 @@ Pro Lite gives no monthly credits, so the budget is what is left of the 300 one-
 
 | 2026-09-18 | ~4.5 | `7ffa259` | Batch 3. The employer pack at `/pack?p=&route=`, employer-only checklist items with quotes and translations, a print stylesheet, "Send this to your employer" on the results cards that have employer items, `share-link.ts` extended with `buildPackLink`, and `robots.txt` moved to a server route so its Sitemap line is an absolute URL. |
 
-**Spent so far: ~19.3.** 303 were left on 2026-09-11, so about 284 remain against a v0 budget of ~150.
+| 2026-09-18 | ~4.5 | `363360e` | Batch 4. A `/changes` page built from the `effective` dates, split into rules already in force and rules coming, each with its quote and translation. Home-page links to `/routes` and `/changes`. Methodology rewritten on two points: what the translations are, and what the weekly check actually does. `/changes` added to the sitemap. |
+
+**Spent so far: ~23.8.** 303 were left on 2026-09-11, so about 279 remain against a v0 budget of ~150.
+
+Batch 4 needed no correction, which is what the project knowledge and the `ship-check` skill are for:
+the agent used `listRoutes()` and `getRoute()` rather than hardcoding, computed "past" and "future"
+against render-time date, showed translations under originals, and described the weekly check exactly
+as the code behaves, including that an unreachable page is not treated as a changed rule.
 
 A third thing worth knowing: **the first attempt at batch 3 never reached Lovable.** The MCP call
 gave up after 300s of silence and the agent never started, so nothing was charged and nothing was

@@ -16,8 +16,14 @@ leaves the branches alone.
 
 ## Where things stand (2026-09-18)
 
-**10 routes, 89 requirements, 89 of 89 sourced, 6 of 10 verified by a person.** 90 tests, typecheck
-and `check:data` green. Drift check: **126 of 126 quotes live**, 0 moved, 18 checked by hand.
+**10 routes, 93 requirements, 93 of 93 sourced, 4 of 10 verified by a person.** 92 tests, typecheck
+and `check:data` green. Drift check: **135 of 135 quotes live**, 0 moved, 18 checked by hand.
+
+The verified count went down on purpose. Four processing-time requirements were added, and an audit of
+the Singapore routes found three requirements whose text did not match its own sources. Six routes now
+need one requirement re-read each, which the review page marks as "needs re-reading" and names. The
+remaining work is **27 requirements**: three Singapore routes at one each, plus Engineer/Specialist 3,
+J-Find 10 and Highly Skilled Professional 11.
 
 | Destination | Routes | Stamped |
 |---|---|---|
