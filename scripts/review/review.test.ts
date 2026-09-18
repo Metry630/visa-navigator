@@ -6,7 +6,7 @@ import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import { RouteSchema, type Route } from "../../src/engine/schema";
 import { fingerprint, isApproved, isStale } from "./fingerprint";
-import { renderPage } from "./page";
+import { renderPage, type Note } from "./page";
 import { writeVerified } from "./store";
 
 const route: Route = RouteSchema.parse({
@@ -221,5 +221,35 @@ describe("renderPage with a stale approval", () => {
     );
     expect(html).toContain("1 / 1 approved");
     expect(html).not.toContain("Changed since you approved it");
+  });
+});
+
+describe("a stamp cannot outlive the approvals behind it", () => {
+  const req = route.requirements[0]!;
+
+  // `decide` recomputes only the route that was just acted on, so without a sweep a stamped route
+  // whose text changed keeps saying a person verified it. This is the 12 Sep bug with an extra step.
+  it("a stale approval stops the route counting as complete", () => {
+    const stamped: Route = { ...route, verified: { by: "joshua", on: "2026-09-12" } };
+    const state: Record<string, Record<string, Note>> = {
+      "sg-test-route": {
+        salary: { decision: "approve", on: "2026-09-12", comments: [], hash: "stale" },
+      },
+    };
+    const notes = state["sg-test-route"]!;
+    const complete = stamped.requirements.every((r) => isApproved(notes[r.id], r));
+    expect(complete).toBe(false);
+    expect(stamped.verified).not.toBeNull();
+    // The two disagree, which is exactly what clearUnjustifiedStamps looks for on startup.
+  });
+
+  it("a matching approval leaves the route complete", () => {
+    const state: Record<string, Record<string, Note>> = {
+      "sg-test-route": {
+        salary: { decision: "approve", on: "2026-09-12", comments: [], hash: fingerprint(req) },
+      },
+    };
+    const notes = state["sg-test-route"]!;
+    expect(route.requirements.every((r) => isApproved(notes[r.id], r))).toBe(true);
   });
 });

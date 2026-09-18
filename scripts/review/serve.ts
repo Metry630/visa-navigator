@@ -10,7 +10,7 @@
 // requirement stays unverified.
 import { createServer } from "node:http";
 import { renderPage } from "./page";
-import { decide, loadRoutes, loadState, type Body } from "./store";
+import { clearUnjustifiedStamps, decide, loadRoutes, loadState, type Body } from "./store";
 
 function arg(name: string, fallback: string): string {
   const i = process.argv.indexOf(`--${name}`);
@@ -55,6 +55,11 @@ const server = createServer((req, res) => {
 });
 
 server.listen(port, "127.0.0.1", () => {
+  for (const id of clearUnjustifiedStamps()) {
+    console.warn(
+      `unstamped ${id}: its rules changed after it was verified, so it needs re-reading`,
+    );
+  }
   const routes = loadRoutes();
   const reqs = routes.reduce((n, r) => n + r.route.requirements.length, 0);
   console.log(`review page: http://127.0.0.1:${port}`);

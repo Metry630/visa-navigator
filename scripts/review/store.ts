@@ -88,6 +88,31 @@ export function writeVerified(file: string, value: { by: string; on: string } | 
   );
 }
 
+/**
+ * Clears any stamp that is no longer justified by the approvals on disk.
+ *
+ * `decide` recomputes a route's stamp, but only for the route someone just acted on. So a stamp
+ * could outlive the approvals behind it: edit a requirement on a stamped route and the fingerprints
+ * stop matching, yet the file goes on saying a person verified it until someone happens to press a
+ * key on that route. That is the 2026-09-12 bug with an extra step, so the server closes it on
+ * startup.
+ *
+ * Only ever removes a stamp. Adding one stays a thing the maintainer does by hand, because a stamp
+ * means a person read the rule, and nothing here can know that.
+ */
+export function clearUnjustifiedStamps(): string[] {
+  const state = loadState();
+  const cleared: string[] = [];
+  for (const { file, route } of loadRoutes()) {
+    if (!route.verified) continue;
+    const forRoute = state[route.id] ?? {};
+    if (route.requirements.every((r) => isApproved(forRoute[r.id], r))) continue;
+    writeVerified(file, null);
+    cleared.push(route.id);
+  }
+  return cleared;
+}
+
 export interface Body {
   routeId?: string;
   requirementId?: string;
