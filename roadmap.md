@@ -1,5 +1,6 @@
-- [ ] Add browseable route library and header link
-- [ ] Show source translations wherever quotes appear
-- [ ] Add route-specific metadata and generated sitemap
-- [ ] Standardize Visa Routes naming and strapline
-- [ ] Validate routes, metadata, sitemap, and responsive UI
+- [x] Add browseable route library and header link
+- [x] Show source translations wherever quotes appear
+- [x] Add route-specific metadata
+- [ ] Add generated sitemap and robots.txt directive (blocked: no published or custom public URL exists)
+- [x] Standardize Visa Routes naming and strapline
+- [x] Validate routes, metadata, translations, and responsive layout
