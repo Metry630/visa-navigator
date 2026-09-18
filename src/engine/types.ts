@@ -34,8 +34,14 @@ export interface Source {
   publisher: string;
   /** YYYY-MM-DD */
   retrievedOn: string;
-  /** Verbatim excerpt from the page. */
+  /** Verbatim excerpt from the page, in the language the page is written in. */
   quote: string;
+  /**
+   * Unofficial literal English rendering, present whenever `quote` is not in English. Show it under
+   * the quote, labelled as unofficial, never in place of it. Most Japan routes are sourced from
+   * Japanese pages, so without this the route pages are unreadable to an English-speaking reader.
+   */
+  translation?: string;
 }
 
 export interface ChecklistItem {

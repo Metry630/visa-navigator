@@ -151,7 +151,7 @@
     {
       "id": "certificate-of-eligibility",
       "kind": "manual",
-      "text": "Coming from outside Japan means a Certificate of Eligibility is applied for first, and you use it to get the visa.",
+      "text": "Applying from outside Japan means getting a Certificate of Eligibility first, which proves you meet the conditions for landing. You then show it when you apply for the visa at a Japanese embassy or consulate.",
       "who": "employer",
       "blocking": false,
       "sources": [
@@ -159,15 +159,22 @@
           "url": "https://www.moj.go.jp/isa/applications/status/gijinkoku.html",
           "publisher": "Immigration Services Agency of Japan",
           "retrievedOn": "2026-09-12",
-          "quote": "在留資格認定証明書交付申請",
-          "translation": "Application for issuance of a Certificate of Eligibility"
-        },
-        {
-          "url": "https://www.moj.go.jp/isa/applications/status/gijinkoku.html",
-          "publisher": "Immigration Services Agency of Japan",
-          "retrievedOn": "2026-09-12",
           "quote": "新しくこの在留資格で日本への入国を希望する場合の申請です。",
           "translation": "This is the application for those who wish to newly enter Japan under this status of residence."
+        },
+        {
+          "url": "https://www.moj.go.jp/isa/applications/procedures/16-1.html",
+          "publisher": "Immigration Services Agency of Japan",
+          "retrievedOn": "2026-09-18",
+          "quote": "日本に入国しようとする外国人の方が、日本で行おうとする活動内容がいずれかの在留資格（「短期滞在」及び「永住者」を除く）に該当するものである等の上陸のための条件に適合していることを証明するために、入国前にあらかじめ行う申請です。",
+          "translation": "An application made in advance, before entry, by a foreign national intending to enter Japan, in order to prove that the content of the activity they intend to carry out in Japan falls under one of the statuses of residence (excluding \"Temporary Visitor\" and \"Permanent Resident\"), and that they meet the conditions for landing."
+        },
+        {
+          "url": "https://www.moj.go.jp/isa/applications/procedures/16-1.html",
+          "publisher": "Immigration Services Agency of Japan",
+          "retrievedOn": "2026-09-18",
+          "quote": "なお、交付された在留資格認定証明書は、在外公館における査証申請や上陸申請の際に提出・提示することにより、速やかに査証発給や上陸許可を受けることができます。",
+          "translation": "Furthermore, by submitting or presenting the issued Certificate of Eligibility when applying for a visa at an overseas diplomatic mission, or when applying for landing, a visa can be issued and landing permission obtained promptly."
         }
       ]
     },

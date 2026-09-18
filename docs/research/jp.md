@@ -172,21 +172,21 @@ the four rule kinds stream E would need to make the JP routes decide more from t
 3. "Within N years of graduating" (J-Find).
 4. A flat salary floor with no age table (Highly Skilled Professional).
 
-## MOFA is blocking the fetcher (2026-09-12)
+## The MOFA block has lifted, and curl was the wrong probe (updated 2026-09-18)
 
-`npm run check:sources` came back with 21 unreachable quotes, every one of them on
-https://www.mofa.go.jp/j_info/visit/w_holiday/index.html, all HTTP 403. It is not the user agent and not
-that page: plain `curl` with a browser user agent gets 403 from https://www.mofa.go.jp/ itself, while MOM
-returns 200 in the same run. So MOFA is refusing this network, and it started today, since the snapshot in
-`.sources/jp-working-holiday.txt` was fetched successfully this morning.
+On 12 Sep `check:sources` reported 21 unreachable quotes, all MOFA, all HTTP 403. That was real: the
+drift check runs on Node's `fetch` and Node was getting 403 too. It was deliberately not papered over
+with `check: "manual"`, since that flag is for pages the fetcher can never read.
 
-Deliberately **not** marking those 21 sources `"check": "manual"`. That flag is for pages the fetcher can
-never read, and using it here would quietly switch drift detection off for the whole route over what looks
-like an IP block. The weekly cron will say whether it has lifted. If it is still 403 next week, the honest
-move is `manual` on the MOFA sources plus a note on the route that the source has to be re-read by hand.
+As of 18 Sep it is over. `check:sources` reports **126 of 126 quotes live, 0 unreachable**, MOFA
+included.
 
-This does not block stream R-JP: snapshots for all four remaining Japan routes are already saved in
-`visa-navigator-r-jp/.sources/`. It does mean a new MOFA page cannot be fetched until the block lifts.
+Worth recording how the diagnosis went wrong, because it will be repeated otherwise. Both the R-JP
+session and this one "confirmed" an IP block with `curl`, and `curl` still gets 403 from mofa.go.jp
+today while Node's `fetch` gets 200 from the same machine in the same minute. So curl's result says
+nothing about whether the drift check can read MOFA: different TLS fingerprint and different default
+headers. **Diagnose the fetcher with the fetcher.** `scripts/page-text.ts` is the thing that runs, so
+`npm run check:sources` is the only probe that answers the question.
 
 ## Resolved from the 2026-09-12 review
 

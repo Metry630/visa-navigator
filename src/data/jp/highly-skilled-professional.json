@@ -10,7 +10,7 @@
     {
       "id": "seventy-points",
       "kind": "manual",
-      "text": "Your points have to add up to 70 or more.",
+      "text": "Your points have to reach 70, which is the score that grants the immigration privileges this status carries.",
       "who": "authority",
       "blocking": true,
       "sources": [
