@@ -4,6 +4,13 @@
 // Sources marked `"check": "manual"` are skipped. Those are PDFs and JavaScript-rendered pages the
 // fetcher can't read as text; a person re-reads them when the route is next verified.
 //
+// A moved quote and an unreachable page are not the same finding, and this used to exit 1 for both.
+// A moved quote means the rule may have changed and a person has to re-read it. An unreachable page
+// means we could not tell, which is often the publisher rate-limiting us and often over within days:
+// MOFA refused this fetcher for six days in September 2026 and then stopped. Failing the weekly run
+// for that trains everyone to ignore it, and the issue it opened said quotes had moved when none had.
+// So only a moved quote is a failure; unreachable pages are reported and exit 0.
+//
 //   npm run check:sources
 //   npm run check:sources -- --json .sources/last-check.json   # also write the counts for the README
 import { mkdirSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
@@ -53,6 +60,15 @@ for (const s of skipped) console.log(`skipped     ${s}`);
 const checked = found + missing.length + unreachable.length;
 const line = `quotes live ${found}/${checked} · pages fetched ${pages.size} · skipped (manual) ${skipped.length}`;
 console.log(line);
+// Machine-readable, so CI can tell the two findings apart without parsing the prose above.
+console.log(`result moved=${missing.length} unreachable=${unreachable.length} skipped=${skipped.length} live=${found}`);
+if (unreachable.length && !missing.length) {
+  console.log(
+    `note: ${unreachable.length} quote(s) could not be checked because their page did not answer. ` +
+      `That is not drift, and no quote has moved. If it is still failing next week, re-read those ` +
+      `pages by hand or mark them "check": "manual".`,
+  );
+}
 
 if (jsonOut) {
   mkdirSync(dirname(jsonOut), { recursive: true });
@@ -73,4 +89,4 @@ if (jsonOut) {
   );
 }
 
-process.exit(missing.length || unreachable.length ? 1 : 0);
+process.exit(missing.length ? 1 : 0);

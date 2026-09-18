@@ -15,7 +15,14 @@ Pro Lite gives no monthly credits, so the budget is what is left of the 300 one-
 | 2026-09-18 | 4.4 | `e0b91a7` | Batch 2. `SourceLink` reverted to compact, `/sitemap.xml` served from a server route that builds absolute URLs from the request origin, results sorted open first with closed routes collapsed, per-destination counts, a copy-link button through `src/lib/share-link.ts`, degree capitalised. |
 | 2026-09-18 | 0 | `83a8b42` | Workspace skill `ship-check`: what to verify before calling a UI change done. Costs nothing and keeps the verification bar out of every message. |
 
-**Spent so far: 14.8.** 303 were left on 2026-09-11, so about 288 remain against a v0 budget of ~150.
+| 2026-09-18 | ~4.5 | `7ffa259` | Batch 3. The employer pack at `/pack?p=&route=`, employer-only checklist items with quotes and translations, a print stylesheet, "Send this to your employer" on the results cards that have employer items, `share-link.ts` extended with `buildPackLink`, and `robots.txt` moved to a server route so its Sitemap line is an absolute URL. |
+
+**Spent so far: ~19.3.** 303 were left on 2026-09-11, so about 284 remain against a v0 budget of ~150.
+
+A third thing worth knowing: **the first attempt at batch 3 never reached Lovable.** The MCP call
+gave up after 300s of silence and the agent never started, so nothing was charged and nothing was
+built. Resending with `wait: false` returned immediately and the agent ran fine. Use `wait: false`
+for anything large and poll the repository for the commit.
 
 Two things worth knowing from batch 1:
 

@@ -1,6 +1,11 @@
 # Weekly drift check: official pages change without notice, so every quote is re-read from its live
-# page. On failure this opens (or updates) one issue listing the quotes that have moved. It never
-# edits the data; a person decides what the page now says.
+# page. It never edits the data; a person decides what the page now says.
+#
+# Two findings, kept apart on purpose. A **moved quote** means the rule may have changed, so it opens
+# an issue and fails the run. An **unreachable page** means the check could not tell, which is usually
+# the publisher rate-limiting the fetcher and often over within days. That gets its own issue and does
+# not fail the run: failing weekly for something that fixes itself teaches everyone to ignore the
+# alarm, and the issue used to say quotes had moved when none had.
 #
 # Installs with bun for the same reason as ci.yml: bun.lock is the committed lockfile.
 name: Sources
@@ -38,10 +43,14 @@ jobs:
         shell: bash
         run: |
           set -o pipefail
-          npm run -s check:sources 2>&1 | tee drift.txt
+          npm run -s check:sources -- --json drift.json 2>&1 | tee drift.txt
+          # Counts come from the JSON rather than the prose, so the two findings stay separable
+          # even if the report wording changes.
+          echo "moved=$(jq -r .missing drift.json)" >> "$GITHUB_OUTPUT"
+          echo "unreachable=$(jq -r .unreachable drift.json)" >> "$GITHUB_OUTPUT"
 
       - name: Open an issue when quotes have moved
-        if: steps.check.outcome == 'failure'
+        if: steps.check.outputs.moved != '0' && steps.check.outputs.moved != ''
         uses: actions/github-script@v7
         with:
           script: |
@@ -49,7 +58,7 @@ jobs:
             const report = fs.readFileSync("drift.txt", "utf8").trim();
             const title = "Source drift: quotes are no longer on their official pages";
             const body = [
-              `The weekly check found quotes that are no longer on the live page, or pages it could not reach.`,
+              `The weekly check found ${{ steps.check.outputs.moved }} quote(s) that are no longer on their live page.`,
               ``,
               "```",
               report.slice(0, 55000),
@@ -71,6 +80,41 @@ jobs:
               await github.rest.issues.create({ ...context.repo, title, body });
             }
 
-      - name: Fail the run when quotes have moved
-        if: steps.check.outcome == 'failure'
+      - name: Note the pages that could not be reached
+        if: steps.check.outputs.unreachable != '0' && steps.check.outputs.unreachable != ''
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require("fs");
+            const report = fs.readFileSync("drift.txt", "utf8").trim();
+            const title = "Source check could not reach some pages";
+            const body = [
+              `${{ steps.check.outputs.unreachable }} quote(s) could not be checked because their page did not answer.`,
+              `**No quote has moved.** This is usually the publisher refusing the fetcher rather than a rule changing,`,
+              `and it has cleared on its own before: MOFA refused this fetcher for six days in September 2026.`,
+              ``,
+              "```",
+              report.slice(0, 55000),
+              "```",
+              ``,
+              `If it is still here next week, either re-read those pages by hand and re-verify their routes, or mark`,
+              `the sources \`"check": "manual"\` so the drift check stops trying. Diagnose with`,
+              `\`npm run check:sources\` and not with curl: MOFA answers Node's fetch and refuses curl, so curl`,
+              `cannot tell you whether the check can read a page.`,
+              ``,
+              `[Run](${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId})`,
+            ].join("\n");
+
+            const open = await github.rest.issues.listForRepo({
+              ...context.repo, state: "open", per_page: 100,
+            });
+            const existing = open.data.find((i) => i.title === title && !i.pull_request);
+            if (existing) {
+              await github.rest.issues.createComment({ ...context.repo, issue_number: existing.number, body });
+            } else {
+              await github.rest.issues.create({ ...context.repo, title, body });
+            }
+
+      - name: Fail the run only when quotes have moved
+        if: steps.check.outputs.moved != '0' && steps.check.outputs.moved != ''
         run: exit 1
