@@ -13,6 +13,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as ChangesRouteImport } from './routes/changes'
 import { Route as CheckRouteImport } from './routes/check'
 import { Route as MethodologyRouteImport } from './routes/methodology'
+import { Route as OgRouteImport } from './routes/og'
 import { Route as PackRouteImport } from './routes/pack'
 import { Route as ResultsRouteImport } from './routes/results'
 import { Route as RobotsDottxtRouteImport } from './routes/robots[.]txt'
@@ -39,6 +40,11 @@ const CheckRoute = CheckRouteImport.update({
 const MethodologyRoute = MethodologyRouteImport.update({
   id: '/methodology',
   path: '/methodology',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OgRoute = OgRouteImport.update({
+  id: '/og',
+  path: '/og',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PackRoute = PackRouteImport.update({
@@ -82,6 +88,7 @@ export interface FileRoutesByFullPath {
   '/changes': typeof ChangesRoute
   '/check': typeof CheckRoute
   '/methodology': typeof MethodologyRoute
+  '/og': typeof OgRoute
   '/pack': typeof PackRoute
   '/results': typeof ResultsRoute
   '/robots.txt': typeof RobotsDottxtRoute
@@ -95,6 +102,7 @@ export interface FileRoutesByTo {
   '/changes': typeof ChangesRoute
   '/check': typeof CheckRoute
   '/methodology': typeof MethodologyRoute
+  '/og': typeof OgRoute
   '/pack': typeof PackRoute
   '/results': typeof ResultsRoute
   '/robots.txt': typeof RobotsDottxtRoute
@@ -108,6 +116,7 @@ export interface FileRoutesById {
   '/changes': typeof ChangesRoute
   '/check': typeof CheckRoute
   '/methodology': typeof MethodologyRoute
+  '/og': typeof OgRoute
   '/pack': typeof PackRoute
   '/results': typeof ResultsRoute
   '/robots.txt': typeof RobotsDottxtRoute
@@ -123,6 +132,7 @@ export interface FileRouteTypes {
     | '/changes'
     | '/check'
     | '/methodology'
+    | '/og'
     | '/pack'
     | '/results'
     | '/robots.txt'
@@ -136,6 +146,7 @@ export interface FileRouteTypes {
     | '/changes'
     | '/check'
     | '/methodology'
+    | '/og'
     | '/pack'
     | '/results'
     | '/robots.txt'
@@ -148,6 +159,7 @@ export interface FileRouteTypes {
     | '/changes'
     | '/check'
     | '/methodology'
+    | '/og'
     | '/pack'
     | '/results'
     | '/robots.txt'
@@ -162,6 +174,7 @@ export interface RootRouteChildren {
   ChangesRoute: typeof ChangesRoute
   CheckRoute: typeof CheckRoute
   MethodologyRoute: typeof MethodologyRoute
+  OgRoute: typeof OgRoute
   PackRoute: typeof PackRoute
   ResultsRoute: typeof ResultsRoute
   RobotsDottxtRoute: typeof RobotsDottxtRoute
@@ -197,6 +210,13 @@ declare module '@tanstack/react-router' {
       path: '/methodology'
       fullPath: '/methodology'
       preLoaderRoute: typeof MethodologyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/og': {
+      id: '/og'
+      path: '/og'
+      fullPath: '/og'
+      preLoaderRoute: typeof OgRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/pack': {
@@ -269,6 +289,7 @@ const rootRouteChildren: RootRouteChildren = {
   ChangesRoute: ChangesRoute,
   CheckRoute: CheckRoute,
   MethodologyRoute: MethodologyRoute,
+  OgRoute: OgRoute,
   PackRoute: PackRoute,
   ResultsRoute: ResultsRoute,
   RobotsDottxtRoute: RobotsDottxtRoute,

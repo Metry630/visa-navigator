@@ -46,9 +46,12 @@ const DEGREES: { value: DegreeLevel; label: string }[] = [
 
 const LANGUAGES: { code: string; name: string }[] = [
   { code: "en", name: "English" },
-  { code: "ja", name: "Japanese" },
+  { code: "id", name: "Bahasa Indonesia" },
   { code: "zh", name: "Chinese" },
+  { code: "hi", name: "Hindi" },
+  { code: "ja", name: "Japanese" },
   { code: "ms", name: "Malay" },
+  { code: "tl", name: "Tagalog" },
   { code: "ta", name: "Tamil" },
 ];
 

@@ -212,6 +212,40 @@ function RouteCard({ route, p }: { route: RouteResult; p: string }) {
   );
 }
 
+function NothingOpen({ name }: { name: string }) {
+  return (
+    <div className="mt-4 rounded-lg border border-border bg-surface p-4 sm:p-5">
+      <h3 className="text-base font-semibold">No route in {name} is open for these answers.</h3>
+      <p className="prose-measure mt-2 text-sm text-muted-foreground">
+        Every route below is closed. Open a route to read the reason it gives, and the rule it comes
+        from.
+      </p>
+      <ul className="prose-measure mt-3 space-y-2 text-sm text-muted-foreground">
+        <li>
+          Rules change. A rule that closes a route today may not next January.{" "}
+          <Link
+            to="/changes"
+            className="rounded-sm text-primary underline underline-offset-2 hover:text-foreground"
+          >
+            See what is changing
+          </Link>
+          .
+        </li>
+        <li>
+          You can read every rule without answering anything.{" "}
+          <Link
+            to="/routes"
+            className="rounded-sm text-primary underline underline-offset-2 hover:text-foreground"
+          >
+            Read the routes
+          </Link>
+          .
+        </li>
+      </ul>
+    </div>
+  );
+}
+
 function Results() {
   const { p } = Route.useSearch();
   const [copied, setCopied] = useState(false);
@@ -272,16 +306,21 @@ function Results() {
       </div>
 
       <div className="mt-10 space-y-12">
-        {sortedResults.map((destination) => (
-          <section key={destination.destination}>
-            <h2 className="text-2xl font-semibold">{destination.name}</h2>
-            <div className="mt-4 space-y-5">
-              {destination.routes.map((route) => (
-                <RouteCard key={route.routeId} route={route} p={p} />
-              ))}
-            </div>
-          </section>
-        ))}
+        {sortedResults.map((destination) => {
+          if (destination.routes.length === 0) return null;
+          const allClosed = destination.routes.every((route) => route.status === "closed");
+          return (
+            <section key={destination.destination}>
+              <h2 className="text-2xl font-semibold">{destination.name}</h2>
+              {allClosed && <NothingOpen name={destination.name} />}
+              <div className="mt-4 space-y-5">
+                {destination.routes.map((route) => (
+                  <RouteCard key={route.routeId} route={route} p={p} />
+                ))}
+              </div>
+            </section>
+          );
+        })}
       </div>
     </div>
   );
