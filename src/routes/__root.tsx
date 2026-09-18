@@ -12,6 +12,7 @@ import { useEffect, type ReactNode } from "react";
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { SiteFooter, SiteHeader } from "../components/site-chrome";
+import { resolveOrigin } from "../lib/site-origin.functions";
 
 function NotFoundComponent() {
   return (
@@ -93,6 +94,12 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      ...(loaderData?.origin
+        ? [
+            { property: "og:image", content: new URL("/og.png", loaderData.origin).href },
+            { name: "twitter:image", content: new URL("/og.png", loaderData.origin).href },
+          ]
+        : []),
     ],
     links: [
       {
