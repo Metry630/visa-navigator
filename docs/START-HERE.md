@@ -4,11 +4,15 @@ Briefing for the next sessions. Read `CLAUDE.md` for the rules; this file is the
 
 ## Run it from the right folder
 
-There are five copies of this project on disk, one per stream, and `.review/state.json` is gitignored
-so it does **not** follow between them. `visa-navigator-r-jp` is the trap: it carries all ten routes
-and so looks like the finished project, but it sits on an old branch with no translations and none of
-the review progress. Always work in `~/kerjaan/lovable/visa-navigator`, on `main`. The four stream
-worktrees have all landed and can be deleted.
+There are five copies of this project on disk, one per stream, and both `.review/state.json` and
+`.sources/` are gitignored, so neither follows between them. `visa-navigator-r-jp` is the trap: it
+carries all ten routes and so looks like the finished project, but it sits on an old branch with no
+translations and none of the review progress. Always work in `~/kerjaan/lovable/visa-navigator`, on
+`main`.
+
+All four stream branches have landed and every source snapshot has been copied into main, so the four
+worktrees hold nothing that main does not. They are safe to remove with `git worktree remove`, which
+leaves the branches alone.
 
 ## Where things stand (2026-09-18)
 
@@ -91,5 +95,5 @@ just what it is, and a refusal is sometimes worth arguing with.
   existing pattern closely, then **typecheck and read it**: vitest does not typecheck, and the last
   two generated test files passed their tests while failing `tsc`.
 - **The Lovable MCP**: at user scope, so every session has it. Only stream U needs it.
-- **`.sources/` is gitignored and does not follow a worktree.** Read quotes from there rather than
-  refetching.
+- **`.sources/` is gitignored and does not follow a worktree**, so all 32 snapshots have been
+  consolidated into the main worktree. Read quotes from there rather than refetching.

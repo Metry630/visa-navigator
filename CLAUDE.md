@@ -76,6 +76,9 @@ rejections and comments go to `research/review-notes.md`. Nothing else may write
 - Quotes are verbatim from the page as rendered. Take them from `.sources/<name>.txt` (made by
   `fetch-source.ts`), never from WebFetch or bulk-read output: both answer through a small model and can
   distort exactly the numbers that matter.
+- **All 32 snapshots live in the main worktree's `.sources/`.** They used to be split across the stream
+  worktrees, because `.sources/` is gitignored and so does not follow a worktree, and hunting for them
+  wasted a review round. Work in `~/kerjaan/lovable/visa-navigator`.
 - Every number a user sees (requirement text, route summary, salary tables) must appear in one of that
   requirement's quotes. `check:data` enforces it.
 - A scheduled change is a new dated requirement (`effective.from`), not an edit to the old one. Example:
