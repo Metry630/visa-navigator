@@ -12,7 +12,10 @@ Pro Lite gives no monthly credits, so the budget is what is left of the 300 one-
 | 2026-09-18 | 0 | - | Project knowledge rewritten: the settled name and strapline, `public/` added to what Lovable owns, the non-English quote rule, "never hardcode a route", and "do it all in one turn". Knowledge costs nothing; only `send_message` does. |
 | 2026-09-18 | 4.7 | `d1c0d36` | Batch 1. Route library at `/routes` built on `listRoutes()`, translations rendered under quotes, per-page titles, descriptions, OG and canonical tags, "Visa Routes" and the strapline made consistent. Sitemap declined, see below. |
 
-**Spent so far: 10.4.** 303 were left on 2026-09-11, so about 293 remain against a v0 budget of ~150.
+| 2026-09-18 | 4.4 | `e0b91a7` | Batch 2. `SourceLink` reverted to compact, `/sitemap.xml` served from a server route that builds absolute URLs from the request origin, results sorted open first with closed routes collapsed, per-destination counts, a copy-link button through `src/lib/share-link.ts`, degree capitalised. |
+| 2026-09-18 | 0 | `83a8b42` | Workspace skill `ship-check`: what to verify before calling a UI change done. Costs nothing and keeps the verification bar out of every message. |
+
+**Spent so far: 14.8.** 303 were left on 2026-09-11, so about 288 remain against a v0 budget of ~150.
 
 Two things worth knowing from batch 1:
 
