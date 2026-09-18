@@ -82,6 +82,21 @@ function ProfileSummary({ profile }: { profile: Profile }) {
   );
 }
 
+function EmployerPackLink({ route, p }: { route: RouteResult; p: string }) {
+  if (!route.checklist.some((item) => item.who === "employer")) return null;
+  return (
+    <p className="mt-5 text-sm">
+      <Link
+        to="/pack"
+        search={{ p, route: route.routeId }}
+        className="inline-block rounded-sm py-1 text-muted-foreground underline underline-offset-2 hover:text-foreground"
+      >
+        Send this to your employer
+      </Link>
+    </p>
+  );
+}
+
 function RouteChecklist({ route }: { route: RouteResult }) {
   return (
     <>
@@ -167,7 +182,7 @@ function RouteHeading({ route }: { route: RouteResult }) {
   );
 }
 
-function RouteCard({ route }: { route: RouteResult }) {
+function RouteCard({ route, p }: { route: RouteResult; p: string }) {
   if (route.status === "closed") {
     return (
       <details className="group min-w-0 rounded-lg border border-border bg-card">
@@ -182,6 +197,7 @@ function RouteCard({ route }: { route: RouteResult }) {
         </summary>
         <div className="border-t border-border px-4 pb-4 sm:px-5 sm:pb-5">
           <RouteChecklist route={route} />
+          <EmployerPackLink route={route} p={p} />
         </div>
       </details>
     );
@@ -191,6 +207,7 @@ function RouteCard({ route }: { route: RouteResult }) {
     <article className="min-w-0 rounded-lg border border-border bg-card p-4 sm:p-5">
       <RouteHeading route={route} />
       <RouteChecklist route={route} />
+      <EmployerPackLink route={route} p={p} />
     </article>
   );
 }
@@ -261,7 +278,7 @@ function Results() {
             <h2 className="text-2xl font-semibold">{destination.name}</h2>
             <div className="mt-4 space-y-5">
               {destination.routes.map((route) => (
-                <RouteCard key={route.routeId} route={route} />
+                <RouteCard key={route.routeId} route={route} p={p} />
               ))}
             </div>
           </section>

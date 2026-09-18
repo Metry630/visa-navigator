@@ -184,6 +184,30 @@
   max-width: 68ch;
 }
 
+/* The employer pack gets forwarded by email and printed to PDF. */
+@media print {
+  body {
+    background: #fff;
+    color: #000;
+  }
+
+  .pack-print,
+  .pack-print * {
+    background: transparent !important;
+    color: #000 !important;
+    border-color: #999 !important;
+  }
+
+  .pack-print a {
+    text-decoration: underline;
+  }
+
+  .pack-item {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+}
+
 
 /* Follow the reader's system setting for dark mode. */
 @media (prefers-color-scheme: dark) {

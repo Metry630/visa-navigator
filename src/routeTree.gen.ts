@@ -12,7 +12,9 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as CheckRouteImport } from './routes/check'
 import { Route as MethodologyRouteImport } from './routes/methodology'
+import { Route as PackRouteImport } from './routes/pack'
 import { Route as ResultsRouteImport } from './routes/results'
+import { Route as RobotsDottxtRouteImport } from './routes/robots[.]txt'
 import { Route as RoutesRouteImport } from './routes/routes'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as RoutesIndexRouteImport } from './routes/routes.index'
@@ -33,9 +35,19 @@ const MethodologyRoute = MethodologyRouteImport.update({
   path: '/methodology',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PackRoute = PackRouteImport.update({
+  id: '/pack',
+  path: '/pack',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ResultsRoute = ResultsRouteImport.update({
   id: '/results',
   path: '/results',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RobotsDottxtRoute = RobotsDottxtRouteImport.update({
+  id: '/robots.txt',
+  path: '/robots.txt',
   getParentRoute: () => rootRouteImport,
 } as any)
 const RoutesRoute = RoutesRouteImport.update({
@@ -63,7 +75,9 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/check': typeof CheckRoute
   '/methodology': typeof MethodologyRoute
+  '/pack': typeof PackRoute
   '/results': typeof ResultsRoute
+  '/robots.txt': typeof RobotsDottxtRoute
   '/routes': typeof RoutesRouteWithChildren
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/routes/$routeId': typeof RoutesRouteIdRoute
@@ -73,7 +87,9 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/check': typeof CheckRoute
   '/methodology': typeof MethodologyRoute
+  '/pack': typeof PackRoute
   '/results': typeof ResultsRoute
+  '/robots.txt': typeof RobotsDottxtRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/routes/$routeId': typeof RoutesRouteIdRoute
   '/routes': typeof RoutesIndexRoute
@@ -83,7 +99,9 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/check': typeof CheckRoute
   '/methodology': typeof MethodologyRoute
+  '/pack': typeof PackRoute
   '/results': typeof ResultsRoute
+  '/robots.txt': typeof RobotsDottxtRoute
   '/routes': typeof RoutesRouteWithChildren
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/routes/$routeId': typeof RoutesRouteIdRoute
@@ -95,7 +113,9 @@ export interface FileRouteTypes {
     | '/'
     | '/check'
     | '/methodology'
+    | '/pack'
     | '/results'
+    | '/robots.txt'
     | '/routes'
     | '/sitemap.xml'
     | '/routes/$routeId'
@@ -105,7 +125,9 @@ export interface FileRouteTypes {
     | '/'
     | '/check'
     | '/methodology'
+    | '/pack'
     | '/results'
+    | '/robots.txt'
     | '/sitemap.xml'
     | '/routes/$routeId'
     | '/routes'
@@ -114,7 +136,9 @@ export interface FileRouteTypes {
     | '/'
     | '/check'
     | '/methodology'
+    | '/pack'
     | '/results'
+    | '/robots.txt'
     | '/routes'
     | '/sitemap.xml'
     | '/routes/$routeId'
@@ -125,7 +149,9 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   CheckRoute: typeof CheckRoute
   MethodologyRoute: typeof MethodologyRoute
+  PackRoute: typeof PackRoute
   ResultsRoute: typeof ResultsRoute
+  RobotsDottxtRoute: typeof RobotsDottxtRoute
   RoutesRoute: typeof RoutesRouteWithChildren
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
 }
@@ -153,11 +179,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MethodologyRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/pack': {
+      id: '/pack'
+      path: '/pack'
+      fullPath: '/pack'
+      preLoaderRoute: typeof PackRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/results': {
       id: '/results'
       path: '/results'
       fullPath: '/results'
       preLoaderRoute: typeof ResultsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/robots.txt': {
+      id: '/robots.txt'
+      path: '/robots.txt'
+      fullPath: '/robots.txt'
+      preLoaderRoute: typeof RobotsDottxtRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/routes': {
@@ -208,7 +248,9 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   CheckRoute: CheckRoute,
   MethodologyRoute: MethodologyRoute,
+  PackRoute: PackRoute,
   ResultsRoute: ResultsRoute,
+  RobotsDottxtRoute: RobotsDottxtRoute,
   RoutesRoute: RoutesRouteWithChildren,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
 }
