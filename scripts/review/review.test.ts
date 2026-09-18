@@ -5,6 +5,7 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import { RouteSchema, type Route } from "../../src/engine/schema";
+import { fingerprint, isApproved, isStale } from "./fingerprint";
 import { renderPage } from "./page";
 import { writeVerified } from "./store";
 
@@ -127,9 +128,99 @@ describe("renderPage", () => {
     expect(renderPage([route], {}, "joshua")).toContain("not yet verified");
     const done = renderPage(
       [route],
-      { "sg-test-route": { salary: { decision: "approve", on: "2026-09-12", comments: [] } } },
+      {
+        "sg-test-route": {
+          salary: {
+            decision: "approve",
+            on: "2026-09-12",
+            comments: [],
+            hash: fingerprint(route.requirements[0]!),
+          },
+        },
+      },
       "joshua",
     );
     expect(done).toContain("1 / 1 approved");
+  });
+});
+
+describe("fingerprint", () => {
+  const req = route.requirements[0]!;
+
+  it("changes when the text changes", () => {
+    const edited = { ...req, text: req.text + " Renewals too." };
+    expect(fingerprint(edited)).not.toBe(fingerprint(req));
+  });
+
+  it("changes when a quote changes", () => {
+    const edited = {
+      ...req,
+      sources: [{ ...req.sources[0]!, quote: "23 or below $6,000 $6,400" }],
+    };
+    expect(fingerprint(edited)).not.toBe(fingerprint(req));
+  });
+
+  it("changes when a translation is added, because that is what the reviewer reads", () => {
+    const edited = {
+      ...req,
+      sources: [{ ...req.sources[0]!, translation: "Twenty-three or below, 5,600" }],
+    };
+    expect(fingerprint(edited)).not.toBe(fingerprint(req));
+  });
+
+  it("ignores key order, so a reformatted file is not a changed rule", () => {
+    const reordered = JSON.parse(
+      JSON.stringify({ sources: req.sources, who: req.who, ...req }),
+    ) as typeof req;
+    expect(fingerprint(reordered)).toBe(fingerprint(req));
+  });
+
+  it("treats an approval of edited text as not approved", () => {
+    // This is the 2026-09-12 bug: jp-working-holiday was stamped, a requirement was then
+    // rewritten, and the old approval kept the stamp alive.
+    const note = { decision: "approve", on: "2026-09-12", comments: [], hash: fingerprint(req) };
+    expect(isApproved(note, req)).toBe(true);
+    expect(isStale(note, req)).toBe(false);
+
+    const edited = { ...req, text: "Something the reviewer never read." };
+    expect(isApproved(note, edited)).toBe(false);
+    expect(isStale(note, edited)).toBe(true);
+  });
+
+  it("treats an approval with no fingerprint as not approved", () => {
+    expect(isApproved({ decision: "approve", on: "2026-09-12" }, req)).toBe(false);
+  });
+});
+
+describe("renderPage with a stale approval", () => {
+  const req = route.requirements[0]!;
+
+  it("asks the reviewer to read it again instead of showing it as approved", () => {
+    const html = renderPage(
+      [route],
+      {
+        "sg-test-route": {
+          salary: { decision: "approve", on: "2026-09-12", comments: [], hash: "stale" },
+        },
+      },
+      "joshua",
+    );
+    expect(html).toContain("Changed since you approved it on 2026-09-12");
+    expect(html).toContain('class="req stale"');
+    expect(html).toContain("0 / 1 approved");
+  });
+
+  it("counts a matching approval", () => {
+    const html = renderPage(
+      [route],
+      {
+        "sg-test-route": {
+          salary: { decision: "approve", on: "2026-09-12", comments: [], hash: fingerprint(req) },
+        },
+      },
+      "joshua",
+    );
+    expect(html).toContain("1 / 1 approved");
+    expect(html).not.toContain("Changed since you approved it");
   });
 });

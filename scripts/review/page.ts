@@ -6,6 +6,7 @@
 // a key the maintainer pressed, and only a route whose every requirement carries one gets stamped.
 import type { Requirement, Route } from "../../src/engine/schema";
 import { numbers, splitOnNumbers, toAsciiDigits } from "../numbers";
+import { isApproved, isStale } from "./fingerprint";
 
 export type Decision = "approve" | "reject";
 export interface Note {
@@ -13,6 +14,11 @@ export interface Note {
   decision?: Decision;
   on: string;
   comments: string[];
+  /**
+   * `fingerprint()` of the requirement as it read when the decision was made. An approval whose
+   * hash no longer matches the file is not an approval: see fingerprint.ts for why.
+   */
+  hash?: string;
 }
 export type State = Record<string, Record<string, Note>>;
 
@@ -61,7 +67,8 @@ function renderRequirement(route: Route, req: Requirement, note: Note | undefine
       ? req.byAge.flatMap((r) => [String(r.age), String(r.amount)])
       : []),
   ]);
-  const cls = ["req", note?.decision ?? ""].filter(Boolean).join(" ");
+  const stale = isStale(note, req);
+  const cls = ["req", stale ? "stale" : (note?.decision ?? "")].filter(Boolean).join(" ");
 
   const quotes = req.sources
     .map(
@@ -95,6 +102,7 @@ ${s.translation ? `  <blockquote class="translation" lang="en">${markNumbers(s.t
     <span class="tags">${esc(req.kind)} · ${esc(whoLabel(req.who))} · ${req.blocking ? "blocking" : "not blocking"} · ${esc(effectiveLabel(req))}</span>
     <span class="verdict"></span>
   </header>
+  ${stale ? `<p class="staleness">Changed since you approved it on ${esc(note!.on)}. Read it again.</p>` : ""}
   <p class="text">${markNumbers(req.text, quoted)}</p>
   ${table}
   ${quotes}
@@ -109,7 +117,7 @@ ${s.translation ? `  <blockquote class="translation" lang="en">${markNumbers(s.t
 
 function renderRoute(route: Route, state: State): string {
   const notes = state[route.id] ?? {};
-  const approved = route.requirements.filter((r) => notes[r.id]?.decision === "approve").length;
+  const approved = route.requirements.filter((r) => isApproved(notes[r.id], r)).length;
   const stamp = route.verified
     ? `verified by ${esc(route.verified.by)} on ${esc(route.verified.on)}`
     : "not yet verified";
@@ -156,6 +164,9 @@ export function renderPage(routes: Route[], state: State, by: string): string {
  .req .id{font-weight:600;color:#444}
  .req .verdict{margin-left:auto;font-weight:600}
  .req.approve .verdict::after{content:"approved";color:var(--ok)}
+ .req.stale{border-left-color:#c98a00}
+ .req.stale .verdict::after{content:"needs re-reading";color:#c98a00}
+ .staleness{font-size:.82rem;color:#8a5f00;background:#fff6e0;border:1px solid #f0d89a;border-radius:4px;padding:.35rem .6rem;margin:.4rem 0}
  .req.reject .verdict::after{content:"rejected";color:var(--no)}
  .text{font-size:1rem;margin:.5rem 0 .8rem}
  .quote{margin:.6rem 0;border-left:3px solid #e0e0dc;padding:.1rem .8rem}

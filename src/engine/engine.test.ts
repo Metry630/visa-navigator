@@ -92,8 +92,14 @@ describe("SG Employment Pass", () => {
     expect(new Set(outcomes).size).toBe(1);
   });
 
-  it("stays unverified until the review page stamps it", () => {
-    expect(ep(base, "2026-10-15").verifiedOn).toBeNull();
+  it("reports the stamp the data carries and never invents one", () => {
+    // Asserting "unverified" broke twice, once when the first routes were stamped and again when
+    // Singapore was finished, because it encoded today's progress rather than the contract. The
+    // contract is that verifiedOn mirrors the route file: a date only a person wrote, or null.
+    const fromEvaluate = ep(base, "2026-10-15").verifiedOn;
+    const fromGetRoute = getRoute("sg-employment-pass")?.verifiedOn;
+    expect(fromEvaluate).toBe(fromGetRoute);
+    if (fromEvaluate !== null) expect(fromEvaluate).toMatch(/^\d{4}-\d{2}-\d{2}$/);
     expect(getRoute("sg-employment-pass")?.requirements.every((q) => q.sources.length > 0)).toBe(true);
   });
 });

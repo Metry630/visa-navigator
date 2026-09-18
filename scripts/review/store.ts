@@ -5,7 +5,9 @@
 //                                route carries an approval the maintainer pressed in the page.
 //                                Any rejection clears the stamp back to null.
 //   research/review-notes.md     every rejection and every comment, appended with its date.
-//   .review/state.json           which requirements have been approved so far (gitignored).
+//   .review/state.json           which requirements have been approved so far, each with a
+//                                fingerprint of what was approved, so a later edit invalidates it
+//                                rather than inheriting the approval (gitignored).
 import {
   appendFileSync,
   existsSync,
@@ -17,6 +19,7 @@ import {
 import { join } from "node:path";
 import { RouteSchema, type Route } from "../../src/engine/schema";
 import type { Note, State } from "./page";
+import { fingerprint, isApproved } from "./fingerprint";
 import { today } from "../today";
 
 export const ROOT = join(import.meta.dirname, "..", "..");
@@ -113,6 +116,7 @@ export function decide(body: Body, by: string): { message: string; verified: Rou
     // A comment is not a verdict: it leaves an earlier approval or rejection exactly as it was.
     forRoute[req.id] = {
       ...(existing?.decision ? { decision: existing.decision } : {}),
+      ...(existing?.hash ? { hash: existing.hash } : {}),
       on: today(),
       comments: [...(existing?.comments ?? []), comment],
     };
@@ -122,6 +126,7 @@ export function decide(body: Body, by: string): { message: string; verified: Rou
       decision: action,
       on: today(),
       comments: [...(existing?.comments ?? []), ...(comment ? [comment] : [])],
+      hash: fingerprint(req),
     };
     if (action === "reject")
       note(by, entry.route.id, req.id, `rejected: ${comment ?? "no reason given"}`);
@@ -130,7 +135,7 @@ export function decide(body: Body, by: string): { message: string; verified: Rou
   }
   saveState(state);
 
-  const complete = entry.route.requirements.every((r) => forRoute[r.id]?.decision === "approve");
+  const complete = entry.route.requirements.every((r) => isApproved(forRoute[r.id], r));
   const verified = complete ? { by, on: today() } : null;
   if (JSON.stringify(entry.route.verified) !== JSON.stringify(verified))
     writeVerified(entry.file, verified);
