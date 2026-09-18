@@ -19,7 +19,17 @@ Pro Lite gives no monthly credits, so the budget is what is left of the 300 one-
 
 | 2026-09-18 | ~4.5 | `363360e` | Batch 4. A `/changes` page built from the `effective` dates, split into rules already in force and rules coming, each with its quote and translation. Home-page links to `/routes` and `/changes`. Methodology rewritten on two points: what the translations are, and what the weekly check actually does. `/changes` added to the sitemap. |
 
-**Spent so far: ~23.8.** 303 were left on 2026-09-11, so about 279 remain against a v0 budget of ~150.
+| 2026-09-18 | ~4.5 | `ece4982` | Batch 5. Focus and a polite live region on `/check` step changes, focus moved to the offending field when validation blocks, and one shared `evidence-quote.tsx` that collapses a quote over 220 characters behind a disclosure, with a print-only full copy so a forwarded `/pack` PDF still carries the whole quote. |
+
+**Spent so far: ~28.3.** 303 were left on 2026-09-11, so about 275 remain against a v0 budget of ~150.
+
+Batch 5 came from reading the code rather than the product: `check.tsx` had no `aria-live`, no
+`useEffect`, no `focus()` and no `ref`, so on every one of five step changes focus stayed on the button
+while the form swapped underneath. Worth remembering that the offload `bulk-read` skill found that,
+and that its line references needed confirming with grep before acting, exactly as the skill says.
+
+`roadmap.md` has now been written into the repository root twice despite being asked not to, so the
+rule is in project knowledge rather than repeated per message.
 
 Batch 4 needed no correction, which is what the project knowledge and the `ship-check` skill are for:
 the agent used `listRoutes()` and `getRoute()` rather than hardcoding, computed "past" and "future"
