@@ -206,9 +206,7 @@
     break-inside: avoid;
     page-break-inside: avoid;
   }
-
 }
-
 
 /* Follow the reader's system setting for dark mode. */
 @media (prefers-color-scheme: dark) {

@@ -41,8 +41,8 @@ export function SiteFooter() {
           Work visa routes for new graduates, with every rule linked to its official source.
         </p>
         <p className="prose-measure text-sm leading-relaxed text-muted-foreground">
-          Information, not legal advice. Rules change, so every rule links to its official source and
-          shows when a person last verified it.
+          Information, not legal advice. Rules change, so every rule links to its official source
+          and shows when a person last verified it.
         </p>
       </div>
     </footer>

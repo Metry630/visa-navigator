@@ -9,7 +9,10 @@ export const Route = createFileRoute("/methodology")({
         content:
           "Every rule on Visa Routes comes from an official government page, quotes its source, and is checked by a person.",
       },
-      { property: "og:title", content: "Methodology: how Visa Routes checks the rules | Visa Routes" },
+      {
+        property: "og:title",
+        content: "Methodology: how Visa Routes checks the rules | Visa Routes",
+      },
       {
         property: "og:description",
         content:

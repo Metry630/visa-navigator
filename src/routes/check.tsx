@@ -133,7 +133,8 @@ function CheckPage() {
   }, [step]);
 
   function focusInvalidField(current: number) {
-    const fieldId = current === 0 ? "nationality" : current === 1 ? "age" : current === 3 ? "years" : null;
+    const fieldId =
+      current === 0 ? "nationality" : current === 1 ? "age" : current === 3 ? "years" : null;
     if (!fieldId) return;
     if (current === step) {
       document.getElementById(fieldId)?.focus();
@@ -167,7 +168,7 @@ function CheckPage() {
       return;
     }
     setError(null);
-      invalidFieldRef.current = null;
+    invalidFieldRef.current = null;
     setStep((s) => Math.min(s + 1, STEP_TITLES.length - 1));
   }
 
@@ -224,7 +225,11 @@ function CheckPage() {
           aria-live="polite"
           aria-atomic="true"
         >
-          <h2 ref={stepHeadingRef} tabIndex={-1} className="min-w-0 font-sans text-sm font-medium outline-none">
+          <h2
+            ref={stepHeadingRef}
+            tabIndex={-1}
+            className="min-w-0 font-sans text-sm font-medium outline-none"
+          >
             {STEP_TITLES[step]}
           </h2>
           <span className="shrink-0 text-muted-foreground">
@@ -452,7 +457,13 @@ function CheckPage() {
         )}
 
         <div className="flex items-center justify-between gap-3 border-t border-border pt-6">
-          <Button className="min-h-11 sm:min-h-10" type="button" variant="outline" onClick={back} disabled={step === 0}>
+          <Button
+            className="min-h-11 sm:min-h-10"
+            type="button"
+            variant="outline"
+            onClick={back}
+            disabled={step === 0}
+          >
             Back
           </Button>
           <Button className="min-h-11 sm:min-h-10" type="submit">

@@ -6,3 +6,12 @@ pnpm-lock.yaml
 package-lock.json
 bun.lock
 routeTree.gen.ts
+
+# Prose is hand-wrapped; prettier reflows it and buries the real diff.
+*.md
+
+# Vendored or tool-owned, not ours to format.
+.claude/
+.lovable/
+.review/
+.sources/

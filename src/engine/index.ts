@@ -21,10 +21,16 @@ function definedOnly<T extends object>(obj: T): { [K in keyof T]: Exclude<T[K], 
 // Data files load through Vite's glob so the same code runs in the app, in SSR and in Vitest.
 const countries = z
   .array(z.object({ code: z.string().regex(/^[A-Z]{2}$/), name: z.string().min(1) }))
-  .parse(Object.values(import.meta.glob("../data/countries.json", { eager: true, import: "default" }))[0]);
+  .parse(
+    Object.values(
+      import.meta.glob("../data/countries.json", { eager: true, import: "default" }),
+    )[0],
+  );
 
 // Every route file under src/data/<country>/ is picked up here; adding a route needs no code change.
-export const ROUTES: Route[] = Object.entries(import.meta.glob("../data/*/*.json", { eager: true, import: "default" }))
+export const ROUTES: Route[] = Object.entries(
+  import.meta.glob("../data/*/*.json", { eager: true, import: "default" }),
+)
   .map(([path, raw]) => {
     const parsed = RouteSchema.safeParse(raw);
     if (!parsed.success) throw new Error(`Invalid route file ${path}: ${parsed.error.message}`);
@@ -42,12 +48,20 @@ export function evaluate(profile: Profile, asOf: string = today()): DestinationR
   return DESTINATIONS.map((d) => ({
     destination: d.code,
     name: d.name,
-    routes: ROUTES.filter((r) => r.destination === d.code).map((r) => evaluateRoute(r, profile, asOf)),
+    routes: ROUTES.filter((r) => r.destination === d.code).map((r) =>
+      evaluateRoute(r, profile, asOf),
+    ),
   }));
 }
 
 function summary(r: Route): RouteSummary {
-  return { routeId: r.id, destination: r.destination, name: r.name, summary: r.summary, verifiedOn: r.verified?.on ?? null };
+  return {
+    routeId: r.id,
+    destination: r.destination,
+    name: r.name,
+    summary: r.summary,
+    verifiedOn: r.verified?.on ?? null,
+  };
 }
 
 export function listRoutes(): RouteSummary[] {
@@ -87,9 +101,16 @@ export const ProfileSchema = z.object({
   field: z.string().max(100).optional(),
   yearsExperience: z.number().min(0).max(60),
   languages: z
-    .array(z.object({ code: z.string().min(2).max(3), level: z.enum(["basic", "conversational", "business", "native"]) }))
+    .array(
+      z.object({
+        code: z.string().min(2).max(3),
+        level: z.enum(["basic", "conversational", "business", "native"]),
+      }),
+    )
     .max(10),
-  expectedSalary: z.object({ SG: z.number().nonnegative().optional(), JP: z.number().nonnegative().optional() }).optional(),
+  expectedSalary: z
+    .object({ SG: z.number().nonnegative().optional(), JP: z.number().nonnegative().optional() })
+    .optional(),
 });
 
 function toBase64Url(text: string): string {
@@ -114,7 +135,10 @@ export function decodeProfile(encoded: string): Profile | null {
     const parsed = ProfileSchema.safeParse(JSON.parse(fromBase64Url(encoded)));
     if (!parsed.success) return null;
     const { expectedSalary, ...rest } = parsed.data;
-    return { ...definedOnly(rest), ...(expectedSalary ? { expectedSalary: definedOnly(expectedSalary) } : {}) };
+    return {
+      ...definedOnly(rest),
+      ...(expectedSalary ? { expectedSalary: definedOnly(expectedSalary) } : {}),
+    };
   } catch {
     return null;
   }

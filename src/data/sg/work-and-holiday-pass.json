@@ -15,10 +15,7 @@
       "blocking": true,
       "mode": "allow",
       "listName": "Work and Holiday Visa Programme countries",
-      "codes": [
-        "AU",
-        "NZ"
-      ],
+      "codes": ["AU", "NZ"],
       "sources": [
         {
           "url": "https://www.mom.gov.sg/passes-and-permits/work-and-holiday-visa-programme/eligibility",

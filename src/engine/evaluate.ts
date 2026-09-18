@@ -1,6 +1,13 @@
 // Deterministic rule evaluation. No visa fact is produced here that isn't in a route file.
 import type { Requirement, Route } from "./schema";
-import type { ChecklistItem, Destination, Outcome, Profile, RouteResult, RouteStatus } from "./types";
+import type {
+  ChecklistItem,
+  Destination,
+  Outcome,
+  Profile,
+  RouteResult,
+  RouteStatus,
+} from "./types";
 
 const DEGREES = ["none", "diploma", "bachelor", "master", "doctorate"] as const;
 const LEVELS = ["basic", "conversational", "business", "native"] as const;
@@ -43,21 +50,30 @@ function checkRequirement(
       const mine = formatMoney(expected, req.currency);
       return expected >= floorAmount
         ? { outcome: "met", note: `Your expected ${mine} meets the ${floor} minimum for your age.` }
-        : { outcome: "unmet", note: `Your expected ${mine} is below the ${floor} minimum for your age.` };
+        : {
+            outcome: "unmet",
+            note: `Your expected ${mine} is below the ${floor} minimum for your age.`,
+          };
     }
     case "age": {
-      const ok = (req.min === undefined || profile.age >= req.min) && (req.max === undefined || profile.age <= req.max);
+      const ok =
+        (req.min === undefined || profile.age >= req.min) &&
+        (req.max === undefined || profile.age <= req.max);
       return { outcome: ok ? "met" : "unmet" };
     }
     case "degree":
-      return { outcome: DEGREES.indexOf(profile.degree) >= DEGREES.indexOf(req.minLevel) ? "met" : "unmet" };
+      return {
+        outcome: DEGREES.indexOf(profile.degree) >= DEGREES.indexOf(req.minLevel) ? "met" : "unmet",
+      };
     case "nationality-list": {
       const listed = profile.nationalities.some((n) => req.codes.includes(n));
       return { outcome: listed === (req.mode === "allow") ? "met" : "unmet" };
     }
     case "experience": {
       const y = profile.yearsExperience;
-      const ok = (req.minYears === undefined || y >= req.minYears) && (req.maxYears === undefined || y <= req.maxYears);
+      const ok =
+        (req.minYears === undefined || y >= req.minYears) &&
+        (req.maxYears === undefined || y <= req.maxYears);
       return { outcome: ok ? "met" : "unmet" };
     }
     case "language": {
@@ -76,7 +92,10 @@ function daysBetween(a: string, b: string): number {
 
 export function evaluateRoute(route: Route, profile: Profile, asOf: string): RouteResult {
   const active = route.requirements.filter((r) => inEffect(r, asOf));
-  const checked = active.map((req) => ({ req, ...checkRequirement(req, profile, route.destination) }));
+  const checked = active.map((req) => ({
+    req,
+    ...checkRequirement(req, profile, route.destination),
+  }));
 
   const checklist: ChecklistItem[] = checked.map(({ req, outcome, note }) => ({
     requirementId: req.id,
@@ -106,7 +125,9 @@ export function evaluateRoute(route: Route, profile: Profile, asOf: string): Rou
 
   const upcomingChanges = route.requirements.flatMap((r) => {
     const from = r.effective?.from;
-    return from && from > asOf && daysBetween(asOf, from) <= UPCOMING_WINDOW_DAYS ? [{ on: from, text: r.text }] : [];
+    return from && from > asOf && daysBetween(asOf, from) <= UPCOMING_WINDOW_DAYS
+      ? [{ on: from, text: r.text }]
+      : [];
   });
 
   return {

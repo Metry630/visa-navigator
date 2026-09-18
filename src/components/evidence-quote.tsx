@@ -6,7 +6,11 @@ function QuoteText({ text, translation = false }: { text: string; translation?: 
     : "border-l-2 border-primary pl-3 text-sm leading-relaxed text-muted-foreground italic";
 
   if (text.length <= LONG_QUOTE_LENGTH) {
-    return translation ? <p className={quoteClass}>{text}</p> : <blockquote className={quoteClass}>{text}</blockquote>;
+    return translation ? (
+      <p className={quoteClass}>{text}</p>
+    ) : (
+      <blockquote className={quoteClass}>{text}</blockquote>
+    );
   }
 
   const opening = `${text.slice(0, LONG_QUOTE_LENGTH).trimEnd()}…`;

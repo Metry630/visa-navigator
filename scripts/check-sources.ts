@@ -61,7 +61,9 @@ const checked = found + missing.length + unreachable.length;
 const line = `quotes live ${found}/${checked} · pages fetched ${pages.size} · skipped (manual) ${skipped.length}`;
 console.log(line);
 // Machine-readable, so CI can tell the two findings apart without parsing the prose above.
-console.log(`result moved=${missing.length} unreachable=${unreachable.length} skipped=${skipped.length} live=${found}`);
+console.log(
+  `result moved=${missing.length} unreachable=${unreachable.length} skipped=${skipped.length} live=${found}`,
+);
 if (unreachable.length && !missing.length) {
   console.log(
     `note: ${unreachable.length} quote(s) could not be checked because their page did not answer. ` +

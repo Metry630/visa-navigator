@@ -5,6 +5,9 @@
 # package-lock.json is deliberately kept out of git), so bun is the only manager that can do a
 # frozen, reproducible install here. Node then runs the checks, because vitest, tsc and tsx are
 # tested against node and not against bun's runtime.
+#
+# Order is deliberate: tests, types and data before lint and build, so a real defect is reported
+# before a style one.
 name: CI
 
 on:
@@ -45,3 +48,11 @@ jobs:
 
       - name: Data
         run: npm run check:data
+
+      - name: Lint
+        run: npm run lint
+
+      # Nothing else catches a broken build. Without this step the first sign would be a failed
+      # deploy, on the one day it matters most.
+      - name: Build
+        run: npm run build

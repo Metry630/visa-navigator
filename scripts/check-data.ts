@@ -30,7 +30,9 @@ for (const dir of readdirSync(DATA, { withFileTypes: true }).filter((d) => d.isD
     const file = `${dir.name}/${name}`;
     const parsed = RouteSchema.safeParse(JSON.parse(readFileSync(join(DATA, file), "utf8")));
     if (!parsed.success) {
-      errors.push(`${file}: schema: ${parsed.error.issues.map((i) => `${i.path.join(".")} ${i.message}`).join("; ")}`);
+      errors.push(
+        `${file}: schema: ${parsed.error.issues.map((i) => `${i.path.join(".")} ${i.message}`).join("; ")}`,
+      );
     } else {
       routes.push({ file, route: parsed.data });
     }
@@ -51,9 +53,12 @@ const seen = new Set<string>();
 for (const { file, route } of routes) {
   if (seen.has(route.id)) errors.push(`${file}: duplicate route id ${route.id}`);
   seen.add(route.id);
-  if (!file.startsWith(route.destination.toLowerCase() + "/")) errors.push(`${file}: folder doesn't match destination ${route.destination}`);
+  if (!file.startsWith(route.destination.toLowerCase() + "/"))
+    errors.push(`${file}: folder doesn't match destination ${route.destination}`);
 
-  const routeQuoted = new Set(route.requirements.flatMap((q) => q.sources.flatMap((s) => numbers(s.quote))));
+  const routeQuoted = new Set(
+    route.requirements.flatMap((q) => q.sources.flatMap((s) => numbers(s.quote))),
+  );
   for (const n of numbers(route.summary)) {
     if (!routeQuoted.has(n)) errors.push(`${file}: summary: ${n} is not in any quote`);
   }
@@ -79,7 +84,8 @@ for (const { file, route } of routes) {
       // uppercase letters. "UK" instead of "GB", or a typo, would pass every other check and quietly
       // give one nationality the wrong answer.
       for (const code of req.codes) {
-        if (!COUNTRY_NAME.has(code)) errors.push(`${where}: ${code} is not a country in countries.json`);
+        if (!COUNTRY_NAME.has(code))
+          errors.push(`${where}: ${code} is not a country in countries.json`);
       }
       const dupes = req.codes.filter((c, i) => req.codes.indexOf(c) !== i);
       if (dupes.length) errors.push(`${where}: duplicate codes ${[...new Set(dupes)].join(", ")}`);
@@ -88,7 +94,9 @@ for (const { file, route } of routes) {
       // page, which cannot be quoted as one run, so this is a warning and not a failure. It is how
       // jp-working-holiday#partner-country was found: 32 codes and not one country named in a quote.
       const quoted = req.sources.map((s) => `${s.quote} ${s.translation ?? ""}`).join(" ");
-      const named = req.codes.filter((c) => quoted.includes(COUNTRY_NAME.get(c) ?? "\u0000")).length;
+      const named = req.codes.filter((c) =>
+        quoted.includes(COUNTRY_NAME.get(c) ?? "\u0000"),
+      ).length;
       if (named < req.codes.length) {
         warnings.push(
           `${where}: ${named} of ${req.codes.length} countries in this list are named in a quote` +
@@ -103,11 +111,14 @@ for (const { file, route } of routes) {
         errors.push(`${where}: ${route.destination} salaries must be ${expected.join(" per ")}`);
       }
       for (const row of req.byAge) {
-        if (!quoted.has(String(row.amount))) errors.push(`${where}: salary table: ${row.amount} is not in any quote`);
-        if (!quoted.has(String(row.age))) errors.push(`${where}: salary table: age ${row.age} is not in any quote`);
+        if (!quoted.has(String(row.amount)))
+          errors.push(`${where}: salary table: ${row.amount} is not in any quote`);
+        if (!quoted.has(String(row.age)))
+          errors.push(`${where}: salary table: age ${row.age} is not in any quote`);
       }
       const ages = req.byAge.map((r) => r.age);
-      if (ages.some((a, i) => i > 0 && a <= ages[i - 1]!)) errors.push(`${where}: salary table rows must be sorted by age`);
+      if (ages.some((a, i) => i > 0 && a <= ages[i - 1]!))
+        errors.push(`${where}: salary table rows must be sorted by age`);
     }
   }
 

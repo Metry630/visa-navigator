@@ -32,7 +32,11 @@ describe("numbers", () => {
 
 describe("splitOnNumbers", () => {
   it("puts the numbers on odd indexes and leaves them exactly as written", () => {
-    expect(splitOnNumbers("at least S$5,600 a month")).toEqual(["at least S$", "5,600", " a month"]);
+    expect(splitOnNumbers("at least S$5,600 a month")).toEqual([
+      "at least S$",
+      "5,600",
+      " a month",
+    ]);
     expect(splitOnNumbers("カテゴリー３又は４")).toEqual(["カテゴリー", "３", "又は", "４", ""]);
   });
 

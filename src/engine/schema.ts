@@ -53,7 +53,12 @@ export const RequirementSchema = z.discriminatedUnion("kind", [
     /** Rows sorted by age. The first row also covers younger ages, the last row also covers older ones. */
     byAge: z.array(z.object({ age: z.number().int(), amount: z.number().positive() })).min(1),
   }),
-  z.object({ ...base, kind: z.literal("age"), min: z.number().int().optional(), max: z.number().int().optional() }),
+  z.object({
+    ...base,
+    kind: z.literal("age"),
+    min: z.number().int().optional(),
+    max: z.number().int().optional(),
+  }),
   z.object({ ...base, kind: z.literal("degree"), minLevel: degreeLevel }),
   z.object({
     ...base,
@@ -62,8 +67,18 @@ export const RequirementSchema = z.discriminatedUnion("kind", [
     listName: z.string().min(1),
     codes: z.array(z.string().regex(/^[A-Z]{2}$/)).min(1),
   }),
-  z.object({ ...base, kind: z.literal("experience"), minYears: z.number().optional(), maxYears: z.number().optional() }),
-  z.object({ ...base, kind: z.literal("language"), code: z.string().min(2), minLevel: languageLevel }),
+  z.object({
+    ...base,
+    kind: z.literal("experience"),
+    minYears: z.number().optional(),
+    maxYears: z.number().optional(),
+  }),
+  z.object({
+    ...base,
+    kind: z.literal("language"),
+    code: z.string().min(2),
+    minLevel: languageLevel,
+  }),
   /** Can't be decided from the profile; `who` says who has to check it. */
   z.object({ ...base, kind: z.literal("manual") }),
 ]);

@@ -1,6 +1,13 @@
 import { describe, expect, it } from "vitest";
 import { floorForAge } from "./evaluate";
-import { decodeProfile, encodeProfile, evaluate, getRoute, listNationalities, listRoutes } from "./index";
+import {
+  decodeProfile,
+  encodeProfile,
+  evaluate,
+  getRoute,
+  listNationalities,
+  listRoutes,
+} from "./index";
 import type { Profile, RouteResult } from "./types";
 
 const base: Profile = {
@@ -60,13 +67,22 @@ describe("SG Employment Pass", () => {
   });
 
   it("Indian, 24, S$6,000: the age table applies, not the headline figure", () => {
-    const p: Profile = { ...base, nationalities: ["IN"], age: 24, degree: "master", expectedSalary: { SG: 6000 } };
+    const p: Profile = {
+      ...base,
+      nationalities: ["IN"],
+      age: 24,
+      degree: "master",
+      expectedSalary: { SG: 6000 },
+    };
     expect(ep(p, "2026-10-15").status).toBe("depends"); // floor 5,832 at 24
     expect(ep(p, "2027-02-01").status).toBe("closed"); // floor 6,250 at 24
   });
 
   it("Filipino, 30, S$7,000 is below the S$7,223 floor at 30", () => {
-    const r = ep({ ...base, nationalities: ["PH"], age: 30, expectedSalary: { SG: 7000 } }, "2026-10-15");
+    const r = ep(
+      { ...base, nationalities: ["PH"], age: 30, expectedSalary: { SG: 7000 } },
+      "2026-10-15",
+    );
     expect(r.status).toBe("closed");
     expect(r.reason).toContain("S$7,223");
   });
@@ -100,13 +116,19 @@ describe("SG Employment Pass", () => {
     const fromGetRoute = getRoute("sg-employment-pass")?.verifiedOn;
     expect(fromEvaluate).toBe(fromGetRoute);
     if (fromEvaluate !== null) expect(fromEvaluate).toMatch(/^\d{4}-\d{2}-\d{2}$/);
-    expect(getRoute("sg-employment-pass")?.requirements.every((q) => q.sources.length > 0)).toBe(true);
+    expect(getRoute("sg-employment-pass")?.requirements.every((q) => q.sources.length > 0)).toBe(
+      true,
+    );
   });
 });
 
 describe("profile encoding", () => {
   it("round-trips a profile", () => {
-    const p: Profile = { ...base, nationalities: ["ID", "AU"], expectedSalary: { SG: 5600, JP: 4_000_000 } };
+    const p: Profile = {
+      ...base,
+      nationalities: ["ID", "AU"],
+      expectedSalary: { SG: 5600, JP: 4_000_000 },
+    };
     expect(decodeProfile(encodeProfile(p))).toEqual(p);
   });
 
@@ -145,7 +167,10 @@ describe("SG S Pass", () => {
   });
 
   it("Indian, 30, S$3,700 is below the S$3,777 floor at 30", () => {
-    const r = sp({ ...base, nationalities: ["IN"], age: 30, expectedSalary: { SG: 3700 } }, "2026-10-15");
+    const r = sp(
+      { ...base, nationalities: ["IN"], age: 30, expectedSalary: { SG: 3700 } },
+      "2026-10-15",
+    );
     expect(r.status).toBe("closed");
     expect(r.reason).toContain("S$3,777");
   });

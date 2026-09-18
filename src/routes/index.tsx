@@ -7,12 +7,14 @@ export const Route = createFileRoute("/")({
       { title: "Visa Routes | Work visa routes for new graduates" },
       {
         name: "description",
-        content: "Work visa routes for new graduates, with every rule linked to its official source.",
+        content:
+          "Work visa routes for new graduates, with every rule linked to its official source.",
       },
       { property: "og:title", content: "Visa Routes | Work visa routes for new graduates" },
       {
         property: "og:description",
-        content: "Work visa routes for new graduates, with every rule linked to its official source.",
+        content:
+          "Work visa routes for new graduates, with every rule linked to its official source.",
       },
       { property: "og:type", content: "website" },
       { property: "og:url", content: "/" },
@@ -52,16 +54,10 @@ function Home() {
           <Link to="/check">Check my options</Link>
         </Button>
         <div className="mt-4 flex flex-col items-start gap-2 text-sm sm:flex-row sm:gap-5">
-          <Link
-            to="/routes"
-            className="font-medium text-primary underline underline-offset-2"
-          >
+          <Link to="/routes" className="font-medium text-primary underline underline-offset-2">
             Read the routes without answering anything
           </Link>
-          <Link
-            to="/changes"
-            className="font-medium text-primary underline underline-offset-2"
-          >
+          <Link to="/changes" className="font-medium text-primary underline underline-offset-2">
             See what is changing
           </Link>
         </div>
@@ -79,10 +75,7 @@ function Home() {
 
       <div className="prose-measure mt-14 space-y-2 border-t border-border pt-8 text-sm text-muted-foreground">
         <p>Singapore and Japan today. More countries are being added.</p>
-        <p>
-          Every rule links to an official source, and a person checks each one
-          against it.
-        </p>
+        <p>Every rule links to an official source, and a person checks each one against it.</p>
       </div>
     </div>
   );

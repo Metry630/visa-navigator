@@ -29,8 +29,12 @@ describe("JP Engineer / Specialist in Humanities / International Services", () =
 
   it("marks the degree met for a graduate and unmet for someone without one", () => {
     expect(item(gijinkoku(base), "degree-in-related-subject")?.outcome).toBe("met");
-    expect(item(gijinkoku({ ...base, degree: "master" }), "degree-in-related-subject")?.outcome).toBe("met");
-    expect(item(gijinkoku({ ...base, degree: "diploma" }), "degree-in-related-subject")?.outcome).toBe("unmet");
+    expect(
+      item(gijinkoku({ ...base, degree: "master" }), "degree-in-related-subject")?.outcome,
+    ).toBe("met");
+    expect(
+      item(gijinkoku({ ...base, degree: "diploma" }), "degree-in-related-subject")?.outcome,
+    ).toBe("unmet");
   });
 
   // The criteria are a choice of four: a related degree, a Japanese vocational course, ten years of
@@ -56,7 +60,9 @@ describe("JP Engineer / Specialist in Humanities / International Services", () =
 
   it("applies the CEFR B2 language rule only to applications from 15 April 2026", () => {
     expect(item(gijinkoku(base, "2026-04-14"), "language-b2-customer-facing")).toBeUndefined();
-    expect(item(gijinkoku(base, "2026-04-15"), "language-b2-customer-facing")?.outcome).toBe("unknown");
+    expect(item(gijinkoku(base, "2026-04-15"), "language-b2-customer-facing")?.outcome).toBe(
+      "unknown",
+    );
     expect(item(gijinkoku(base, "2026-04-15"), "language-b2-already-met")?.who).toBe("you");
   });
 
@@ -85,7 +91,10 @@ describe("JP Engineer / Specialist in Humanities / International Services", () =
   // English. The two dated requirements are the only ones with an effective window.
   it("dates only the two language requirements", () => {
     const dated = getRoute("jp-engineer-specialist")!.requirements.filter((q) => q.effective);
-    expect(dated.map((q) => q.id)).toEqual(["language-b2-customer-facing", "language-b2-already-met"]);
+    expect(dated.map((q) => q.id)).toEqual([
+      "language-b2-customer-facing",
+      "language-b2-already-met",
+    ]);
     expect(dated.every((q) => q.effective?.from === "2026-04-15")).toBe(true);
   });
 });

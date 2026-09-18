@@ -264,9 +264,8 @@ function Results() {
           const closed = destination.routes.filter((route) => route.status === "closed").length;
           return (
             <p key={destination.destination}>
-              <span className="font-medium text-foreground">{destination.name}:</span> {open} open,{
-              " "
-              }{depends} depend on an employer, {closed} closed.
+              <span className="font-medium text-foreground">{destination.name}:</span> {open} open,{" "}
+              {depends} depend on an employer, {closed} closed.
             </p>
           );
         })}
