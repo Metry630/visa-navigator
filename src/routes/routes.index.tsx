@@ -1,5 +1,6 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 import { formatDate } from "@/components/format-date";
+import { SiteLink } from "@/components/links";
 import {
   DESTINATIONS,
   formatMoney,
@@ -141,13 +142,13 @@ function RouteTable({ routes, caption }: { routes: RouteSummary[]; caption: stri
             <tr key={route.routeId} role="row">
               <th scope="row" role="rowheader" className="text-left font-normal">
                 <span className="text-subhead font-semibold">
-                  <Link
+                  <SiteLink
                     to="/routes/$routeId"
                     params={{ routeId: route.routeId }}
-                    className="break-words underline-offset-4 hover:underline"
+                    className="break-words"
                   >
                     {route.name}
-                  </Link>
+                  </SiteLink>
                 </span>
                 {limits && (
                   <span className="mt-1 block text-small tabular-nums text-muted-foreground">

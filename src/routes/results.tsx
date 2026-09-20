@@ -16,6 +16,7 @@ import {
 import { EvidenceQuote } from "@/components/evidence-quote";
 import { CHECKER_HEADING, OutcomeTag, SourceLink, StatusBadge } from "@/components/route-ui";
 import { formatDate } from "@/components/format-date";
+import { SiteLink } from "@/components/links";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { buildShareLink } from "@/lib/share-link";
@@ -337,13 +338,13 @@ function RouteHeading({ route, p }: { route: RouteResult; p: string }) {
     <>
       <div className="grid min-w-0 grid-cols-[minmax(0,1fr)_auto] items-start gap-3 sm:flex sm:flex-wrap sm:justify-between">
         <h3 className="min-w-0 text-subhead font-semibold">
-          <Link
+          <SiteLink
             to="/routes/$routeId"
             params={{ routeId: route.routeId }}
-            className="break-words underline-offset-4 hover:underline"
+            className="break-words"
           >
             {route.name}
-          </Link>
+          </SiteLink>
         </h3>
         <div className="col-span-full flex min-w-0 flex-wrap items-center gap-2 sm:col-span-1 sm:shrink-0">
           <StatusBadge status={route.status} requiresEmployer={route.requiresEmployer} />
