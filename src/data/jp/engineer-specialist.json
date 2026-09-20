@@ -218,6 +218,43 @@
       ]
     },
     {
+      "id": "employer-category-definitions",
+      "kind": "manual",
+      "who": "employer",
+      "blocking": false,
+      "text": "ISA sorts employers into four categories and the category decides what the application must include. A company listed on a Japanese stock exchange is Category 1. Category 3 covers an employer that filed a withholding tax return for its staff last year, and Category 4 is an employer that matches none of the others.",
+      "sources": [
+        {
+          "url": "https://www.moj.go.jp/isa/applications/status/gijinkoku.html",
+          "publisher": "Immigration Services Agency of Japan",
+          "retrievedOn": "2026-09-20",
+          "quote": "カテゴリー１ カテゴリー２ カテゴリー３ カテゴリー４",
+          "translation": "Category 1 / Category 2 / Category 3 / Category 4"
+        },
+        {
+          "url": "https://www.moj.go.jp/isa/applications/status/gijinkoku.html",
+          "publisher": "Immigration Services Agency of Japan",
+          "retrievedOn": "2026-09-20",
+          "quote": "日本の証券取引所に上場している企業",
+          "translation": "A company listed on a Japanese stock exchange"
+        },
+        {
+          "url": "https://www.moj.go.jp/isa/applications/status/gijinkoku.html",
+          "publisher": "Immigration Services Agency of Japan",
+          "retrievedOn": "2026-09-20",
+          "quote": "前年分の職員の給与所得の源泉徴収票等の法定調書合計表が提出された団体・個人（カテゴリー２を除く）",
+          "translation": "An organisation or individual for which the previous year's summary of statutory reports, such as withholding tax statements for employees' employment income, was submitted (excluding Category 2)"
+        },
+        {
+          "url": "https://www.moj.go.jp/isa/applications/status/gijinkoku.html",
+          "publisher": "Immigration Services Agency of Japan",
+          "retrievedOn": "2026-09-20",
+          "quote": "左のいずれにも該当しない団体・個人",
+          "translation": "An organisation or individual falling under none of those on the left"
+        }
+      ]
+    },
+    {
       "id": "language-b2-customer-facing",
       "kind": "manual",
       "text": "If the employer is in Category 3 or 4 and the job is mainly customer-facing work that uses language skills, the application has to include proof of CEFR B2 ability in the language you use at work.",
@@ -301,5 +338,5 @@
       ]
     }
   ],
-  "verified": { "by": "joshua", "on": "2026-09-19" }
+  "verified": null
 }
