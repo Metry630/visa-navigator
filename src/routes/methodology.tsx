@@ -52,8 +52,8 @@ const POINTS = [
 function Methodology() {
   return (
     <div className="mx-auto max-w-4xl px-5 py-14">
-      <h1 className="text-3xl font-semibold sm:text-4xl">How this works</h1>
-      <p className="prose-measure mt-4 text-lg leading-relaxed text-muted-foreground">
+      <h1 className="text-title font-semibold">How this works</h1>
+      <p className="prose-measure mt-4 text-subhead text-muted-foreground">
         Visa Routes turns official immigration rules into plain checklists. Here is how the rules
         get here and how they stay current.
       </p>
@@ -61,20 +61,20 @@ function Methodology() {
       <div className="mt-10 space-y-8">
         {POINTS.map((point) => (
           <section key={point.title} className="prose-measure">
-            <h2 className="text-xl font-semibold">{point.title}</h2>
-            <p className="mt-2 leading-relaxed text-muted-foreground">{point.body}</p>
+            <h2 className="text-section font-semibold">{point.title}</h2>
+            <p className="mt-2 text-body text-muted-foreground">{point.body}</p>
           </section>
         ))}
       </div>
 
       <section className="prose-measure mt-12 border-t border-border pt-8">
-        <h2 className="text-xl font-semibold">Disclaimer</h2>
-        <p className="mt-2 leading-relaxed text-muted-foreground">
+        <h2 className="text-section font-semibold">Disclaimer</h2>
+        <p className="mt-2 text-body text-muted-foreground">
           This site gives information, not legal advice. Rules change and individual cases differ.
           Always read the official page before you act, and speak to a qualified adviser if your
           case is complicated.
         </p>
-        <p className="mt-4 text-sm text-muted-foreground">
+        <p className="mt-4 text-small text-muted-foreground">
           <a
             href="https://github.com/Metry630/visa-navigator"
             target="_blank"

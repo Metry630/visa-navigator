@@ -82,10 +82,10 @@ function ProfileSummary({ profile }: { profile: Profile }) {
 
   return (
     <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3 rounded-lg border border-border bg-surface px-4 py-3 sm:flex sm:flex-wrap sm:justify-between">
-      <p className="min-w-0 text-sm text-muted-foreground">{bits.join(" · ")}</p>
+      <p className="min-w-0 text-small text-muted-foreground">{bits.join(" · ")}</p>
       <Link
         to="/check"
-        className="shrink-0 rounded-sm py-2 text-sm font-medium text-primary underline underline-offset-2"
+        className="shrink-0 rounded-sm py-2 text-small font-medium text-primary underline underline-offset-2"
       >
         Edit answers
       </Link>
@@ -98,21 +98,21 @@ function Insights({ insights }: { insights: Insight[] }) {
 
   return (
     <section className="mt-6">
-      <h3 className="text-lg font-semibold">What the rules mean for you</h3>
+      <h3 className="text-subhead font-semibold">What the rules mean for you</h3>
       <ul className="mt-3 divide-y divide-border border-y border-border">
         {insights.map((insight) => (
           <li key={insight.id} className="py-4">
-            <p className="prose-measure leading-relaxed">{insight.text}</p>
+            <p className="prose-measure text-body">{insight.text}</p>
             <details className="group mt-3">
-              <summary className="min-h-11 cursor-pointer list-none rounded-sm py-2 text-sm font-medium text-primary underline underline-offset-2 marker:content-none [&::-webkit-details-marker]:hidden">
+              <summary className="min-h-11 cursor-pointer list-none rounded-sm py-2 text-small font-medium text-primary underline underline-offset-2 marker:content-none [&::-webkit-details-marker]:hidden">
                 <span className="group-open:hidden">Where this comes from</span>
                 <span className="hidden group-open:inline">Hide the evidence</span>
               </summary>
               <div className="mt-2 space-y-5 border-l-2 border-border pl-4">
                 {insight.from.map((origin) => (
                   <section key={`${insight.id}-${origin.routeId}-${origin.requirementId}`}>
-                    <p className="text-sm leading-relaxed">{origin.requirementText}</p>
-                    <p className="mt-1 text-sm text-muted-foreground">
+                    <p className="text-body">{origin.requirementText}</p>
+                    <p className="mt-1 text-small text-muted-foreground">
                       <Link
                         to="/routes/$routeId"
                         params={{ routeId: origin.routeId }}
@@ -158,7 +158,7 @@ function RouteGroup({
   if (routes.length === 0) return null;
   return (
     <section className="mt-7">
-      <h3 className="text-lg font-semibold">{title}</h3>
+      <h3 className="text-subhead font-semibold">{title}</h3>
       <div className="mt-3 space-y-5">
         {routes.map((route) => (
           <RouteCard
@@ -195,7 +195,7 @@ function ChecklistSources({ sources }: { sources: Source[] }) {
   );
 
   return (
-    <details className="group mt-1 text-xs text-muted-foreground">
+    <details className="group mt-1 text-caption text-muted-foreground">
       <summary className="cursor-pointer list-none rounded-sm py-1 underline underline-offset-2 marker:content-none [&::-webkit-details-marker]:hidden">
         {sources.length} {sources.length === 1 ? "source" : "sources"} · {publishers} · read{" "}
         {formatDate(latest)}
@@ -246,7 +246,7 @@ function MissingSalary({
   return (
     <div className="mt-3 flex flex-col items-start gap-2 sm:flex-row sm:items-end">
       <div className="w-full max-w-xs space-y-1">
-        <label htmlFor={fieldId} className="block text-xs font-medium">
+        <label htmlFor={fieldId} className="block text-small font-medium">
           Expected salary in {destinationName}, {SALARY_UNITS[destination]}
         </label>
         <Input
@@ -279,8 +279,8 @@ function RouteChecklist({
     <>
       {route.upcomingChanges.length > 0 && (
         <div className="mt-4 rounded-md border border-border bg-surface p-3">
-          <h4 className="text-sm font-semibold">Upcoming changes</h4>
-          <ul className="mt-2 space-y-1 text-sm text-muted-foreground">
+          <h4 className="text-subhead font-semibold">Upcoming changes</h4>
+          <ul className="mt-2 space-y-1 text-body text-muted-foreground">
             {route.upcomingChanges.map((c) => (
               <li key={`${c.on}-${c.text}`}>
                 <span className="font-medium text-foreground">{formatDate(c.on)}</span>: {c.text}
@@ -297,11 +297,7 @@ function RouteChecklist({
           return (
             <section key={who}>
               <h4
-                className={
-                  who === "employer"
-                    ? "text-base font-semibold tracking-wide uppercase"
-                    : "text-sm font-semibold tracking-wide uppercase"
-                }
+                className="text-caption font-semibold tracking-[0.08em] text-muted-foreground uppercase"
               >
                 {CHECKER_HEADING[who]}
               </h4>
@@ -309,7 +305,7 @@ function RouteChecklist({
                 {items.map((item) => (
                   <li
                     key={item.requirementId}
-                    className="min-w-0 border-l-2 border-border pl-3 text-sm leading-relaxed"
+                    className="min-w-0 border-l-2 border-border pl-3 text-body"
                   >
                     <div className="flex flex-wrap items-center gap-2">
                       <OutcomeTag outcome={item.outcome} />
@@ -340,7 +336,7 @@ function RouteHeading({ route, p }: { route: RouteResult; p: string }) {
   return (
     <>
       <div className="grid min-w-0 grid-cols-[minmax(0,1fr)_auto] items-start gap-3 sm:flex sm:flex-wrap sm:justify-between">
-        <h3 className="min-w-0 text-xl font-semibold">
+        <h3 className="min-w-0 text-subhead font-semibold">
           <Link
             to="/routes/$routeId"
             params={{ routeId: route.routeId }}
@@ -353,13 +349,13 @@ function RouteHeading({ route, p }: { route: RouteResult; p: string }) {
           <StatusBadge status={route.status} requiresEmployer={route.requiresEmployer} />
           <EmployerPackLink route={route} p={p} />
           {route.verifiedOn === null && (
-            <span className="rounded-full border border-border px-3 py-1 text-xs font-medium text-muted-foreground">
+            <span className="rounded-full border border-border px-3 py-1 text-caption font-medium text-muted-foreground">
               Not yet verified
             </span>
           )}
         </div>
       </div>
-      <p className="mt-3 leading-relaxed text-muted-foreground">{route.reason}</p>
+      <p className="mt-3 text-body text-muted-foreground">{route.reason}</p>
     </>
   );
 }
@@ -405,12 +401,12 @@ function RouteCard({
 function NothingOpen({ name }: { name: string }) {
   return (
     <div className="mt-4 rounded-lg border border-border bg-surface p-4 sm:p-5">
-      <h3 className="text-base font-semibold">No route in {name} is open for these answers.</h3>
-      <p className="prose-measure mt-2 text-sm text-muted-foreground">
+      <h3 className="text-subhead font-semibold">No route in {name} is open for these answers.</h3>
+      <p className="prose-measure mt-2 text-body text-muted-foreground">
         Every route below is closed. Open a route to read the reason it gives, and the rule it comes
         from.
       </p>
-      <ul className="prose-measure mt-3 space-y-2 text-sm text-muted-foreground">
+      <ul className="prose-measure mt-3 space-y-2 text-body text-muted-foreground">
         <li>
           Rules change. A rule that closes a route today may not next January.{" "}
           <Link
@@ -462,8 +458,8 @@ function Results() {
 
   return (
     <div className="mx-auto min-w-0 max-w-4xl px-4 py-10 sm:px-5 sm:py-12">
-      <h1 className="text-3xl font-semibold">Your routes</h1>
-      <p className="prose-measure mt-2 text-sm text-muted-foreground">
+      <h1 className="text-title font-semibold">Your routes</h1>
+      <p className="prose-measure mt-2 text-body text-muted-foreground">
         Based on the answers you gave. Read each official source before you act.
       </p>
 
@@ -472,7 +468,7 @@ function Results() {
           {copied ? <Check aria-hidden="true" /> : <Copy aria-hidden="true" />}
           {copied ? "Link copied" : "Copy link"}
         </Button>
-        <span className="text-sm text-muted-foreground" aria-live="polite">
+        <span className="text-small text-muted-foreground" aria-live="polite">
           {copied ? "The link is ready to share." : ""}
         </span>
       </div>
@@ -481,7 +477,7 @@ function Results() {
         <ProfileSummary profile={profile} />
       </div>
 
-      <div className="mt-7 space-y-1 text-sm text-muted-foreground">
+      <div className="mt-7 space-y-1 text-small text-muted-foreground">
         {sortedResults.map((destination) => {
           const closed = destination.routes.filter((route) => route.status === "closed").length;
           const activeRoutes = destination.routes.filter((route) => route.status !== "closed");
@@ -513,7 +509,7 @@ function Results() {
               ];
           return (
             <section key={destination.destination}>
-              <h2 className="text-2xl font-semibold">{destination.name}</h2>
+              <h2 className="text-section font-semibold">{destination.name}</h2>
               <Insights insights={destination.insights} />
               {allClosed && <NothingOpen name={destination.name} />}
               {groups.map((group) => (

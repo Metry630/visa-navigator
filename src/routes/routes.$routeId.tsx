@@ -50,11 +50,11 @@ function RouteDetailPage() {
 
   return (
     <div className="mx-auto max-w-3xl px-5 py-12">
-      <p className="text-sm text-muted-foreground">{destination?.name}</p>
-      <h1 className="mt-1 text-3xl font-semibold">{detail.name}</h1>
-      <p className="prose-measure mt-3 leading-relaxed text-muted-foreground">{detail.summary}</p>
+      <p className="text-small text-muted-foreground">{destination?.name}</p>
+      <h1 className="mt-1 text-title font-semibold">{detail.name}</h1>
+      <p className="prose-measure mt-3 text-body text-muted-foreground">{detail.summary}</p>
 
-      <div className="mt-4 flex flex-wrap items-center gap-4 text-sm">
+      <div className="mt-4 flex flex-wrap items-center gap-4 text-small">
         <a
           href={detail.officialUrl}
           target="_blank"
@@ -79,14 +79,14 @@ function RouteDetailPage() {
         </span>
       </div>
 
-      <h2 className="mt-10 text-xl font-semibold">Requirements</h2>
+      <h2 className="mt-10 text-section font-semibold">Requirements</h2>
       <ul className="mt-4 space-y-6">
         {detail.requirements.map((req) => (
           <li key={req.id} className="rounded-lg border border-border bg-card p-5">
-            <p className="leading-relaxed">{req.text}</p>
-            <p className="mt-2 text-sm text-muted-foreground">{WHO_TEXT[req.who]}</p>
+            <p className="text-body">{req.text}</p>
+            <p className="mt-2 text-small text-muted-foreground">{WHO_TEXT[req.who]}</p>
             {req.effective && (req.effective.from || req.effective.to) && (
-              <p className="mt-1 text-sm text-muted-foreground">
+              <p className="mt-1 text-small text-muted-foreground">
                 Applies {req.effective.from ? `from ${formatDate(req.effective.from)}` : ""}
                 {req.effective.from && req.effective.to ? " " : ""}
                 {req.effective.to ? `until ${formatDate(req.effective.to)}` : ""}
@@ -96,7 +96,7 @@ function RouteDetailPage() {
               {req.sources.map((s) => (
                 <div key={s.url + s.quote}>
                   <EvidenceQuote quote={s.quote} translation={s.translation} />
-                  <p className="mt-2 text-xs text-muted-foreground">
+                  <p className="mt-2 text-caption text-muted-foreground">
                     {s.publisher}. Retrieved {formatDate(s.retrievedOn)}.{" "}
                     <a
                       href={s.url}
@@ -114,7 +114,7 @@ function RouteDetailPage() {
         ))}
       </ul>
 
-      <p className="mt-10 text-sm">
+      <p className="mt-10 text-body">
         <Link to="/check" className="font-medium text-primary underline underline-offset-2">
           Check whether this route is open to you
         </Link>

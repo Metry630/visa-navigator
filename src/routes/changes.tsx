@@ -42,14 +42,14 @@ function DatedRules({ rules }: { rules: DatedRule[] }) {
     <div className="mt-5 space-y-10">
       {groupByDate(rules).map(([date, dateRules]) => (
         <section key={date} aria-labelledby={`change-${date}`}>
-          <h3 id={`change-${date}`} className="text-lg font-semibold">
+          <h3 id={`change-${date}`} className="text-subhead font-semibold">
             {formatDate(date)}
           </h3>
           <ul className="mt-3 divide-y divide-border border-y border-border">
             {dateRules.map(({ requirement, route }) => (
               <li key={`${route.routeId}-${requirement.id}-${date}`} className="py-5">
-                <p className="leading-relaxed">{requirement.text}</p>
-                <p className="mt-2 text-sm text-muted-foreground">
+                <p className="text-body">{requirement.text}</p>
+                <p className="mt-2 text-small text-muted-foreground">
                   <Link
                     to="/routes/$routeId"
                     params={{ routeId: route.routeId }}
@@ -62,7 +62,7 @@ function DatedRules({ rules }: { rules: DatedRule[] }) {
                   {requirement.sources.map((source) => (
                     <div key={source.url + source.quote}>
                       <EvidenceQuote quote={source.quote} translation={source.translation} />
-                      <p className="mt-2 text-xs text-muted-foreground">
+                      <p className="mt-2 text-caption text-muted-foreground">
                         {source.publisher}. Retrieved {formatDate(source.retrievedOn)}.{" "}
                         <a
                           href={source.url}
@@ -109,18 +109,18 @@ function ChangesPage() {
 
   return (
     <div className="mx-auto max-w-4xl px-5 py-14">
-      <h1 className="text-3xl font-semibold sm:text-4xl">What is changing</h1>
-      <p className="prose-measure mt-4 text-lg leading-relaxed text-muted-foreground">
+      <h1 className="text-title font-semibold">What is changing</h1>
+      <p className="prose-measure mt-4 text-subhead text-muted-foreground">
         Rules with a date attached, so you can see what is changing before it changes.
       </p>
 
       {!hasDatedRules ? (
-        <p className="mt-10 text-muted-foreground">There are no dated rules at the moment.</p>
+        <p className="mt-10 text-body text-muted-foreground">There are no dated rules at the moment.</p>
       ) : (
         <div className="mt-12 space-y-14">
           {inForce.length > 0 && (
             <section aria-labelledby="in-force-heading">
-              <h2 id="in-force-heading" className="text-2xl font-semibold">
+              <h2 id="in-force-heading" className="text-section font-semibold">
                 Already in force
               </h2>
               <DatedRules rules={inForce} />
@@ -128,7 +128,7 @@ function ChangesPage() {
           )}
           {coming.length > 0 && (
             <section aria-labelledby="coming-heading">
-              <h2 id="coming-heading" className="text-2xl font-semibold">
+              <h2 id="coming-heading" className="text-section font-semibold">
                 Coming
               </h2>
               <DatedRules rules={coming} />
