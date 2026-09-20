@@ -96,11 +96,6 @@ every absolute URL is built from the incoming request's origin.
 - An unverified route still says **Not yet verified** on its card.
 - `/results` for someone with no offer leads with the routes they can apply for themselves, and a
   route needing no employer does **not** say "Employer applies for you".
-- The console is clean, checked in a **clean browser profile**. Joshua's everyday Chrome has an
-  extension that writes `data-new-gr-c-s-check-loaded` and `data-gr-ext-installed` onto `<body>`, and
-  React reports that as a hydration mismatch. It is the extension, not the site, and it will waste an
-  hour if it is met for the first time on launch day. chrome-devtools-mcp launches its own Chrome and
-  does not have it.
 
 ## 6. Then watch one number
 

@@ -158,9 +158,7 @@ function RouteGroup({
   if (routes.length === 0) return null;
   return (
     <section className="mt-7">
-      <h3 className="text-caption font-semibold tracking-[0.08em] text-muted-foreground uppercase">
-        {title}
-      </h3>
+      <h3 className="text-subhead font-semibold">{title}</h3>
       <div className="mt-3 space-y-5">
         {routes.map((route) => (
           <RouteCard
