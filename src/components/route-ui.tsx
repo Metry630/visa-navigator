@@ -26,7 +26,7 @@ export function StatusBadge({
 
   return (
     <span
-      className={`inline-flex items-center rounded-full px-3 py-1 text-caption font-semibold ${STATUS_CLASS[status]}`}
+      className={`inline-flex items-center rounded-full px-3 py-1 text-small font-semibold ${STATUS_CLASS[status]}`}
     >
       {text}
     </span>
@@ -51,7 +51,7 @@ export function OutcomeTag({ outcome }: { outcome: Outcome }) {
   const Icon = outcome === "met" ? Check : X;
   const color = outcome === "met" ? "text-open-foreground" : "text-closed-foreground";
   return (
-    <span className={`inline-flex items-center gap-1 text-caption font-medium ${color}`}>
+    <span className={`inline-flex items-center gap-1 text-small font-medium ${color}`}>
       <Icon aria-hidden="true" className="size-3.5" />
       {OUTCOME_TEXT[outcome]}
     </span>

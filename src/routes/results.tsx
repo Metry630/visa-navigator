@@ -296,9 +296,7 @@ function RouteChecklist({
           if (items.length === 0) return null;
           return (
             <section key={who}>
-              <h4
-                className="text-caption font-semibold tracking-[0.08em] text-muted-foreground uppercase"
-              >
+              <h4 className="text-caption font-semibold tracking-[0.08em] text-muted-foreground uppercase">
                 {CHECKER_HEADING[who]}
               </h4>
               <ul className="mt-2 space-y-3">
@@ -349,7 +347,7 @@ function RouteHeading({ route, p }: { route: RouteResult; p: string }) {
           <StatusBadge status={route.status} requiresEmployer={route.requiresEmployer} />
           <EmployerPackLink route={route} p={p} />
           {route.verifiedOn === null && (
-            <span className="rounded-full border border-border px-3 py-1 text-caption font-medium text-muted-foreground">
+            <span className="rounded-full border border-border px-3 py-1 text-small font-medium text-muted-foreground">
               Not yet verified
             </span>
           )}

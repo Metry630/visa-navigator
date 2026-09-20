@@ -8,7 +8,7 @@ export function SiteHeader() {
   return (
     <header className="border-b border-border bg-background print:hidden">
       <div className="mx-auto flex max-w-4xl flex-wrap items-center justify-between gap-3 px-5 py-4">
-        <Link to="/" className="text-lg text-foreground">
+        <Link to="/" className="text-subhead text-foreground">
           <Wordmark />
         </Link>
         <nav aria-label="Main" className="flex flex-wrap items-center gap-x-5 gap-y-2">

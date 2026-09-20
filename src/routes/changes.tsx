@@ -115,7 +115,9 @@ function ChangesPage() {
       </p>
 
       {!hasDatedRules ? (
-        <p className="mt-10 text-body text-muted-foreground">There are no dated rules at the moment.</p>
+        <p className="mt-10 text-body text-muted-foreground">
+          There are no dated rules at the moment.
+        </p>
       ) : (
         <div className="mt-12 space-y-14">
           {inForce.length > 0 && (
