@@ -49,7 +49,7 @@ function RouteDetailPage() {
   const destination = DESTINATIONS.find((d) => d.code === detail.destination);
 
   return (
-    <div className="mx-auto max-w-3xl px-5 py-12">
+    <div className="mx-auto max-w-3xl px-5 py-12 md:max-w-5xl">
       <p className="text-small text-muted-foreground">{destination?.name}</p>
       <h1 className="mt-1 text-title font-semibold">{detail.name}</h1>
       <p className="prose-measure mt-3 text-body text-muted-foreground">{detail.summary}</p>
