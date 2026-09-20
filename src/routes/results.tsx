@@ -212,11 +212,13 @@ function RouteChecklist({ route }: { route: RouteResult }) {
                     {item.sources.length > 0 && (
                       <details className="group mt-1 text-xs text-muted-foreground">
                         <summary className="cursor-pointer list-none rounded-sm py-1 underline underline-offset-2 marker:content-none [&::-webkit-details-marker]:hidden">
-                          {item.sources.length} {item.sources.length === 1 ? "source" : "sources"} ·{" "}
-                          {[...new Set(item.sources.map((source) => source.publisher))].join(", ")} · read{" "}
+                          {item.sources.length} {item.sources.length === 1 ? "source" : "sources"} {"·"}
+                          {[...new Set(item.sources.map((source) => source.publisher))].join(", ")} ·
+                          read{" "}
                           {formatDate(
-                            item.sources.reduce<string>((latest, source) =>
-                              source.retrievedOn > latest ? source.retrievedOn : latest,
+                            item.sources.reduce<string>(
+                              (latest, source) =>
+                                source.retrievedOn > latest ? source.retrievedOn : latest,
                               "",
                             ),
                           )}
