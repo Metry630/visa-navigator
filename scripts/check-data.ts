@@ -130,12 +130,19 @@ for (const { file, route } of routes) {
 }
 
 const reqs = routes.flatMap((r) => r.route.requirements);
+// How much of the data the engine can actually decide from a profile. Everything else is `manual`
+// and defers to the reader, the employer or the authority, which is honest but is not an answer.
+// It is reported on every run because it is the number that says whether this beats a search: each
+// requirement converted from `manual` to a typed kind is one more question answered here instead of
+// handed back. On 2026-09-21 it was 16 of 94.
+const decidable = reqs.filter((q) => q.kind !== "manual").length;
 const verified = routes.filter((r) => r.route.verified);
 const oldest = verified.map((r) => r.route.verified!.on).sort()[0] ?? "none";
 for (const w of warnings) console.warn(`warn  ${w}`);
 for (const e of errors) console.error(`error ${e}`);
 console.log(
   `routes ${routes.length} · requirements ${reqs.length} · sourced ${reqs.filter((q) => q.sources.length).length}/${reqs.length}` +
+    ` · decidable ${decidable}/${reqs.length}` +
     ` · verified ${verified.length}/${routes.length} · oldest verification ${oldest}`,
 );
 process.exit(errors.length ? 1 : 0);
