@@ -100,11 +100,11 @@ function Insights({ insights }: { insights: Insight[] }) {
   if (insights.length === 0) return null;
 
   return (
-    <section className="mt-6">
+    <section className="mt-5">
       <h3 className="text-subhead font-semibold">What the rules mean for you</h3>
       <ul className="mt-3 divide-y divide-border border-y border-border">
         {insights.map((insight) => (
-          <li key={insight.id} className="py-4">
+          <li key={insight.id} className="py-3">
             <p className="prose-measure text-body">{insight.text}</p>
             <details className="group mt-2">
               <summary className="min-h-11 cursor-pointer list-none rounded-sm py-2 text-small font-medium text-primary underline underline-offset-2 marker:content-none [&::-webkit-details-marker]:hidden">
@@ -332,7 +332,7 @@ function RouteGroup({
 }) {
   if (routes.length === 0) return null;
   return (
-    <section className="mt-7">
+    <section className="mt-6">
       <h3 className="text-caption font-semibold tracking-[0.08em] text-muted-foreground uppercase">
         {title}
       </h3>
@@ -487,7 +487,7 @@ function Results() {
         })}
       </div>
 
-      <div className="mt-10 space-y-12">
+      <div className="mt-8 space-y-10">
         {sortedResults.map((destination) => {
           if (destination.routes.length === 0) return null;
           const allClosed = destination.routes.every((route) => route.status === "closed");
