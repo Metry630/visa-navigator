@@ -286,9 +286,7 @@ function RouteRow({
           <div className="mt-1">
             <ChecksLine facts={facts} />
           </div>
-          {showReason && (
-            <p className="mt-1 text-small text-muted-foreground">{route.reason}</p>
-          )}
+          {showReason && <p className="mt-1 text-small text-muted-foreground">{route.reason}</p>}
         </div>
         <ChevronDown
           aria-hidden="true"
