@@ -50,10 +50,7 @@ function DatedRules({ rules }: { rules: DatedRule[] }) {
               <li key={`${route.routeId}-${requirement.id}-${date}`} className="py-5">
                 <p className="text-body">{requirement.text}</p>
                 <p className="mt-2 text-small text-muted-foreground">
-                  <SiteLink
-                    to="/routes/$routeId"
-                    params={{ routeId: route.routeId }}
-                  >
+                  <SiteLink to="/routes/$routeId" params={{ routeId: route.routeId }}>
                     {route.name}
                   </SiteLink>
                 </p>
@@ -62,8 +59,8 @@ function DatedRules({ rules }: { rules: DatedRule[] }) {
                     <div key={source.url + source.quote}>
                       <EvidenceQuote quote={source.quote} translation={source.translation} />
                       <p className="mt-2 text-caption text-muted-foreground">
-                        <OutboundLink href={source.url}>{source.publisher}</OutboundLink> · Retrieved{" "}
-                        {formatDate(source.retrievedOn)}
+                        <OutboundLink href={source.url}>{source.publisher}</OutboundLink> ·
+                        Retrieved {formatDate(source.retrievedOn)}
                       </p>
                     </div>
                   ))}

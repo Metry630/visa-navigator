@@ -111,10 +111,7 @@ function Insights({ insights }: { insights: Insight[] }) {
                   <section key={`${insight.id}-${origin.routeId}-${origin.requirementId}`}>
                     <p className="text-body">{origin.requirementText}</p>
                     <p className="mt-1 text-small text-muted-foreground">
-                      <SiteLink
-                        to="/routes/$routeId"
-                        params={{ routeId: origin.routeId }}
-                      >
+                      <SiteLink to="/routes/$routeId" params={{ routeId: origin.routeId }}>
                         {origin.routeName}
                       </SiteLink>
                     </p>

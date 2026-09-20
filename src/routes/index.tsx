@@ -54,12 +54,8 @@ function Home() {
           <Link to="/routes">Read the routes</Link>
         </Button>
         <div className="mt-4 flex flex-col items-start gap-2 text-small sm:flex-row sm:gap-5">
-          <SiteLink to="/check">
-            See the figures and readings that apply to you
-          </SiteLink>
-          <SiteLink to="/changes">
-            See what is changing
-          </SiteLink>
+          <SiteLink to="/check">See the figures and readings that apply to you</SiteLink>
+          <SiteLink to="/changes">See what is changing</SiteLink>
         </div>
       </div>
 
@@ -67,10 +63,7 @@ function Home() {
         <section className="mt-14 border-y border-border py-6">
           <p className="text-body">{exampleRequirement.text}</p>
           <p className="mt-2 text-small text-muted-foreground">
-            <SiteLink
-              to="/routes/$routeId"
-              params={{ routeId: exampleRoute.routeId }}
-            >
+            <SiteLink to="/routes/$routeId" params={{ routeId: exampleRoute.routeId }}>
               {exampleRoute.name}
             </SiteLink>
             {exampleRoute.verifiedOn

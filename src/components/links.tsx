@@ -3,8 +3,7 @@ import { ExternalLink } from "lucide-react";
 import type { ReactNode } from "react";
 import { cn } from "@/lib/utils";
 
-const LINK_CLASS =
-  "rounded-sm font-medium text-primary underline underline-offset-2";
+const LINK_CLASS = "rounded-sm font-medium text-primary underline underline-offset-2";
 
 export function OutboundLink({ href, children }: { href: string; children: ReactNode }) {
   return (

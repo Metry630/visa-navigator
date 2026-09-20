@@ -78,9 +78,7 @@ export function SiteFooter() {
         <nav aria-label="Footer" className="mt-5 flex flex-wrap gap-x-5 gap-y-2 text-small">
           <SiteLink to="/methodology">Methodology</SiteLink>
           <SiteLink to="/routes">Routes</SiteLink>
-          <OutboundLink href="https://github.com/Metry630/visa-navigator">
-            Source code
-          </OutboundLink>
+          <OutboundLink href="https://github.com/Metry630/visa-navigator">Source code</OutboundLink>
         </nav>
       </div>
     </footer>

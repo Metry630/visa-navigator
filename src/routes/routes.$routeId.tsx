@@ -97,9 +97,7 @@ function RouteDetailPage() {
       </ul>
 
       <p className="mt-10 text-body">
-        <SiteLink to="/check">
-          Check whether this route is open to you
-        </SiteLink>
+        <SiteLink to="/check">Check whether this route is open to you</SiteLink>
       </p>
     </div>
   );
