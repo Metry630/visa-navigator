@@ -178,10 +178,7 @@ function EmployerPackLink({ route, p }: { route: RouteResult; p: string }) {
   if (!route.checklist.some((item) => item.who === "employer")) return null;
   return (
     <Button asChild variant="outline" size="sm">
-      <Link
-        to="/pack"
-        search={{ p, route: route.routeId }}
-      >
+      <Link to="/pack" search={{ p, route: route.routeId }}>
         Send this to your employer
       </Link>
     </Button>

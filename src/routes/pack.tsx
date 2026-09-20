@@ -35,7 +35,11 @@ export const Route = createFileRoute("/pack")({
     route: typeof search["route"] === "string" ? search["route"] : "",
   }),
   beforeLoad: ({ search }) => {
-    if (!search.route || !getRoute(search.route) || (search.p && !findRoute(search.p, search.route))) {
+    if (
+      !search.route ||
+      !getRoute(search.route) ||
+      (search.p && !findRoute(search.p, search.route))
+    ) {
       throw redirect({ to: "/check" });
     }
   },
@@ -58,7 +62,12 @@ export const Route = createFileRoute("/pack")({
       ],
       links:
         loaderData?.detail && !loaderData.hasProfile
-          ? [{ rel: "canonical", href: `/pack?route=${encodeURIComponent(loaderData.detail.routeId)}` }]
+          ? [
+              {
+                rel: "canonical",
+                href: `/pack?route=${encodeURIComponent(loaderData.detail.routeId)}`,
+              },
+            ]
           : [],
     };
   },
@@ -76,7 +85,8 @@ function PackPage() {
   if (!detail) return null;
   const route = evaluated?.route;
   const destinationName =
-    evaluated?.destinationName ?? DESTINATIONS.find((item) => item.code === detail.destination)?.name;
+    evaluated?.destinationName ??
+    DESTINATIONS.find((item) => item.code === detail.destination)?.name;
   const employerItems: PackItem[] = route
     ? route.checklist.filter((item) => item.who === "employer")
     : detail.requirements
@@ -100,7 +110,7 @@ function PackPage() {
       <p className="prose-measure mt-3 leading-relaxed">
         {p
           ? "This page lists only the points an employer has to confirm, provide or agree to for this route, for one candidate."
-          : "This page lists what an employer has to confirm or provide for this route."} {" "}
+          : "This page lists what an employer has to confirm or provide for this route."}{" "}
         Each point is followed by the official wording it comes from and a link to the page it was
         taken from.
       </p>
