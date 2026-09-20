@@ -6,13 +6,16 @@ import {
   evaluate,
   listNationalities,
   type Checker,
+  type Insight,
   type Profile,
   type RouteResult,
 } from "@/engine";
+import { EvidenceQuote } from "@/components/evidence-quote";
 import { CHECKER_HEADING, OutcomeTag, SourceLink, StatusBadge } from "@/components/route-ui";
 import { formatDate } from "@/components/format-date";
 import { Button } from "@/components/ui/button";
 import { buildShareLink } from "@/lib/share-link";
+import { decodeProfileContext } from "@/lib/profile-context";
 
 type ResultsSearch = { p: string };
 
@@ -54,7 +57,7 @@ function displayDegree(degree: Profile["degree"]): string {
   return degree.charAt(0).toUpperCase() + degree.slice(1);
 }
 
-function ProfileSummary({ profile }: { profile: Profile }) {
+function ProfileSummary({ profile, hasJobOffer, universityCountry }: { profile: Profile; hasJobOffer: boolean | undefined; universityCountry: string | undefined }) {
   const names = listNationalities();
   const bits = [
     profile.nationalities
@@ -66,6 +69,9 @@ function ProfileSummary({ profile }: { profile: Profile }) {
   ];
   if (profile.field) bits.push(profile.field);
   if (profile.graduationYear) bits.push(`graduated ${profile.graduationYear}`);
+  const universityCountryName = names.find((country) => country.code === universityCountry)?.name;
+  if (universityCountryName) bits.push(`university in ${universityCountryName}`);
+  if (hasJobOffer !== undefined) bits.push(hasJobOffer ? "has a job offer" : "no job offer yet");
 
   return (
     <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3 rounded-lg border border-border bg-surface px-4 py-3 sm:flex sm:flex-wrap sm:justify-between">
@@ -77,6 +83,67 @@ function ProfileSummary({ profile }: { profile: Profile }) {
         Edit answers
       </Link>
     </div>
+  );
+}
+
+function Insights({ insights }: { insights: Insight[] }) {
+  if (insights.length === 0) return null;
+
+  return (
+    <section className="mt-6" aria-labelledby="insights-heading">
+      <h3 id="insights-heading" className="text-lg font-semibold">What the rules mean for you</h3>
+      <ul className="mt-3 divide-y divide-border border-y border-border">
+        {insights.map((insight) => (
+          <li key={insight.id} className="py-4">
+            <p className="prose-measure leading-relaxed">{insight.text}</p>
+            <details className="group mt-3">
+              <summary className="min-h-11 cursor-pointer list-none rounded-sm py-2 text-sm font-medium text-primary underline underline-offset-2 marker:content-none [&::-webkit-details-marker]:hidden">
+                <span className="group-open:hidden">Where this comes from</span>
+                <span className="hidden group-open:inline">Hide the evidence</span>
+              </summary>
+              <div className="mt-2 space-y-5 border-l-2 border-border pl-4">
+                {insight.from.map((origin) => (
+                  <section key={`${insight.id}-${origin.routeId}-${origin.requirementId}`}>
+                    <p className="text-sm leading-relaxed">{origin.requirementText}</p>
+                    <p className="mt-1 text-sm text-muted-foreground">
+                      <Link
+                        to="/routes/$routeId"
+                        params={{ routeId: origin.routeId }}
+                        className="font-medium text-primary underline underline-offset-2"
+                      >
+                        {origin.routeName}
+                      </Link>
+                    </p>
+                    <div className="mt-3 space-y-4">
+                      {origin.sources.map((source) => (
+                        <div key={source.url + source.quote}>
+                          <EvidenceQuote quote={source.quote} translation={source.translation} />
+                          <div className="mt-2">
+                            <SourceLink source={source} />
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </section>
+                ))}
+              </div>
+            </details>
+          </li>
+        ))}
+      </ul>
+    </section>
+  );
+}
+
+function RouteGroup({ title, routes, p }: { title: string; routes: RouteResult[]; p: string }) {
+  if (routes.length === 0) return null;
+  return (
+    <section className="mt-7">
+      <h3 className="text-lg font-semibold">{title}</h3>
+      <div className="mt-3 space-y-5">
+        {routes.map((route) => <RouteCard key={route.routeId} route={route} p={p} />)}
+      </div>
+    </section>
   );
 }
 
@@ -247,7 +314,8 @@ function NothingOpen({ name }: { name: string }) {
 function Results() {
   const { p } = Route.useSearch();
   const [copied, setCopied] = useState(false);
-  const profile = useMemo(() => decodeProfile(p), [p]);
+  const context = useMemo(() => decodeProfileContext(p), [p]);
+  const profile = context?.profile ?? null;
   const results = useMemo(() => (profile ? evaluate(profile) : []), [profile]);
   const sortedResults = useMemo(
     () =>
@@ -286,7 +354,11 @@ function Results() {
       </div>
 
       <div className="mt-5">
-        <ProfileSummary profile={profile} />
+        <ProfileSummary
+          profile={profile}
+          hasJobOffer={context?.hasJobOffer}
+          universityCountry={context?.universityCountry}
+        />
       </div>
 
       <div className="mt-7 space-y-1 text-sm text-muted-foreground">
@@ -307,15 +379,25 @@ function Results() {
         {sortedResults.map((destination) => {
           if (destination.routes.length === 0) return null;
           const allClosed = destination.routes.every((route) => route.status === "closed");
+          const selfRoutes = destination.routes.filter((route) => !route.requiresEmployer);
+          const employerRoutes = destination.routes.filter((route) => route.requiresEmployer);
+          const groups = context?.hasJobOffer
+            ? [
+                { title: "Routes an employer has to apply for", routes: employerRoutes },
+                { title: "Routes you can apply for yourself", routes: selfRoutes },
+              ]
+            : [
+                { title: "Routes you can apply for yourself", routes: selfRoutes },
+                { title: "Routes an employer has to apply for", routes: employerRoutes },
+              ];
           return (
             <section key={destination.destination}>
               <h2 className="text-2xl font-semibold">{destination.name}</h2>
+              <Insights insights={destination.insights} />
               {allClosed && <NothingOpen name={destination.name} />}
-              <div className="mt-4 space-y-5">
-                {destination.routes.map((route) => (
-                  <RouteCard key={route.routeId} route={route} p={p} />
-                ))}
-              </div>
+              {groups.map((group) => (
+                <RouteGroup key={group.title} title={group.title} routes={group.routes} p={p} />
+              ))}
             </section>
           );
         })}
