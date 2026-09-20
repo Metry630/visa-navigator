@@ -2,6 +2,7 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useMemo, useRef, useState } from "react";
 import {
   DESTINATIONS,
+  encodeProfile,
   listNationalities,
   type DegreeLevel,
   type Destination,
@@ -11,7 +12,6 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { encodeProfileContext } from "@/lib/profile-context";
 
 export const Route = createFileRoute("/check")({
   head: () => ({
@@ -212,8 +212,10 @@ function CheckPage() {
         .map(([code, level]) => ({ code, level: level as LanguageLevel })),
     };
     if (form.university.trim()) profile.university = form.university.trim();
+    if (form.universityCountry) profile.universityCountry = form.universityCountry;
     if (form.graduationYear.trim()) profile.graduationYear = Number(form.graduationYear);
     if (form.field.trim()) profile.field = form.field.trim();
+    profile.hasOffer = form.hasJobOffer === "yes";
     const salary: Partial<Record<Destination, number>> = {};
     for (const d of DESTINATIONS) {
       const raw = form.salary[d.code];
@@ -224,10 +226,7 @@ function CheckPage() {
     void navigate({
       to: "/results",
       search: {
-        p: encodeProfileContext(profile, {
-          hasJobOffer: form.hasJobOffer === "yes",
-          ...(form.universityCountry ? { universityCountry: form.universityCountry } : {}),
-        }),
+        p: encodeProfile(profile),
       },
     });
   }
