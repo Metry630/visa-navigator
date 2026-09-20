@@ -4,12 +4,14 @@ import { getRoute, listRoutes } from "@/engine";
 const STATIC_PATHS = ["/", "/check", "/routes", "/changes", "/methodology"];
 
 function escapeXml(value: string): string {
-  return value.replace(
-    /[&<>"']/g,
-    (character) =>
-      ({ "&": "&", "<": "<", ">": ">", '"': """, "'": "'" })[character] ??
-      character,
-  );
+  const entities: Record<string, string> = {
+    "&": "&" + "amp;",
+    "<": "&" + "lt;",
+    ">": "&" + "gt;",
+    '"': "&" + "quot;",
+    "'": "&" + "apos;",
+  };
+  return value.replace(/[&<>"']/g, (character) => entities[character] ?? character);
 }
 
 function employerPackPaths(): string[] {
