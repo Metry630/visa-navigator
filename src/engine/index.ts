@@ -1,6 +1,7 @@
 // The engine's public API. The UI imports only from here, as "@/engine".
 import { z } from "zod";
 import { evaluateRoute, inEffect } from "./evaluate";
+
 import { insightsFor } from "./insights";
 import { RouteSchema, type Requirement, type Route } from "./schema";
 import type {
@@ -13,6 +14,13 @@ import type {
 } from "./types";
 
 export type * from "./types";
+
+/**
+ * Money formatting lives here so the currency symbol is written once. The route library renders
+ * `RouteFacts.salaryFloor` and the results page renders the same figures from a checklist note; two
+ * formatters would eventually disagree about a symbol or a thousands separator.
+ */
+export { formatMoney } from "./evaluate";
 
 export const DESTINATIONS: { code: Destination; name: string }[] = [
   { code: "SG", name: "Singapore" },
