@@ -1,8 +1,8 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { ExternalLink } from "lucide-react";
 import { DESTINATIONS, getRoute, type Checker } from "@/engine";
 import { EvidenceQuote } from "@/components/evidence-quote";
 import { formatDate } from "@/components/format-date";
+import { OutboundLink, SiteLink } from "@/components/links";
 
 export const Route = createFileRoute("/routes/$routeId")({
   loader: ({ params }) => {
@@ -55,24 +55,13 @@ function RouteDetailPage() {
       <p className="prose-measure mt-3 text-body text-muted-foreground">{detail.summary}</p>
 
       <div className="mt-4 flex flex-wrap items-center gap-4 text-small">
-        <a
-          href={detail.officialUrl}
-          target="_blank"
-          rel="noreferrer noopener"
-          className="inline-flex items-center gap-1 font-medium text-primary underline underline-offset-2"
-        >
-          Official page
-          <ExternalLink aria-hidden="true" className="size-3.5" />
-          <span className="sr-only">opens in a new tab</span>
-        </a>
+        <OutboundLink href={detail.officialUrl}>
+          Official page on {new URL(detail.officialUrl).hostname.replace(/^www\./, "")}
+        </OutboundLink>
         {detail.requirements.some((requirement) => requirement.who === "employer") && (
-          <Link
-            to="/pack"
-            search={{ route: detail.routeId }}
-            className="font-medium text-primary underline underline-offset-2"
-          >
+          <SiteLink to="/pack" search={{ route: detail.routeId }}>
             What an employer has to do for this route
-          </Link>
+          </SiteLink>
         )}
         <span className="text-muted-foreground">
           {detail.verifiedOn ? `Verified ${formatDate(detail.verifiedOn)}` : "Not yet verified"}
@@ -97,15 +86,8 @@ function RouteDetailPage() {
                 <div key={s.url + s.quote}>
                   <EvidenceQuote quote={s.quote} translation={s.translation} />
                   <p className="mt-2 text-caption text-muted-foreground">
-                    {s.publisher}. Retrieved {formatDate(s.retrievedOn)}.{" "}
-                    <a
-                      href={s.url}
-                      target="_blank"
-                      rel="noreferrer noopener"
-                      className="font-medium text-primary underline underline-offset-2"
-                    >
-                      Source
-                    </a>
+                    <OutboundLink href={s.url}>{s.publisher}</OutboundLink> · Retrieved{" "}
+                    {formatDate(s.retrievedOn)}
                   </p>
                 </div>
               ))}
@@ -115,9 +97,7 @@ function RouteDetailPage() {
       </ul>
 
       <p className="mt-10 text-body">
-        <Link to="/check" className="font-medium text-primary underline underline-offset-2">
-          Check whether this route is open to you
-        </Link>
+        <SiteLink to="/check">Check whether this route is open to you</SiteLink>
       </p>
     </div>
   );

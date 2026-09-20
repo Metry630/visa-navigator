@@ -1,7 +1,7 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
-import { ExternalLink } from "lucide-react";
+import { createFileRoute } from "@tanstack/react-router";
 import { EvidenceQuote } from "@/components/evidence-quote";
 import { formatDate } from "@/components/format-date";
+import { OutboundLink, SiteLink } from "@/components/links";
 import { getRoute, listRoutes, type RequirementView, type RouteDetail } from "@/engine";
 
 const DESCRIPTION =
@@ -50,30 +50,17 @@ function DatedRules({ rules }: { rules: DatedRule[] }) {
               <li key={`${route.routeId}-${requirement.id}-${date}`} className="py-5">
                 <p className="text-body">{requirement.text}</p>
                 <p className="mt-2 text-small text-muted-foreground">
-                  <Link
-                    to="/routes/$routeId"
-                    params={{ routeId: route.routeId }}
-                    className="font-medium text-primary underline underline-offset-2"
-                  >
+                  <SiteLink to="/routes/$routeId" params={{ routeId: route.routeId }}>
                     {route.name}
-                  </Link>
+                  </SiteLink>
                 </p>
                 <div className="mt-4 space-y-4">
                   {requirement.sources.map((source) => (
                     <div key={source.url + source.quote}>
                       <EvidenceQuote quote={source.quote} translation={source.translation} />
                       <p className="mt-2 text-caption text-muted-foreground">
-                        {source.publisher}. Retrieved {formatDate(source.retrievedOn)}.{" "}
-                        <a
-                          href={source.url}
-                          target="_blank"
-                          rel="noreferrer noopener"
-                          className="inline-flex items-center gap-1 font-medium text-primary underline underline-offset-2"
-                        >
-                          Source
-                          <ExternalLink aria-hidden="true" className="size-3" />
-                          <span className="sr-only">opens in a new tab</span>
-                        </a>
+                        <OutboundLink href={source.url}>{source.publisher}</OutboundLink> ·
+                        Retrieved {formatDate(source.retrievedOn)}
                       </p>
                     </div>
                   ))}

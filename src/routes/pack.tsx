@@ -11,6 +11,7 @@ import {
 } from "@/engine";
 import { EvidenceQuote } from "@/components/evidence-quote";
 import { formatDate } from "@/components/format-date";
+import { OutboundLink, SiteLink } from "@/components/links";
 import { Button } from "@/components/ui/button";
 import { buildPackLink } from "@/lib/share-link";
 
@@ -144,15 +145,8 @@ function PackPage() {
                   <div key={s.url + s.quote}>
                     <EvidenceQuote quote={s.quote} translation={s.translation} />
                     <p className="mt-2 text-caption break-words text-muted-foreground">
-                      {s.publisher}. Retrieved {formatDate(s.retrievedOn)}.{" "}
-                      <a
-                        href={s.url}
-                        target="_blank"
-                        rel="noreferrer noopener"
-                        className="font-medium text-primary underline underline-offset-2"
-                      >
-                        Source
-                      </a>
+                      <OutboundLink href={s.url}>{s.publisher}</OutboundLink> · Retrieved{" "}
+                      {formatDate(s.retrievedOn)}
                       <span className="hidden print:inline"> {s.url}</span>
                     </p>
                   </div>
@@ -181,13 +175,9 @@ function PackPage() {
 
       {p && (
         <p className="mt-8 text-body print:hidden">
-          <Link
-            to="/results"
-            search={{ p }}
-            className="font-medium text-primary underline underline-offset-2"
-          >
+          <SiteLink to="/results" search={{ p }}>
             Back to the candidate's results
-          </Link>
+          </SiteLink>
         </p>
       )}
     </div>

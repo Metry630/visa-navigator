@@ -264,7 +264,7 @@ function CheckPage() {
         </Button>
 
         <details className="group border-t border-border pt-5">
-          <summary className="min-h-11 cursor-pointer list-none rounded-sm py-2 font-medium text-primary underline underline-offset-2 marker:content-none [&::-webkit-details-marker]:hidden">
+          <summary className="min-h-11 cursor-pointer list-none rounded-sm py-2 font-medium text-primary underline-offset-2 underline marker:content-none [&::-webkit-details-marker]:hidden">
             <span className="group-open:hidden">Add more about yourself</span>
             <span className="hidden group-open:inline">Hide extra details</span>
           </summary>

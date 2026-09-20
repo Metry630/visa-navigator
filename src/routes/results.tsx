@@ -16,6 +16,7 @@ import {
 import { EvidenceQuote } from "@/components/evidence-quote";
 import { CHECKER_HEADING, OutcomeTag, SourceLink, StatusBadge } from "@/components/route-ui";
 import { formatDate } from "@/components/format-date";
+import { SiteLink } from "@/components/links";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { buildShareLink } from "@/lib/share-link";
@@ -83,12 +84,9 @@ function ProfileSummary({ profile }: { profile: Profile }) {
   return (
     <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3 rounded-lg border border-border bg-surface px-4 py-3 sm:flex sm:flex-wrap sm:justify-between">
       <p className="min-w-0 text-small text-muted-foreground">{bits.join(" · ")}</p>
-      <Link
-        to="/check"
-        className="shrink-0 rounded-sm py-2 text-small font-medium text-primary underline underline-offset-2"
-      >
+      <SiteLink to="/check" className="shrink-0 py-2 text-small">
         Edit answers
-      </Link>
+      </SiteLink>
     </div>
   );
 }
@@ -104,7 +102,7 @@ function Insights({ insights }: { insights: Insight[] }) {
           <li key={insight.id} className="py-4">
             <p className="prose-measure text-body">{insight.text}</p>
             <details className="group mt-3">
-              <summary className="min-h-11 cursor-pointer list-none rounded-sm py-2 text-small font-medium text-primary underline underline-offset-2 marker:content-none [&::-webkit-details-marker]:hidden">
+              <summary className="min-h-11 cursor-pointer list-none rounded-sm py-2 text-small font-medium text-primary underline-offset-2 underline marker:content-none [&::-webkit-details-marker]:hidden">
                 <span className="group-open:hidden">Where this comes from</span>
                 <span className="hidden group-open:inline">Hide the evidence</span>
               </summary>
@@ -113,13 +111,9 @@ function Insights({ insights }: { insights: Insight[] }) {
                   <section key={`${insight.id}-${origin.routeId}-${origin.requirementId}`}>
                     <p className="text-body">{origin.requirementText}</p>
                     <p className="mt-1 text-small text-muted-foreground">
-                      <Link
-                        to="/routes/$routeId"
-                        params={{ routeId: origin.routeId }}
-                        className="font-medium text-primary underline underline-offset-2"
-                      >
+                      <SiteLink to="/routes/$routeId" params={{ routeId: origin.routeId }}>
                         {origin.routeName}
-                      </Link>
+                      </SiteLink>
                     </p>
                     <div className="mt-3 space-y-4">
                       {origin.sources.map((source) => (
@@ -337,13 +331,13 @@ function RouteHeading({ route, p }: { route: RouteResult; p: string }) {
     <>
       <div className="grid min-w-0 grid-cols-[minmax(0,1fr)_auto] items-start gap-3 sm:flex sm:flex-wrap sm:justify-between">
         <h3 className="min-w-0 text-subhead font-semibold">
-          <Link
+          <SiteLink
             to="/routes/$routeId"
             params={{ routeId: route.routeId }}
-            className="break-words underline-offset-4 hover:underline"
+            className="break-words"
           >
             {route.name}
-          </Link>
+          </SiteLink>
         </h3>
         <div className="col-span-full flex min-w-0 flex-wrap items-center gap-2 sm:col-span-1 sm:shrink-0">
           <StatusBadge status={route.status} requiresEmployer={route.requiresEmployer} />
@@ -409,22 +403,16 @@ function NothingOpen({ name }: { name: string }) {
       <ul className="prose-measure mt-3 space-y-2 text-body text-muted-foreground">
         <li>
           Rules change. A rule that closes a route today may not next January.{" "}
-          <Link
-            to="/changes"
-            className="rounded-sm text-primary underline underline-offset-2 hover:text-foreground"
-          >
+          <SiteLink to="/changes" className="hover:text-foreground">
             See what is changing
-          </Link>
+          </SiteLink>
           .
         </li>
         <li>
           You can read every rule without answering anything.{" "}
-          <Link
-            to="/routes"
-            className="rounded-sm text-primary underline underline-offset-2 hover:text-foreground"
-          >
+          <SiteLink to="/routes" className="hover:text-foreground">
             Read the routes
-          </Link>
+          </SiteLink>
           .
         </li>
       </ul>
