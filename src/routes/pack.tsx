@@ -105,9 +105,9 @@ function PackPage() {
 
   return (
     <div className="pack-print mx-auto min-w-0 max-w-3xl px-4 py-10 sm:px-5 sm:py-12">
-      <p className="text-sm text-muted-foreground">{destinationName}</p>
-      <h1 className="mt-1 text-3xl font-semibold">{detail.name}</h1>
-      <p className="prose-measure mt-3 leading-relaxed">
+      <p className="text-small text-muted-foreground">{destinationName}</p>
+      <h1 className="mt-1 text-title font-semibold">{detail.name}</h1>
+      <p className="prose-measure mt-3 text-body">
         {p
           ? "This page lists only the points an employer has to confirm, provide or agree to for this route, for one candidate."
           : "This page lists what an employer has to confirm or provide for this route."}{" "}
@@ -120,14 +120,14 @@ function PackPage() {
           {copied ? <Check aria-hidden="true" /> : <Copy aria-hidden="true" />}
           {copied ? "Link copied" : "Copy link"}
         </Button>
-        <span className="text-sm text-muted-foreground" aria-live="polite">
+        <span className="text-small text-muted-foreground" aria-live="polite">
           {copied ? "The link is ready to share." : ""}
         </span>
       </div>
 
-      <h2 className="mt-10 text-xl font-semibold">What the employer is asked for</h2>
+      <h2 className="mt-10 text-section font-semibold">What the employer is asked for</h2>
       {employerItems.length === 0 ? (
-        <p className="prose-measure mt-3 leading-relaxed text-muted-foreground">
+        <p className="prose-measure mt-3 text-body text-muted-foreground">
           There is nothing on this route for an employer to confirm.
         </p>
       ) : (
@@ -137,13 +137,13 @@ function PackPage() {
               key={item.requirementId}
               className="pack-item min-w-0 rounded-lg border border-border bg-card p-4 sm:p-5"
             >
-              <p className="leading-relaxed">{item.text}</p>
-              {item.note && <p className="mt-1 text-sm text-muted-foreground">{item.note}</p>}
+              <p className="text-body">{item.text}</p>
+              {item.note && <p className="mt-1 text-body text-muted-foreground">{item.note}</p>}
               <div className="mt-4 space-y-4">
                 {item.sources.map((s) => (
                   <div key={s.url + s.quote}>
                     <EvidenceQuote quote={s.quote} translation={s.translation} />
-                    <p className="mt-2 text-xs break-words text-muted-foreground">
+                    <p className="mt-2 text-caption break-words text-muted-foreground">
                       {s.publisher}. Retrieved {formatDate(s.retrievedOn)}.{" "}
                       <a
                         href={s.url}
@@ -163,7 +163,7 @@ function PackPage() {
         </ul>
       )}
 
-      <div className="prose-measure mt-10 space-y-2 border-t border-border pt-6 text-sm leading-relaxed text-muted-foreground">
+      <div className="prose-measure mt-10 space-y-2 border-t border-border pt-6 text-body text-muted-foreground">
         <p>
           What this page cannot tell you: it does not say whether an application will be approved.
           That decision belongs to the authority.
@@ -180,7 +180,7 @@ function PackPage() {
       </div>
 
       {p && (
-        <p className="mt-8 text-sm print:hidden">
+        <p className="mt-8 text-body print:hidden">
           <Link
             to="/results"
             search={{ p }}

@@ -4,11 +4,11 @@ import { Wordmark } from "./brand";
 
 export function SiteHeader() {
   const linkClass =
-    "rounded-sm px-1 py-1 text-sm text-muted-foreground transition-colors hover:text-foreground";
+    "rounded-sm px-1 py-1 text-small text-muted-foreground transition-colors hover:text-foreground";
   return (
     <header className="border-b border-border bg-background print:hidden">
       <div className="mx-auto flex max-w-4xl flex-wrap items-center justify-between gap-3 px-5 py-4">
-        <Link to="/" className="text-lg text-foreground">
+        <Link to="/" className="text-subhead text-foreground">
           <Wordmark />
         </Link>
         <nav aria-label="Main" className="flex flex-wrap items-center gap-x-5 gap-y-2">
@@ -39,10 +39,10 @@ export function SiteFooter() {
     <footer className="mt-20 border-t border-border bg-surface print:hidden">
       <div className="mx-auto max-w-4xl px-5 py-8">
         <Wordmark className="text-foreground" />
-        <p className="prose-measure mt-1 text-sm leading-relaxed text-muted-foreground">
+        <p className="prose-measure mt-1 text-body text-muted-foreground">
           Work visa routes for new graduates, with every rule linked to its official source.
         </p>
-        <p className="prose-measure text-sm leading-relaxed text-muted-foreground">
+        <p className="prose-measure text-body text-muted-foreground">
           Information, not legal advice. Rules change, so every rule links to its official source
           and shows when a person last verified it.
         </p>

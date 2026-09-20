@@ -73,7 +73,7 @@ type FormState = {
 };
 
 const selectClass =
-  "h-11 w-full min-w-0 rounded-md border border-input bg-background px-3 text-sm text-foreground sm:h-10";
+  "h-11 w-full min-w-0 rounded-md border border-input bg-background px-3 text-body text-foreground sm:h-10";
 
 function CheckPage() {
   const navigate = useNavigate();
@@ -158,8 +158,8 @@ function CheckPage() {
 
   return (
     <div className="mx-auto min-w-0 max-w-2xl px-4 py-10 sm:px-5 sm:py-12">
-      <h1 className="text-3xl font-semibold">Check your options</h1>
-      <p className="mt-2 text-sm text-muted-foreground">
+      <h1 className="text-title font-semibold">Check your options</h1>
+      <p className="mt-2 text-small text-muted-foreground">
         Your answers stay in the page address and are not stored.
       </p>
       <div className="sr-only" aria-live="polite" aria-atomic="true">
@@ -235,7 +235,7 @@ function CheckPage() {
         </div>
 
         <fieldset className="space-y-2">
-          <legend className="text-sm font-medium">Do you already have a job offer?</legend>
+          <legend className="text-body font-medium">Do you already have a job offer?</legend>
           <div className="flex flex-wrap gap-4">
             {(["no", "yes"] as const).map((answer) => (
               <label key={answer} className="flex min-h-11 cursor-pointer items-center gap-2">
@@ -254,7 +254,7 @@ function CheckPage() {
         </fieldset>
 
         {error && (
-          <p role="alert" className="text-sm font-medium text-destructive">
+          <p role="alert" className="text-body font-medium text-destructive">
             {error}
           </p>
         )}
@@ -355,19 +355,19 @@ function CheckPage() {
             </div>
 
             <fieldset>
-              <legend className="text-sm font-medium">Languages, optional</legend>
+              <legend className="text-body font-medium">Languages, optional</legend>
               <div className="mt-2 grid gap-x-5 gap-y-2 rounded-md border border-border p-3 sm:grid-cols-2">
                 {LANGUAGES.map((language) => (
                   <div
                     key={language.code}
                     className="grid grid-cols-[minmax(0,1fr)_8.5rem] items-center gap-2"
                   >
-                    <Label className="text-xs" htmlFor={`lang-${language.code}`}>
+                    <Label className="text-small" htmlFor={`lang-${language.code}`}>
                       {language.name}
                     </Label>
                     <select
                       id={`lang-${language.code}`}
-                      className="h-9 min-w-0 rounded-md border border-input bg-background px-2 text-xs text-foreground"
+                      className="h-9 min-w-0 rounded-md border border-input bg-background px-2 text-small text-foreground"
                       value={form.languages[language.code] ?? ""}
                       onChange={(event) =>
                         update({

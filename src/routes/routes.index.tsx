@@ -24,8 +24,8 @@ function RoutesLibrary() {
 
   return (
     <div className="mx-auto max-w-4xl px-5 py-14">
-      <h1 className="text-3xl font-semibold sm:text-4xl">Routes covered</h1>
-      <p className="prose-measure mt-4 text-lg leading-relaxed text-muted-foreground">
+      <h1 className="text-title font-semibold">Routes covered</h1>
+      <p className="prose-measure mt-4 text-subhead text-muted-foreground">
         These are the routes Visa Routes covers. Anyone can read them without answering anything.
       </p>
 
@@ -47,11 +47,11 @@ function RoutesLibrary() {
 
           return (
             <section key={destination.code}>
-              <h2 className="text-2xl font-semibold">{destination.name}</h2>
+              <h2 className="text-section font-semibold">{destination.name}</h2>
               <div className="mt-6 space-y-8">
                 {groups.map((group) => (
                   <section key={group.title}>
-                    <h3 className="text-base font-semibold">
+                    <h3 className="text-subhead font-semibold">
                       {group.title}{" "}
                       <span className="text-muted-foreground">({group.routes.length})</span>
                     </h3>
@@ -59,7 +59,7 @@ function RoutesLibrary() {
                       {group.routes.map((route) => (
                         <li key={route.routeId} className="py-5">
                           <div className="flex min-w-0 flex-col gap-2 sm:flex-row sm:items-baseline sm:justify-between sm:gap-6">
-                            <h4 className="min-w-0 text-xl font-semibold">
+                            <h4 className="min-w-0 text-subhead font-semibold">
                               <Link
                                 to="/routes/$routeId"
                                 params={{ routeId: route.routeId }}
@@ -68,13 +68,13 @@ function RoutesLibrary() {
                                 {route.name}
                               </Link>
                             </h4>
-                            <p className="shrink-0 text-sm text-muted-foreground">
+                            <p className="shrink-0 text-small text-muted-foreground">
                               {route.verifiedOn
                                 ? `Verified ${formatDate(route.verifiedOn)}`
                                 : "Not yet verified"}
                             </p>
                           </div>
-                          <p className="prose-measure mt-2 leading-relaxed text-muted-foreground">
+                          <p className="prose-measure mt-2 text-body text-muted-foreground">
                             {route.summary}
                           </p>
                         </li>

@@ -47,10 +47,10 @@ function Home() {
 
   return (
     <div className="mx-auto max-w-4xl px-5 py-16 sm:py-24">
-      <h1 className="prose-measure text-4xl leading-tight font-semibold text-balance sm:text-5xl">
+      <h1 className="prose-measure text-display font-semibold text-balance">
         Work visa routes, rules and official sources
       </h1>
-      <p className="prose-measure mt-5 text-lg leading-relaxed text-muted-foreground">
+      <p className="prose-measure mt-5 text-subhead text-muted-foreground">
         Read the routes for new graduates, the rules behind them and the official wording each rule
         comes from.
       </p>
@@ -58,7 +58,7 @@ function Home() {
         <Button asChild size="lg">
           <Link to="/routes">Read the routes</Link>
         </Button>
-        <div className="mt-4 flex flex-col items-start gap-2 text-sm sm:flex-row sm:gap-5">
+        <div className="mt-4 flex flex-col items-start gap-2 text-small sm:flex-row sm:gap-5">
           <Link to="/check" className="font-medium text-primary underline underline-offset-2">
             See the figures and readings that apply to you
           </Link>
@@ -68,15 +68,15 @@ function Home() {
         </div>
       </div>
 
-      <p className="prose-measure mt-14 leading-relaxed text-muted-foreground">
+      <p className="prose-measure mt-14 text-body text-muted-foreground">
         {routes.length} routes, {requirementCount} requirements and {sourceCount} quotes.{" "}
         {verifiedCount} of {routes.length} routes verified.
       </p>
 
       {exampleRoute && exampleRequirement && (
         <section className="mt-8 border-y border-border py-6">
-          <p className="leading-relaxed">{exampleRequirement.text}</p>
-          <p className="mt-2 text-sm text-muted-foreground">
+          <p className="text-body">{exampleRequirement.text}</p>
+          <p className="mt-2 text-small text-muted-foreground">
             <Link
               to="/routes/$routeId"
               params={{ routeId: exampleRoute.routeId }}
@@ -92,7 +92,7 @@ function Home() {
             {exampleRequirement.sources.map((source) => (
               <div key={source.url + source.quote}>
                 <EvidenceQuote quote={source.quote} translation={source.translation} />
-                <p className="mt-2 text-xs text-muted-foreground">
+                <p className="mt-2 text-caption text-muted-foreground">
                   {source.publisher}. Retrieved {formatDate(source.retrievedOn)}.{" "}
                   <a
                     href={source.url}
@@ -109,7 +109,7 @@ function Home() {
         </section>
       )}
 
-      <div className="prose-measure mt-14 space-y-2 border-t border-border pt-8 text-sm text-muted-foreground">
+      <div className="prose-measure mt-14 space-y-2 border-t border-border pt-8 text-body text-muted-foreground">
         <p>Singapore and Japan today. More countries are being added.</p>
         <p>Every rule links to an official source, and a person checks each one against it.</p>
       </div>
