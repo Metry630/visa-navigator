@@ -6,15 +6,15 @@ import {
   encodeProfile,
   evaluate,
   listNationalities,
+  listRoutes,
   type Checker,
   type Destination,
   type Insight,
   type Profile,
+  type RouteFacts,
   type RouteResult,
-  type Source,
 } from "@/engine";
-import { EvidenceQuote } from "@/components/evidence-quote";
-import { CHECKER_HEADING, OutcomeTag, SourceLink, StatusBadge } from "@/components/route-ui";
+import { CHECKER_HEADING, OutcomeTag, StatusBadge } from "@/components/route-ui";
 import { formatDate } from "@/components/format-date";
 import { SiteLink } from "@/components/links";
 import { Button } from "@/components/ui/button";
@@ -57,6 +57,11 @@ const STATUS_ORDER: Record<RouteResult["status"], number> = {
   closed: 2,
 };
 
+const SALARY_UNITS: Record<Destination, string> = {
+  SG: "SGD per month",
+  JP: "JPY per year",
+};
+
 function displayDegree(degree: Profile["degree"]): string {
   return degree.charAt(0).toUpperCase() + degree.slice(1);
 }
@@ -95,39 +100,32 @@ function Insights({ insights }: { insights: Insight[] }) {
   if (insights.length === 0) return null;
 
   return (
-    <section className="mt-6">
+    <section className="mt-5">
       <h3 className="text-subhead font-semibold">What the rules mean for you</h3>
       <ul className="mt-3 divide-y divide-border border-y border-border">
         {insights.map((insight) => (
-          <li key={insight.id} className="py-4">
+          <li key={insight.id} className="py-3">
             <p className="prose-measure text-body">{insight.text}</p>
-            <details className="group mt-3">
-              <summary className="min-h-11 cursor-pointer list-none rounded-sm py-2 text-small font-medium text-primary underline-offset-2 underline marker:content-none [&::-webkit-details-marker]:hidden">
+            <details className="group mt-2">
+              <summary className="min-h-11 cursor-pointer list-none rounded-sm py-2 text-small font-medium text-primary underline underline-offset-2 marker:content-none [&::-webkit-details-marker]:hidden">
                 <span className="group-open:hidden">Where this comes from</span>
-                <span className="hidden group-open:inline">Hide the evidence</span>
+                <span className="hidden group-open:inline">Hide the rules</span>
               </summary>
-              <div className="mt-2 space-y-5 border-l-2 border-border pl-4">
+              <ul className="mt-1 space-y-2 border-l-2 border-border pl-4 text-small">
                 {insight.from.map((origin) => (
-                  <section key={`${insight.id}-${origin.routeId}-${origin.requirementId}`}>
-                    <p className="text-body">{origin.requirementText}</p>
-                    <p className="mt-1 text-small text-muted-foreground">
-                      <SiteLink to="/routes/$routeId" params={{ routeId: origin.routeId }}>
-                        {origin.routeName}
-                      </SiteLink>
-                    </p>
-                    <div className="mt-3 space-y-4">
-                      {origin.sources.map((source) => (
-                        <div key={source.url + source.quote}>
-                          <EvidenceQuote quote={source.quote} translation={source.translation} />
-                          <div className="mt-2">
-                            <SourceLink source={source} />
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </section>
+                  <li key={`${insight.id}-${origin.routeId}-${origin.requirementId}`}>
+                    <SiteLink
+                      to="/routes/$routeId"
+                      params={{ routeId: origin.routeId }}
+                      hash={origin.requirementId}
+                      className="break-words"
+                    >
+                      {origin.requirementText}
+                    </SiteLink>
+                    <span className="text-muted-foreground"> · {origin.routeName}</span>
+                  </li>
                 ))}
-              </div>
+              </ul>
             </details>
           </li>
         ))}
@@ -136,93 +134,20 @@ function Insights({ insights }: { insights: Insight[] }) {
   );
 }
 
-function RouteGroup({
-  title,
-  routes,
-  p,
-  profile,
-  destinationName,
-}: {
-  title: string;
-  routes: RouteResult[];
-  p: string;
-  profile: Profile;
-  destinationName: string;
-}) {
-  if (routes.length === 0) return null;
-  return (
-    <section className="mt-7">
-      <h3 className="text-caption font-semibold tracking-[0.08em] text-muted-foreground uppercase">
-        {title}
-      </h3>
-      <div className="mt-3 space-y-5">
-        {routes.map((route) => (
-          <RouteCard
-            key={route.routeId}
-            route={route}
-            p={p}
-            profile={profile}
-            destinationName={destinationName}
-          />
-        ))}
-      </div>
-    </section>
-  );
-}
-
-function EmployerPackLink({ route, p }: { route: RouteResult; p: string }) {
-  if (!route.checklist.some((item) => item.who === "employer")) return null;
-  return (
-    <Button asChild variant="outline" size="sm">
-      <Link to="/pack" search={{ p, route: route.routeId }}>
-        Send this to your employer
-      </Link>
-    </Button>
-  );
-}
-
-function ChecklistSources({ sources }: { sources: Source[] }) {
-  if (sources.length === 0) return null;
-
-  const publishers = [...new Set(sources.map((source) => source.publisher))].join(", ");
-  const latest = sources.reduce<string>(
-    (date, source) => (source.retrievedOn > date ? source.retrievedOn : date),
-    "",
-  );
-
-  return (
-    <details className="group mt-1 text-caption text-muted-foreground">
-      <summary className="cursor-pointer list-none rounded-sm py-1 underline underline-offset-2 marker:content-none [&::-webkit-details-marker]:hidden">
-        {sources.length} {sources.length === 1 ? "source" : "sources"} · {publishers} · read{" "}
-        {formatDate(latest)}
-      </summary>
-      <div className="mt-1 flex flex-col gap-1 pl-3">
-        {sources.map((source) => (
-          <SourceLink key={source.url + source.quote} source={source} />
-        ))}
-      </div>
-    </details>
-  );
-}
-
-const SALARY_UNITS: Record<Destination, string> = {
-  SG: "SGD per month",
-  JP: "JPY per year",
-};
-
-function MissingSalary({
+function SalaryPrompt({
   profile,
   destination,
   destinationName,
-  fieldId,
+  count,
 }: {
   profile: Profile;
   destination: Destination;
   destinationName: string;
-  fieldId: string;
+  count: number;
 }) {
   const navigate = useNavigate();
   const [salary, setSalary] = useState("");
+  const fieldId = `salary-${destination}`;
 
   const addSalary = () => {
     const amount = Number(salary);
@@ -240,11 +165,14 @@ function MissingSalary({
   };
 
   return (
-    <div className="mt-3 flex flex-col items-start gap-2 sm:flex-row sm:items-end">
+    <div className="flex flex-col items-start gap-2 sm:flex-row sm:items-end">
       <div className="w-full max-w-xs space-y-1">
         <label htmlFor={fieldId} className="block text-small font-medium">
           Expected salary in {destinationName}, {SALARY_UNITS[destination]}
         </label>
+        <p className="text-caption text-muted-foreground">
+          {count === 1 ? "This settles 1 rule." : `This settles ${count} rules.`}
+        </p>
         <Input
           id={fieldId}
           className="h-10"
@@ -262,21 +190,25 @@ function MissingSalary({
   );
 }
 
-function RouteChecklist({
-  route,
-  profile,
-  destinationName,
-}: {
-  route: RouteResult;
-  profile: Profile;
-  destinationName: string;
-}) {
+function ChecksLine({ facts }: { facts: RouteFacts | undefined }) {
+  if (!facts) return null;
+  return (
+    <span className="text-caption text-muted-foreground tabular-nums">
+      {facts.checks.you} for you · {facts.checks.employer} for an employer ·{" "}
+      {facts.checks.authority} for the authority
+    </span>
+  );
+}
+
+function RouteChecklist({ route }: { route: RouteResult }) {
   return (
     <>
       {route.upcomingChanges.length > 0 && (
-        <div className="mt-4 rounded-md border border-border bg-surface p-3">
-          <h4 className="text-subhead font-semibold">Upcoming changes</h4>
-          <ul className="mt-2 space-y-1 text-body text-muted-foreground">
+        <div className="mt-4 border-l-2 border-border pl-3">
+          <h4 className="text-caption font-semibold tracking-[0.08em] text-muted-foreground uppercase">
+            Upcoming changes
+          </h4>
+          <ul className="mt-1 space-y-1 text-small text-muted-foreground">
             {route.upcomingChanges.map((c) => (
               <li key={`${c.on}-${c.text}`}>
                 <span className="font-medium text-foreground">{formatDate(c.on)}</span>: {c.text}
@@ -286,7 +218,7 @@ function RouteChecklist({
         </div>
       )}
 
-      <div className="mt-5 space-y-5">
+      <div className="mt-4 space-y-5">
         {CHECKER_ORDER.map((who) => {
           const items = route.checklist.filter((item) => item.who === who);
           if (items.length === 0) return null;
@@ -305,16 +237,18 @@ function RouteChecklist({
                       <OutcomeTag outcome={item.outcome} />
                       <span className="min-w-0 break-words">{item.text}</span>
                     </div>
-                    {item.note && <p className="mt-1 text-muted-foreground">{item.note}</p>}
-                    {item.missing === "expectedSalary" && (
-                      <MissingSalary
-                        profile={profile}
-                        destination={route.destination}
-                        destinationName={destinationName}
-                        fieldId={`salary-${route.routeId}-${item.requirementId}`}
-                      />
+                    {item.note && (
+                      <p className="mt-1 text-small text-muted-foreground">{item.note}</p>
                     )}
-                    <ChecklistSources sources={item.sources} />
+                    <p className="mt-1 text-small">
+                      <SiteLink
+                        to="/routes/$routeId"
+                        params={{ routeId: route.routeId }}
+                        hash={item.requirementId}
+                      >
+                        Read the rule and its source
+                      </SiteLink>
+                    </p>
                   </li>
                 ))}
               </ul>
@@ -326,69 +260,94 @@ function RouteChecklist({
   );
 }
 
-function RouteHeading({ route, p }: { route: RouteResult; p: string }) {
+function RouteRow({
+  route,
+  facts,
+  p,
+  showReason,
+}: {
+  route: RouteResult;
+  facts: RouteFacts | undefined;
+  p: string;
+  showReason: boolean;
+}) {
+  const hasEmployerItems = route.checklist.some((item) => item.who === "employer");
   return (
-    <>
-      <div className="grid min-w-0 grid-cols-[minmax(0,1fr)_auto] items-start gap-3 sm:flex sm:flex-wrap sm:justify-between">
-        <h3 className="min-w-0 text-subhead font-semibold">
+    <details className="group min-w-0 border-b border-border">
+      <summary className="flex min-h-11 cursor-pointer list-none items-start gap-3 py-3 marker:content-none [&::-webkit-details-marker]:hidden">
+        <div className="min-w-0 flex-1">
+          <div className="flex min-w-0 flex-wrap items-center gap-2">
+            <StatusBadge status={route.status} requiresEmployer={route.requiresEmployer} />
+            <span className="min-w-0 text-body font-medium break-words">{route.name}</span>
+            {route.verifiedOn === null && (
+              <span className="text-caption text-muted-foreground">Not yet verified</span>
+            )}
+          </div>
+          <div className="mt-1">
+            <ChecksLine facts={facts} />
+          </div>
+          {showReason && <p className="mt-1 text-small text-muted-foreground">{route.reason}</p>}
+        </div>
+        <ChevronDown
+          aria-hidden="true"
+          className="mt-2 size-5 shrink-0 text-muted-foreground transition-transform group-open:rotate-180"
+        />
+      </summary>
+      <div className="pb-5">
+        {!showReason && <p className="text-body text-muted-foreground">{route.reason}</p>}
+        <RouteChecklist route={route} />
+        <div className="mt-5 flex flex-wrap items-center gap-3">
           <SiteLink
             to="/routes/$routeId"
             params={{ routeId: route.routeId }}
-            className="break-words"
+            className="text-small"
           >
-            {route.name}
+            Read the full route
           </SiteLink>
-        </h3>
-        <div className="col-span-full flex min-w-0 flex-wrap items-center gap-2 sm:col-span-1 sm:shrink-0">
-          <StatusBadge status={route.status} requiresEmployer={route.requiresEmployer} />
-          <EmployerPackLink route={route} p={p} />
-          {route.verifiedOn === null && (
-            <span className="rounded-full border border-border px-3 py-1 text-small font-medium text-muted-foreground">
-              Not yet verified
-            </span>
+          {hasEmployerItems && (
+            <Button asChild variant="outline" size="sm">
+              <Link to="/pack" search={{ p, route: route.routeId }}>
+                Employer pack
+              </Link>
+            </Button>
           )}
         </div>
       </div>
-      <p className="mt-3 text-body text-muted-foreground">{route.reason}</p>
-    </>
+    </details>
   );
 }
 
-function RouteCard({
-  route,
+function RouteGroup({
+  title,
+  routes,
+  facts,
   p,
-  profile,
-  destinationName,
+  showReason = false,
 }: {
-  route: RouteResult;
+  title: string;
+  routes: RouteResult[];
+  facts: Map<string, RouteFacts>;
   p: string;
-  profile: Profile;
-  destinationName: string;
+  showReason?: boolean;
 }) {
-  if (route.status === "closed") {
-    return (
-      <details className="group min-w-0 rounded-lg border border-border bg-card">
-        <summary className="flex min-h-11 cursor-pointer list-none items-start gap-3 p-4 marker:content-none sm:p-5 [&::-webkit-details-marker]:hidden">
-          <div className="min-w-0 flex-1">
-            <RouteHeading route={route} p={p} />
-          </div>
-          <ChevronDown
-            aria-hidden="true"
-            className="mt-1 size-5 shrink-0 text-muted-foreground transition-transform group-open:rotate-180"
-          />
-        </summary>
-        <div className="border-t border-border px-4 pb-4 sm:px-5 sm:pb-5">
-          <RouteChecklist route={route} profile={profile} destinationName={destinationName} />
-        </div>
-      </details>
-    );
-  }
-
+  if (routes.length === 0) return null;
   return (
-    <article className="min-w-0 rounded-lg border border-border bg-card p-4 sm:p-5">
-      <RouteHeading route={route} p={p} />
-      <RouteChecklist route={route} profile={profile} destinationName={destinationName} />
-    </article>
+    <section className="mt-6">
+      <h3 className="text-caption font-semibold tracking-[0.08em] text-muted-foreground uppercase">
+        {title}
+      </h3>
+      <div className="mt-2 border-t border-border">
+        {routes.map((route) => (
+          <RouteRow
+            key={route.routeId}
+            route={route}
+            facts={facts.get(route.routeId)}
+            p={p}
+            showReason={showReason}
+          />
+        ))}
+      </div>
+    </section>
   );
 }
 
@@ -425,6 +384,11 @@ function Results() {
   const [copied, setCopied] = useState(false);
   const profile = useMemo(() => decodeProfile(p), [p]);
   const results = useMemo(() => (profile ? evaluate(profile) : []), [profile]);
+  const factsById = useMemo(() => {
+    const map = new Map<string, RouteFacts>();
+    for (const summary of listRoutes()) map.set(summary.routeId, summary.facts);
+    return map;
+  }, []);
   const sortedResults = useMemo(
     () =>
       results.map((destination) => ({
@@ -444,6 +408,24 @@ function Results() {
     window.setTimeout(() => setCopied(false), 2000);
   };
 
+  const allRoutes = sortedResults.flatMap((destination) => destination.routes);
+  const closedTotal = allRoutes.filter((route) => route.status === "closed").length;
+  const activeTotal = allRoutes.filter((route) => route.status !== "closed");
+  const employerTotal = activeTotal.filter((route) => route.requiresEmployer).length;
+  const selfTotal = activeTotal.filter((route) => !route.requiresEmployer).length;
+
+  const salaryNeeds = sortedResults
+    .map((destination) => ({
+      destination: destination.destination,
+      name: destination.name,
+      count: destination.routes.reduce(
+        (total, route) =>
+          total + route.checklist.filter((item) => item.missing === "expectedSalary").length,
+        0,
+      ),
+    }))
+    .filter((need) => need.count > 0);
+
   return (
     <div className="mx-auto min-w-0 max-w-4xl px-4 py-10 sm:px-5 sm:py-12">
       <h1 className="text-title font-semibold">Your routes</h1>
@@ -451,10 +433,15 @@ function Results() {
         Based on the answers you gave. Read each official source before you act.
       </p>
 
+      <p className="prose-measure mt-5 text-subhead">
+        {selfTotal} {selfTotal === 1 ? "route" : "routes"} you can start yourself, {employerTotal}{" "}
+        that need an employer, {closedTotal} closed.
+      </p>
+
       <div className="mt-5 flex min-h-11 flex-wrap items-center gap-3">
         <Button type="button" variant="outline" className="min-h-11" onClick={copyLink}>
           {copied ? <Check aria-hidden="true" /> : <Copy aria-hidden="true" />}
-          {copied ? "Link copied" : "Copy link"}
+          {copied ? "Link copied" : "Copy link to these results"}
         </Button>
         <span className="text-small text-muted-foreground" aria-live="polite">
           {copied ? "The link is ready to share." : ""}
@@ -464,6 +451,26 @@ function Results() {
       <div className="mt-5">
         <ProfileSummary profile={profile} />
       </div>
+
+      {salaryNeeds.length > 0 && (
+        <section className="mt-5 rounded-lg border border-border bg-surface p-4 sm:p-5">
+          <h2 className="text-subhead font-semibold">Add the salary you expect</h2>
+          <p className="prose-measure mt-1 text-small text-muted-foreground">
+            Some rules turn on pay. Answer this and they stop reading as unknown.
+          </p>
+          <div className="mt-4 space-y-5">
+            {salaryNeeds.map((need) => (
+              <SalaryPrompt
+                key={need.destination}
+                profile={profile}
+                destination={need.destination}
+                destinationName={need.name}
+                count={need.count}
+              />
+            ))}
+          </div>
+        </section>
+      )}
 
       <div className="mt-7 space-y-1 text-small text-muted-foreground">
         {sortedResults.map((destination) => {
@@ -480,12 +487,14 @@ function Results() {
         })}
       </div>
 
-      <div className="mt-10 space-y-12">
+      <div className="mt-8 space-y-10">
         {sortedResults.map((destination) => {
           if (destination.routes.length === 0) return null;
           const allClosed = destination.routes.every((route) => route.status === "closed");
-          const selfRoutes = destination.routes.filter((route) => !route.requiresEmployer);
-          const employerRoutes = destination.routes.filter((route) => route.requiresEmployer);
+          const openRoutes = destination.routes.filter((route) => route.status !== "closed");
+          const closedRoutes = destination.routes.filter((route) => route.status === "closed");
+          const selfRoutes = openRoutes.filter((route) => !route.requiresEmployer);
+          const employerRoutes = openRoutes.filter((route) => route.requiresEmployer);
           const groups = profile.hasOffer
             ? [
                 { title: "Routes an employer has to apply for", routes: employerRoutes },
@@ -505,11 +514,17 @@ function Results() {
                   key={group.title}
                   title={group.title}
                   routes={group.routes}
+                  facts={factsById}
                   p={p}
-                  profile={profile}
-                  destinationName={destination.name}
                 />
               ))}
+              <RouteGroup
+                title="Closed for these answers"
+                routes={closedRoutes}
+                facts={factsById}
+                p={p}
+                showReason
+              />
             </section>
           );
         })}
