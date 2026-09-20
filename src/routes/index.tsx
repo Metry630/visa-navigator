@@ -4,21 +4,17 @@ import { formatDate } from "@/components/format-date";
 import { Button } from "@/components/ui/button";
 import { getRoute, listRoutes } from "@/engine";
 
+const CLAIM = "Every work visa rule, quoted from the page it came from.";
+const CLAIM_DESCRIPTION =
+  "Work visa routes for new graduates in Singapore and Japan. Every rule is quoted from the official page it came from, and a person checks each one against it.";
+
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Visa Routes | Work visa routes for new graduates" },
-      {
-        name: "description",
-        content:
-          "Work visa routes for new graduates, with every rule linked to its official source.",
-      },
-      { property: "og:title", content: "Visa Routes | Work visa routes for new graduates" },
-      {
-        property: "og:description",
-        content:
-          "Work visa routes for new graduates, with every rule linked to its official source.",
-      },
+      { title: `Visa Routes | ${CLAIM}` },
+      { name: "description", content: CLAIM_DESCRIPTION },
+      { property: "og:title", content: `Visa Routes | ${CLAIM}` },
+      { property: "og:description", content: CLAIM_DESCRIPTION },
       { property: "og:url", content: "/" },
     ],
     links: [{ rel: "canonical", href: "/" }],
@@ -47,12 +43,10 @@ function Home() {
 
   return (
     <div className="mx-auto max-w-4xl px-5 py-16 sm:py-24">
-      <h1 className="prose-measure text-display font-semibold text-balance">
-        Work visa routes, rules and official sources
-      </h1>
+      <h1 className="prose-measure text-display font-semibold text-balance">{CLAIM}</h1>
       <p className="prose-measure mt-5 text-subhead text-muted-foreground">
-        Read the routes for new graduates, the rules behind them and the official wording each rule
-        comes from.
+        Singapore and Japan. {routes.length} routes, {requirementCount} rules and {sourceCount}{" "}
+        quotes. {verifiedCount} of {routes.length} verified by a person.
       </p>
       <div className="mt-8">
         <Button asChild size="lg">
@@ -68,13 +62,8 @@ function Home() {
         </div>
       </div>
 
-      <p className="prose-measure mt-14 text-body text-muted-foreground">
-        {routes.length} routes, {requirementCount} requirements and {sourceCount} quotes.{" "}
-        {verifiedCount} of {routes.length} routes verified.
-      </p>
-
       {exampleRoute && exampleRequirement && (
-        <section className="mt-8 border-y border-border py-6">
+        <section className="mt-14 border-y border-border py-6">
           <p className="text-body">{exampleRequirement.text}</p>
           <p className="mt-2 text-small text-muted-foreground">
             <Link
