@@ -96,6 +96,46 @@ gave up after 300s of silence and the agent never started, so nothing was charge
 built. Resending with `wait: false` returned immediately and the agent ran fine. Use `wait: false`
 for anything large and poll the repository for the commit.
 
+From the second pass, 2026-09-21:
+
+- **Its sandbox can sit behind `origin/main`, and it will not notice.** Mid-pass it read
+  `routes.index.tsx` as an old version, concluded in its own reasoning that the comparison table had
+  "never landed on disk", and rebuilt the page from the stale base, reverting the table's columns, a
+  heading fix it had itself recommended an hour earlier, and a file in `docs/` that is outside its
+  scope. It reported success. Recovery was `git checkout <good-sha> -- <path>` locally, not another
+  batch: the sandbox is still stale at that point, so a second round-trip risks the same overwrite.
+- **Guard every batch with a grep, not a `git log`.** `git log --oneline -3` prints the sandbox's
+  **local** HEAD and `git fetch` does not move it, so the obvious check is worthless here. What works
+  is `git fetch && git log --oneline -3 origin/main && grep -c "<a string only the current version
+  has>" <the file about to be edited>`. A count of 0 means stale. `git merge` and `git checkout` are
+  blocked in the sandbox; it recovers with `git show origin/main:<path> > <path>`.
+- **Read the diff, not the report.** Two batches described their own changes wrongly: one claimed it
+  had replaced `aria-label` with `title` on the theme toggle, which would have been an accessibility
+  regression and had not happened, and one listed a file it had reverted rather than edited.
+- **A refusal to hit a number can be the right answer.** Asked to get `/results` under 2,000px, it
+  came back at 3,285 and said the remaining bulk was 922px of insight text, which it would not
+  collapse unasked. That was correct: the target was set before anyone knew what it cost.
+- **`send_message` times out client-side at 300s while still running server-side.** Wait for the
+  commit rather than resending, which duplicates the work and the credits. `~/.claude.json` now gives
+  the server a 15 minute timeout.
+
+
+| 2026-09-21 | 2.8 | `f339d38` | Second pass, batch 1. Paper became the default: the `prefers-color-scheme` block deleted so the system no longer decides, `.dark` rebuilt warm (hue 250 to hue 75, primary chroma dropped), and a header toggle whose class is set by a blocking inline script in `<head>` rather than by React, so there is no flash and no hydration mismatch. |
+
+| 2026-09-21 | 5.3 | `f2bf0aa` | Batch 2. One link system: `src/components/links.tsx` with `OutboundLink` and `SiteLink`, adopted everywhere, and the word "Source" replaced by the publisher's name. 139 lines deleted against 88 added. Also the footer's first links and the raw `<a href="/">` that was reloading the document. |
+
+| 2026-09-21 | 2.8 | `e08a1d9` | Batch 3. The route page stopped being ten bordered cards: numbered clauses, hairline rules, and the `who` and `effective` lines moved into a left margin. SG 4,340 to 3,632px, JP 8,891 to 7,680px, quote count unchanged. |
+
+| 2026-09-21 | 0.7 | - | Stopped at step 0 rather than working from a stale tree. The check was mine and it was wrong; see below. |
+
+| 2026-09-21 | 2.9 | `2897fbc` | Batch 4. The reading column capped at 68ch after batch 3's widening put it at 83 characters per line, two entry points on the home page, and three sentence-shaped labels shortened. |
+
+| 2026-09-21 | 5.8 | `cd940b3` | Batch 5. `/results` rebuilt: one collapsed row per route, the answer as a line at the top, the salary prompt hoisted out of the per-item position where a collapsed route would have hidden it, and every quote moved to the route page behind "Read the rule and its source". 11,550px to 3,285px, 167 external links to 1 (the footer's repo link), 100 evidence disclosures to 0. |
+
+| 2026-09-21 | 2.9 | `5ed6f31` | Batch 6. Insights moved below the route rows and the stranded destination counts moved under their own headings. First route row from 900px to 739px. |
+
+| 2026-09-21 | 1.7 | `1edb1a0` | Batch 7. A real bug the agent hit while testing: `/check` is a form with no `action`, so a click before hydration did a native GET and erased every answer. Submit button now inert until a `useEffect` marks the page hydrated. |
+
 Two things worth knowing from batch 1:
 
 - **Say where a change applies, not just what it is.** "Show the translation everywhere a quote is
