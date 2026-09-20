@@ -69,19 +69,32 @@ function RouteDetailPage() {
       </div>
 
       <h2 className="mt-10 text-section font-semibold">Requirements</h2>
-      <ul className="mt-4 space-y-6">
-        {detail.requirements.map((req) => (
-          <li key={req.id} className="rounded-lg border border-border bg-card p-5">
-            <p className="text-body">{req.text}</p>
-            <p className="mt-2 text-small text-muted-foreground">{WHO_TEXT[req.who]}</p>
-            {req.effective && (req.effective.from || req.effective.to) && (
-              <p className="mt-1 text-small text-muted-foreground">
-                Applies {req.effective.from ? `from ${formatDate(req.effective.from)}` : ""}
-                {req.effective.from && req.effective.to ? " " : ""}
-                {req.effective.to ? `until ${formatDate(req.effective.to)}` : ""}
-              </p>
-            )}
-            <div className="mt-4 space-y-4">
+      <ul className="mt-4 border-t border-border">
+        {detail.requirements.map((req, index) => (
+          <li
+            key={req.id}
+            id={req.id}
+            className="grid scroll-mt-6 grid-cols-1 gap-x-6 border-b border-border py-6 md:grid-cols-[10rem_minmax(0,1fr)]"
+          >
+            <a
+              href={`#${req.id}`}
+              aria-label={`Requirement ${index + 1}`}
+              className="w-fit rounded-sm text-caption tabular-nums text-muted-foreground"
+            >
+              {index + 1}
+            </a>
+            <p className="mt-2 min-w-0 text-body md:mt-0">{req.text}</p>
+            <div className="mt-2 text-caption text-muted-foreground md:mt-3">
+              <p>{WHO_TEXT[req.who]}</p>
+              {req.effective && (req.effective.from || req.effective.to) && (
+                <p className="mt-1">
+                  Applies {req.effective.from ? `from ${formatDate(req.effective.from)}` : ""}
+                  {req.effective.from && req.effective.to ? " " : ""}
+                  {req.effective.to ? `until ${formatDate(req.effective.to)}` : ""}
+                </p>
+              )}
+            </div>
+            <div className="mt-4 min-w-0 space-y-4 md:mt-3">
               {req.sources.map((s) => (
                 <div key={s.url + s.quote}>
                   <EvidenceQuote quote={s.quote} translation={s.translation} />
