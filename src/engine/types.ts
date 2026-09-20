@@ -19,6 +19,19 @@ export interface Profile {
   languages: { code: string; level: LanguageLevel }[];
   /** SGD per month for SG, JPY per year for JP */
   expectedSalary?: Partial<Record<Destination, number>>;
+  /**
+   * Whether they already have a job offer. Nothing evaluates this: it decides which routes are worth
+   * reading first, because six of the ten need an employer to apply and those are unreachable
+   * without one.
+   */
+  hasOffer?: boolean;
+  /**
+   * ISO 3166-1 alpha-2 country of the university, when there is one. Collected but not yet
+   * evaluated. It is the missing fact behind `sg-work-holiday-pass#university-country`, which turns
+   * on where the university is rather than on nationality, and which stays `manual` until a rule
+   * kind can read this.
+   */
+  universityCountry?: string;
 }
 
 export type RouteStatus = "open" | "depends" | "closed";

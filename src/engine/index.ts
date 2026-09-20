@@ -118,6 +118,12 @@ export const ProfileSchema = z.object({
   expectedSalary: z
     .object({ SG: z.number().nonnegative().optional(), JP: z.number().nonnegative().optional() })
     .optional(),
+  hasOffer: z.boolean().optional(),
+  universityCountry: z
+    .string()
+    .regex(/^[A-Z]{2}$/)
+    .refine((c) => KNOWN_CODES.has(c), "unknown country code")
+    .optional(),
 });
 
 function toBase64Url(text: string): string {

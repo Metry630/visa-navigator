@@ -132,6 +132,17 @@ describe("profile encoding", () => {
     expect(decodeProfile(encodeProfile(p))).toEqual(p);
   });
 
+  it("round-trips the fields that decide what is worth reading first", () => {
+    // hasOffer and universityCountry live only in the URL, so a shared link has to carry them or the
+    // person on the other end sees a different page from the one that was sent.
+    const p: Profile = { ...base, hasOffer: true, universityCountry: "SG" };
+    expect(decodeProfile(encodeProfile(p))).toEqual(p);
+  });
+
+  it("rejects a university country that is not a country", () => {
+    expect(decodeProfile(encodeProfile({ ...base, universityCountry: "XX" }))).toBeNull();
+  });
+
   it("rejects anything that isn't a valid profile", () => {
     expect(decodeProfile("not-base64!")).toBeNull();
     expect(decodeProfile(encodeProfile({ ...base, nationalities: ["XX"] }))).toBeNull();
