@@ -1,6 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { EvidenceQuote } from "@/components/evidence-quote";
 import { formatDate } from "@/components/format-date";
+import { OutboundLink, SiteLink } from "@/components/links";
 import { Button } from "@/components/ui/button";
 import { getRoute, listRoutes } from "@/engine";
 
@@ -53,12 +54,12 @@ function Home() {
           <Link to="/routes">Read the routes</Link>
         </Button>
         <div className="mt-4 flex flex-col items-start gap-2 text-small sm:flex-row sm:gap-5">
-          <Link to="/check" className="font-medium text-primary underline underline-offset-2">
+          <SiteLink to="/check">
             See the figures and readings that apply to you
-          </Link>
-          <Link to="/changes" className="font-medium text-primary underline underline-offset-2">
+          </SiteLink>
+          <SiteLink to="/changes">
             See what is changing
-          </Link>
+          </SiteLink>
         </div>
       </div>
 
@@ -66,13 +67,12 @@ function Home() {
         <section className="mt-14 border-y border-border py-6">
           <p className="text-body">{exampleRequirement.text}</p>
           <p className="mt-2 text-small text-muted-foreground">
-            <Link
+            <SiteLink
               to="/routes/$routeId"
               params={{ routeId: exampleRoute.routeId }}
-              className="font-medium text-primary underline underline-offset-2"
             >
               {exampleRoute.name}
-            </Link>
+            </SiteLink>
             {exampleRoute.verifiedOn
               ? ` · Verified ${formatDate(exampleRoute.verifiedOn)}`
               : " · Not yet verified"}
@@ -82,15 +82,8 @@ function Home() {
               <div key={source.url + source.quote}>
                 <EvidenceQuote quote={source.quote} translation={source.translation} />
                 <p className="mt-2 text-caption text-muted-foreground">
-                  {source.publisher}. Retrieved {formatDate(source.retrievedOn)}.{" "}
-                  <a
-                    href={source.url}
-                    target="_blank"
-                    rel="noreferrer noopener"
-                    className="font-medium text-primary underline underline-offset-2"
-                  >
-                    Source
-                  </a>
+                  <OutboundLink href={source.url}>{source.publisher}</OutboundLink> · Retrieved{" "}
+                  {formatDate(source.retrievedOn)}
                 </p>
               </div>
             ))}

@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { OutboundLink } from "@/components/links";
 
 export const Route = createFileRoute("/methodology")({
   head: () => ({
@@ -75,14 +76,9 @@ function Methodology() {
           case is complicated.
         </p>
         <p className="mt-4 text-small text-muted-foreground">
-          <a
-            href="https://github.com/Metry630/visa-navigator"
-            target="_blank"
-            rel="noreferrer noopener"
-            className="font-medium text-primary underline underline-offset-2"
-          >
+          <OutboundLink href="https://github.com/Metry630/visa-navigator">
             Read the source code
-          </a>
+          </OutboundLink>
         </p>
       </section>
     </div>
