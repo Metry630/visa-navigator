@@ -124,6 +124,12 @@ every absolute URL is built from the incoming request's origin.
 - An unverified route still says **Not yet verified** on its card.
 - `/results` for someone with no offer leads with the routes they can apply for themselves, and a
   route needing no employer does **not** say "Employer applies for you".
+- **The sector question decides the Singapore salary rules.** On `/results` with a salary entered,
+  answering "is the job in financial services?" **No** leaves only the all-except floor in the
+  Employment Pass checklist, and **Yes** leaves only the financial one. Neither answer may ever show
+  both. Until 2026-09-21 the engine evaluated both against everybody, so an ordinary job saw a red
+  mark on a rule that excludes it and a financial-services job saw a green mark on the blocking floor
+  that excludes it. `src/engine/sg-financial-services.test.ts` guards both directions.
 - The console is clean, checked in a **clean browser profile**. Joshua's everyday Chrome has an
   extension that writes `data-new-gr-c-s-check-loaded` and `data-gr-ext-installed` onto `<body>`, and
   React reports that as a hydration mismatch. It is the extension, not the site, and it will waste an
