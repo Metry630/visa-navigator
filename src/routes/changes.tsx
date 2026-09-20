@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { EvidenceQuote } from "@/components/evidence-quote";
 import { formatDate } from "@/components/format-date";
 import { OutboundLink, SiteLink } from "@/components/links";
+import { RuleDetails } from "@/components/rule-details";
 import { getRoute, listRoutes, type RequirementView, type RouteDetail } from "@/engine";
 
 const DESCRIPTION =
@@ -49,6 +50,7 @@ function DatedRules({ rules }: { rules: DatedRule[] }) {
             {dateRules.map(({ requirement, route }) => (
               <li key={`${route.routeId}-${requirement.id}-${date}`} className="py-5">
                 <p className="text-body">{requirement.text}</p>
+                <RuleDetails rule={requirement.rule} />
                 <p className="mt-2 text-small text-muted-foreground">
                   <SiteLink to="/routes/$routeId" params={{ routeId: route.routeId }}>
                     {route.name}
@@ -57,7 +59,11 @@ function DatedRules({ rules }: { rules: DatedRule[] }) {
                 <div className="mt-4 space-y-4">
                   {requirement.sources.map((source) => (
                     <div key={source.url + source.quote}>
-                      <EvidenceQuote quote={source.quote} translation={source.translation} />
+                      <EvidenceQuote
+                        quote={source.quote}
+                        translation={source.translation}
+                        collapsed
+                      />
                       <p className="mt-2 text-caption text-muted-foreground">
                         <OutboundLink href={source.url}>{source.publisher}</OutboundLink> ·
                         Retrieved {formatDate(source.retrievedOn)}

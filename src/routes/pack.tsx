@@ -12,6 +12,7 @@ import {
 import { EvidenceQuote } from "@/components/evidence-quote";
 import { formatDate } from "@/components/format-date";
 import { OutboundLink, SiteLink } from "@/components/links";
+import { RuleDetails } from "@/components/rule-details";
 import { Button } from "@/components/ui/button";
 import { buildPackLink } from "@/lib/share-link";
 
@@ -75,7 +76,7 @@ export const Route = createFileRoute("/pack")({
   component: PackPage,
 });
 
-type PackItem = Pick<ChecklistItem, "requirementId" | "text" | "note" | "sources">;
+type PackItem = Pick<ChecklistItem, "requirementId" | "text" | "note" | "rule" | "sources">;
 
 function PackPage() {
   const { p, route: routeId } = Route.useSearch();
@@ -95,6 +96,7 @@ function PackPage() {
         .map((item) => ({
           requirementId: item.id,
           text: item.text,
+          rule: item.rule,
           sources: item.sources,
         }));
 
@@ -139,11 +141,12 @@ function PackPage() {
               className="pack-item min-w-0 rounded-lg border border-border bg-card p-4 sm:p-5"
             >
               <p className="text-body">{item.text}</p>
+              <RuleDetails rule={item.rule} />
               {item.note && <p className="mt-1 text-body text-muted-foreground">{item.note}</p>}
               <div className="mt-4 space-y-4">
                 {item.sources.map((s) => (
                   <div key={s.url + s.quote}>
-                    <EvidenceQuote quote={s.quote} translation={s.translation} />
+                    <EvidenceQuote quote={s.quote} translation={s.translation} collapsed />
                     <p className="mt-2 text-caption break-words text-muted-foreground">
                       <OutboundLink href={s.url}>{s.publisher}</OutboundLink> · Retrieved{" "}
                       {formatDate(s.retrievedOn)}
