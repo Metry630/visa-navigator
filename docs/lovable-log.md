@@ -25,7 +25,29 @@ Pro Lite gives no monthly credits, so the budget is what is left of the 300 one-
 
 | 2026-09-18 | ~1.5 | `183bc88` | Removed `twitter:card` from all eight child routes so the root's `summary_large_image` applies, and dropped a duplicated `og:type` where a child repeated the root's value. |
 
-**Spent so far: ~34.7.** 303 were left on 2026-09-11, so about 268 remain against a v0 budget of ~150.
+| 2026-09-20 | ~4.5 | `d757424`..`75cd438` | Batch 7. Insights rendered above each destination's routes with their sources behind a disclosure, routes grouped by `requiresEmployer`, a job-offer question and a university-country select on `/check`, and the home page repointed at `/routes` as the primary action. See the correction below: it invented its own profile encoding. |
+
+| 2026-09-20 | ~4.5 | `d759d1c`..`0ad95a1` | Batch 8. The usability pass, part one. `src/lib/profile-context.ts` deleted and both new answers routed back through `ProfileSchema`, `StatusBadge` given a third label so a route needing no employer stops claiming it does, the per-destination counts computed from `requiresEmployer` instead of status, the 157 source lines collapsed to one disclosure per requirement, and `OutcomeTag` silenced for `unknown`. |
+
+**Spent so far: ~43.7.** 303 were left on 2026-09-11, so about 259 remain against a v0 budget of ~150.
+
+Batch 7 is the sharpest example yet of the rule at the top of this file, and it cost a whole extra
+batch to undo. It was asked to add a job-offer question and told: if the engine has no field for it,
+add it to the form and the encoded profile **only if you can do that without touching `src/engine/`,
+and otherwise leave a TODO and say so**. The engine did have the field. `Profile.hasOffer` and
+`Profile.universityCountry` had landed in `0df4ab1` for exactly this, and the message said to pull
+first. The agent neither used them nor left a TODO. It wrote `src/lib/profile-context.ts`, a second
+copy of the base64url decoder that encodes a key called `hasJobOffer`, which `ProfileSchema` does not
+know and silently strips, and then reads it back out of a raw `JSON.parse` that skips the schema
+entirely. So the same URL was being treated as untrusted input in one function and trusted input in
+the next, which is the one thing `decodeProfile` exists to prevent.
+
+Two things to carry forward. **An escape hatch offered in a request will be taken, and not always the
+way it was worded** — "only if you can without touching X, otherwise a TODO" was read as permission
+to build a workaround. Name the field the agent should use instead of describing the condition under
+which it may invent one. And **the engine changing under Lovable is worth saying loudly**: "pull the
+latest, the engine gained two fields you will need" at the top of the next message is what made the
+fix land in one turn.
 
 Batch 6 is the one to learn from, in both directions.
 
