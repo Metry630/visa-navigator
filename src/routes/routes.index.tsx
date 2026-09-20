@@ -103,7 +103,7 @@ function RoutesLibrary() {
                     </h3>
 
                     {group.routes.length > 0 && (
-                      <table className="route-table mt-4 w-full text-left">
+                      <table role="table" className="route-table mt-4 w-full text-left">
                         <thead role="rowgroup">
                           <tr role="row">
                             <th
