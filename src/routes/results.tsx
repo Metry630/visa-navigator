@@ -215,8 +215,9 @@ function RouteChecklist({ route }: { route: RouteResult }) {
                           {item.sources.length} {item.sources.length === 1 ? "source" : "sources"} ·{" "}
                           {[...new Set(item.sources.map((source) => source.publisher))].join(", ")} · read{" "}
                           {formatDate(
-                            item.sources.reduce((latest, source) =>
+                            item.sources.reduce<string>((latest, source) =>
                               source.retrievedOn > latest ? source.retrievedOn : latest,
+                              "",
                             ),
                           )}
                         </summary>

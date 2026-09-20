@@ -1,4 +1,4 @@
-import { Check, CircleHelp, ExternalLink, X } from "lucide-react";
+import { Check, ExternalLink, X } from "lucide-react";
 import type { Checker, Outcome, RouteStatus, Source } from "@/engine";
 import { formatDate } from "@/components/format-date";
 
