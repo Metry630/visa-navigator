@@ -167,6 +167,30 @@ function EmployerPackLink({ route, p }: { route: RouteResult; p: string }) {
   );
 }
 
+function ChecklistSources({ sources }: { sources: Source[] }) {
+  if (sources.length === 0) return null;
+
+  const publishers = [...new Set(sources.map((source) => source.publisher))].join(", ");
+  const latest = sources.reduce<string>(
+    (date, source) => (source.retrievedOn > date ? source.retrievedOn : date),
+    "",
+  );
+
+  return (
+    <details className="group mt-1 text-xs text-muted-foreground">
+      <summary className="cursor-pointer list-none rounded-sm py-1 underline underline-offset-2 marker:content-none [&::-webkit-details-marker]:hidden">
+        {sources.length} {sources.length === 1 ? "source" : "sources"} · {publishers} · read{" "}
+        {formatDate(latest)}
+      </summary>
+      <div className="mt-1 flex flex-col gap-1 pl-3">
+        {sources.map((source) => (
+          <SourceLink key={source.url + source.quote} source={source} />
+        ))}
+      </div>
+    </details>
+  );
+}
+
 function RouteChecklist({ route }: { route: RouteResult }) {
   return (
     <>
@@ -209,27 +233,7 @@ function RouteChecklist({ route }: { route: RouteResult }) {
                       <span className="min-w-0 break-words">{item.text}</span>
                     </div>
                     {item.note && <p className="mt-1 text-muted-foreground">{item.note}</p>}
-                    {item.sources.length > 0 && (
-                      <details className="group mt-1 text-xs text-muted-foreground">
-                        <summary className="cursor-pointer list-none rounded-sm py-1 underline underline-offset-2 marker:content-none [&::-webkit-details-marker]:hidden">
-                          {item.sources.length} {item.sources.length === 1 ? "source" : "sources"} {"·"}
-                          {[...new Set(item.sources.map((source) => source.publisher))].join(", ")} ·
-                          read{" "}
-                          {formatDate(
-                            item.sources.reduce<string>(
-                              (latest, source) =>
-                                source.retrievedOn > latest ? source.retrievedOn : latest,
-                              "",
-                            ),
-                          )}
-                        </summary>
-                        <div className="mt-1 flex flex-col gap-1 pl-3">
-                          {item.sources.map((source) => (
-                            <SourceLink key={source.url + source.quote} source={source} />
-                          ))}
-                        </div>
-                      </details>
-                    )}
+                    <ChecklistSources sources={item.sources} />
                   </li>
                 ))}
               </ul>
