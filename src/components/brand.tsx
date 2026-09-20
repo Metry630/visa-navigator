@@ -6,12 +6,7 @@ type BrandProps = {
 
 export function BrandMark({ className }: BrandProps) {
   return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      aria-hidden="true"
-      className={className}
-    >
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" className={className}>
       <rect x="2" y="4" width="20" height="16" rx="1.5" stroke="currentColor" strokeWidth="2" />
       <path
         d="m9 8 4 4-4 4"
