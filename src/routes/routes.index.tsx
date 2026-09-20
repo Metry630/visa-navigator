@@ -102,10 +102,10 @@ function RouteTable({ routes, caption }: { routes: RouteSummary[]; caption: stri
           <th scope="col" className="w-[14%] py-2 pr-4 font-semibold">
             Who applies
           </th>
-          <th scope="col" className="w-[24%] py-2 pr-4 font-semibold">
+          <th scope="col" className="w-[22%] py-2 pr-4 font-semibold">
             What decides it
           </th>
-          <th scope="col" className="w-[18%] py-2 font-semibold">
+          <th scope="col" className="w-[20%] py-2 font-semibold">
             Verified
           </th>
         </tr>
