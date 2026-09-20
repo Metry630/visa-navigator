@@ -1,6 +1,7 @@
 // The engine's public API. The UI imports only from here, as "@/engine".
 import { z } from "zod";
 import { evaluateRoute } from "./evaluate";
+import { insightsFor } from "./insights";
 import { RouteSchema, type Route } from "./schema";
 import type { Destination, DestinationResult, Profile, RouteDetail, RouteSummary } from "./types";
 
@@ -45,13 +46,19 @@ function today(): string {
 }
 
 export function evaluate(profile: Profile, asOf: string = today()): DestinationResult[] {
-  return DESTINATIONS.map((d) => ({
-    destination: d.code,
-    name: d.name,
-    routes: ROUTES.filter((r) => r.destination === d.code).map((r) =>
-      evaluateRoute(r, profile, asOf),
-    ),
-  }));
+  const names = profile.nationalities
+    .map((code) => countries.find((c) => c.code === code)?.name)
+    .filter((n): n is string => Boolean(n));
+
+  return DESTINATIONS.map((d) => {
+    const forDestination = ROUTES.filter((r) => r.destination === d.code);
+    return {
+      destination: d.code,
+      name: d.name,
+      routes: forDestination.map((r) => evaluateRoute(r, profile, asOf)),
+      insights: insightsFor(ROUTES, d.code, profile, asOf, names),
+    };
+  });
 }
 
 function summary(r: Route): RouteSummary {

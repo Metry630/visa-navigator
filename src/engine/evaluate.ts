@@ -139,5 +139,6 @@ export function evaluateRoute(route: Route, profile: Profile, asOf: string): Rou
     checklist,
     upcomingChanges,
     verifiedOn: route.verified?.on ?? null,
+    requiresEmployer: route.requiresEmployer,
   };
 }
