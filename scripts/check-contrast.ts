@@ -76,8 +76,15 @@ const PAIRS: Pair[] = [
 
 /** Pulls `--name: value;` out of one CSS block. */
 function block(css: string, selector: string): Map<string, string> {
+  const found = optionalBlock(css, selector);
+  if (!found) throw new Error(`${selector} not found in styles.css`);
+  return found;
+}
+
+/** Null when the selector is absent, for blocks that are allowed not to exist. */
+function optionalBlock(css: string, selector: string): Map<string, string> | null {
   const start = css.indexOf(selector);
-  if (start === -1) throw new Error(`${selector} not found in styles.css`);
+  if (start === -1) return null;
   const open = css.indexOf("{", start);
   const close = css.indexOf("}", open);
   const tokens = new Map<string, string>();
@@ -156,11 +163,14 @@ const css = readFileSync(CSS, "utf8");
 const light = block(css, ":root {");
 const dark = block(css, ".dark {");
 
-// The system-preference block repeats the dark values for readers who never touch the toggle. If the
-// two ever disagree, half the audience sees a palette nobody checked.
-const preference = block(css, "@media (prefers-color-scheme: dark)");
+// The stylesheet may let the system pick the mode, by repeating the dark values in a
+// prefers-color-scheme block. It is allowed not to: since the site defaults to the paper palette and
+// dark is reached through the .dark class, that block is expected to be gone. But if it is there and
+// disagrees with .dark, half the audience sees a palette nobody checked, so it is an error rather
+// than something to notice later.
+const preference = optionalBlock(css, "@media (prefers-color-scheme: dark)");
 const errors: string[] = [];
-for (const [name, value] of preference) {
+for (const [name, value] of preference ?? []) {
   const inDark = dark.get(name);
   if (inDark !== value) {
     errors.push(
