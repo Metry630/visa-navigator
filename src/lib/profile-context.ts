@@ -15,13 +15,16 @@ function readEncodedObject(encoded: string): Record<string, unknown> | null {
   try {
     const padded = encoded.replace(/-/g, "+").replace(/_/g, "/");
     const binary = atob(padded + "=".repeat((4 - (padded.length % 4)) % 4));
-    const text = new TextDecoder().decode(Uint8Array.from(binary, (character) => character.charCodeAt(0)));
+    const text = new TextDecoder().decode(
+      Uint8Array.from(binary, (character) => character.charCodeAt(0)),
+    );
     const value: unknown = JSON.parse(text);
     return typeof value === "object" && value !== null ? (value as Record<string, unknown>) : null;
   } catch {
     return null;
   }
 }
+
 
 export function encodeProfileContext(profile: Profile, answers: ProfileAnswers): string {
   return encodeProfile({ ...profile, ...answers });

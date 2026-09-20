@@ -57,7 +57,15 @@ function displayDegree(degree: Profile["degree"]): string {
   return degree.charAt(0).toUpperCase() + degree.slice(1);
 }
 
-function ProfileSummary({ profile, hasJobOffer, universityCountry }: { profile: Profile; hasJobOffer: boolean | undefined; universityCountry: string | undefined }) {
+function ProfileSummary({
+  profile,
+  hasJobOffer,
+  universityCountry,
+}: {
+  profile: Profile;
+  hasJobOffer: boolean | undefined;
+  universityCountry: string | undefined;
+}) {
   const names = listNationalities();
   const bits = [
     profile.nationalities
@@ -91,7 +99,9 @@ function Insights({ insights }: { insights: Insight[] }) {
 
   return (
     <section className="mt-6" aria-labelledby="insights-heading">
-      <h3 id="insights-heading" className="text-lg font-semibold">What the rules mean for you</h3>
+      <h3 id="insights-heading" className="text-lg font-semibold">
+        What the rules mean for you
+      </h3>
       <ul className="mt-3 divide-y divide-border border-y border-border">
         {insights.map((insight) => (
           <li key={insight.id} className="py-4">
@@ -141,7 +151,9 @@ function RouteGroup({ title, routes, p }: { title: string; routes: RouteResult[]
     <section className="mt-7">
       <h3 className="text-lg font-semibold">{title}</h3>
       <div className="mt-3 space-y-5">
-        {routes.map((route) => <RouteCard key={route.routeId} route={route} p={p} />)}
+        {routes.map((route) => (
+          <RouteCard key={route.routeId} route={route} p={p} />
+        ))}
       </div>
     </section>
   );
