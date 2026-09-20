@@ -11,9 +11,18 @@ export function BrandMark({ className }: BrandProps) {
         <rect x="3" y="5" width="18" height="14" rx="1" stroke="currentColor" strokeWidth="2" />
         <line
           x1="7"
-          y1="12"
+          y1="9.5"
           x2="17"
-          y2="12"
+          y2="9.5"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="butt"
+        />
+        <line
+          x1="7"
+          y1="14.5"
+          x2="13.5"
+          y2="14.5"
           stroke="currentColor"
           strokeWidth="2"
           strokeLinecap="butt"
