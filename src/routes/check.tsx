@@ -1,5 +1,5 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   encodeProfile,
   listNationalities,
@@ -80,6 +80,13 @@ function CheckPage() {
   const nationalities = useMemo(() => listNationalities(), []);
   const [search, setSearch] = useState("");
   const [error, setError] = useState<string | null>(null);
+  // Before hydration there is no submit handler, so a native submit would reload
+  // the page and throw away everything typed. Keep the button inert until React
+  // has taken over the form.
+  const [ready, setReady] = useState(false);
+  useEffect(() => {
+    setReady(true);
+  }, []);
   const [form, setForm] = useState<FormState>({
     nationality: "",
     secondNationality: "",
@@ -259,7 +266,7 @@ function CheckPage() {
           </p>
         )}
 
-        <Button className="min-h-11 sm:min-h-10" type="submit">
+        <Button className="min-h-11 sm:min-h-10" type="submit" disabled={!ready}>
           See my routes
         </Button>
 
