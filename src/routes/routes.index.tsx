@@ -1,6 +1,12 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { formatDate } from "@/components/format-date";
-import { DESTINATIONS, formatMoney, listRoutes, type RouteFacts, type RouteSummary } from "@/engine";
+import {
+  DESTINATIONS,
+  formatMoney,
+  listRoutes,
+  type RouteFacts,
+  type RouteSummary,
+} from "@/engine";
 
 const DESCRIPTION =
   "Work visa routes for new graduates, with every rule linked to its official source.";
@@ -50,9 +56,7 @@ function limitsLine(facts: RouteFacts): string {
   if (facts.nationalityList) {
     const { mode, count } = facts.nationalityList;
     parts.push(
-      mode === "allow"
-        ? `open to ${count} nationalities`
-        : `closed to ${count} nationalities`,
+      mode === "allow" ? `open to ${count} nationalities` : `closed to ${count} nationalities`,
     );
   }
 
