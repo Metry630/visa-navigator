@@ -20,7 +20,7 @@ function QuoteText({ text, translation = false }: { text: string; translation?: 
       <details className="group quote-disclosure print:hidden">
         <summary className="cursor-pointer list-none marker:content-none [&::-webkit-details-marker]:hidden">
           <span className={`${quoteClass} quote-preview block`}>{opening}</span>
-          <span className="quote-toggle mt-2 inline-block rounded-sm text-small font-medium text-primary underline underline-offset-2">
+          <span className="quote-toggle mt-2 inline-block rounded-sm text-small font-medium text-primary underline-offset-2 underline">
             <span className="group-open:hidden">Show the full quote</span>
             <span className="hidden group-open:inline">Hide the full quote</span>
           </span>
