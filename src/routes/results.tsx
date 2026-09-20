@@ -1,11 +1,13 @@
-import { createFileRoute, Link, redirect } from "@tanstack/react-router";
+import { createFileRoute, Link, redirect, useNavigate } from "@tanstack/react-router";
 import { Check, ChevronDown, Copy } from "lucide-react";
 import { useMemo, useState } from "react";
 import {
   decodeProfile,
+  encodeProfile,
   evaluate,
   listNationalities,
   type Checker,
+  type Destination,
   type Insight,
   type Profile,
   type RouteResult,
@@ -65,8 +67,8 @@ function ProfileSummary({ profile }: { profile: Profile }) {
       .join(" and "),
     `age ${profile.age}`,
     displayDegree(profile.degree),
-    `${profile.yearsExperience} years of experience`,
   ];
+  if (profile.yearsExperience > 0) bits.push(`${profile.yearsExperience} years of experience`);
   if (profile.field) bits.push(profile.field);
   if (profile.graduationYear) bits.push(`graduated ${profile.graduationYear}`);
   const universityCountryName = names.find(
@@ -139,14 +141,32 @@ function Insights({ insights }: { insights: Insight[] }) {
   );
 }
 
-function RouteGroup({ title, routes, p }: { title: string; routes: RouteResult[]; p: string }) {
+function RouteGroup({
+  title,
+  routes,
+  p,
+  profile,
+  destinationName,
+}: {
+  title: string;
+  routes: RouteResult[];
+  p: string;
+  profile: Profile;
+  destinationName: string;
+}) {
   if (routes.length === 0) return null;
   return (
     <section className="mt-7">
       <h3 className="text-lg font-semibold">{title}</h3>
       <div className="mt-3 space-y-5">
         {routes.map((route) => (
-          <RouteCard key={route.routeId} route={route} p={p} />
+          <RouteCard
+            key={route.routeId}
+            route={route}
+            p={p}
+            profile={profile}
+            destinationName={destinationName}
+          />
         ))}
       </div>
     </section>
@@ -192,7 +212,65 @@ function ChecklistSources({ sources }: { sources: Source[] }) {
   );
 }
 
-function RouteChecklist({ route }: { route: RouteResult }) {
+const SALARY_UNITS: Record<Destination, string> = {
+  SG: "SGD per month",
+  JP: "JPY per year",
+};
+
+function MissingSalary({
+  profile,
+  destination,
+  destinationName,
+}: {
+  profile: Profile;
+  destination: Destination;
+  destinationName: string;
+}) {
+  const navigate = useNavigate();
+  const [salary, setSalary] = useState("");
+
+  const addSalary = () => {
+    const amount = Number(salary);
+    if (!salary || !Number.isFinite(amount) || amount < 0) return;
+    const updated: Profile = {
+      ...profile,
+      expectedSalary: { ...profile.expectedSalary, [destination]: amount },
+    };
+    void navigate({ to: "/results", search: { p: encodeProfile(updated) }, replace: true });
+  };
+
+  return (
+    <div className="mt-3 flex flex-col items-start gap-2 sm:flex-row sm:items-end">
+      <div className="w-full max-w-xs space-y-1">
+        <label htmlFor={`salary-${destination}`} className="block text-xs font-medium">
+          Expected salary in {destinationName}, {SALARY_UNITS[destination]}
+        </label>
+        <input
+          id={`salary-${destination}`}
+          className="h-10 w-full rounded-md border border-input bg-background px-3 text-sm text-foreground"
+          type="number"
+          min={0}
+          inputMode="numeric"
+          value={salary}
+          onChange={(event) => setSalary(event.target.value)}
+        />
+      </div>
+      <Button type="button" size="sm" onClick={addSalary} disabled={!salary}>
+        Add salary
+      </Button>
+    </div>
+  );
+}
+
+function RouteChecklist({
+  route,
+  profile,
+  destinationName,
+}: {
+  route: RouteResult;
+  profile: Profile;
+  destinationName: string;
+}) {
   return (
     <>
       {route.upcomingChanges.length > 0 && (
@@ -234,6 +312,13 @@ function RouteChecklist({ route }: { route: RouteResult }) {
                       <span className="min-w-0 break-words">{item.text}</span>
                     </div>
                     {item.note && <p className="mt-1 text-muted-foreground">{item.note}</p>}
+                    {item.missing === "expectedSalary" && (
+                      <MissingSalary
+                        profile={profile}
+                        destination={route.destination}
+                        destinationName={destinationName}
+                      />
+                    )}
                     <ChecklistSources sources={item.sources} />
                   </li>
                 ))}
@@ -273,7 +358,17 @@ function RouteHeading({ route }: { route: RouteResult }) {
   );
 }
 
-function RouteCard({ route, p }: { route: RouteResult; p: string }) {
+function RouteCard({
+  route,
+  p,
+  profile,
+  destinationName,
+}: {
+  route: RouteResult;
+  p: string;
+  profile: Profile;
+  destinationName: string;
+}) {
   if (route.status === "closed") {
     return (
       <details className="group min-w-0 rounded-lg border border-border bg-card">
@@ -287,7 +382,7 @@ function RouteCard({ route, p }: { route: RouteResult; p: string }) {
           />
         </summary>
         <div className="border-t border-border px-4 pb-4 sm:px-5 sm:pb-5">
-          <RouteChecklist route={route} />
+          <RouteChecklist route={route} profile={profile} destinationName={destinationName} />
           <EmployerPackLink route={route} p={p} />
         </div>
       </details>
@@ -297,7 +392,7 @@ function RouteCard({ route, p }: { route: RouteResult; p: string }) {
   return (
     <article className="min-w-0 rounded-lg border border-border bg-card p-4 sm:p-5">
       <RouteHeading route={route} />
-      <RouteChecklist route={route} />
+      <RouteChecklist route={route} profile={profile} destinationName={destinationName} />
       <EmployerPackLink route={route} p={p} />
     </article>
   );
