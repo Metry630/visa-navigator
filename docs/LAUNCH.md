@@ -65,8 +65,12 @@ Against `/`, `/check`, `/results`, `/routes`, `/routes/:id`, `/pack` and `/chang
 
 1. **375px**, via `emulate` with a mobile viewport. No horizontal scroll on the body, and the route
    table collapses to stacked rows rather than scrolling sideways.
-2. **Light mode**, via `emulate` forcing `prefers-color-scheme: light`. Nobody has looked at this site
-   in light mode. `check:contrast` proves the palette, not the layout.
+2. **Both modes.** Since 2026-09-21 the paper palette is the default for everyone and dark is reached
+   only through the header toggle, which writes `theme` to `localStorage`. So: load with no stored
+   preference on a machine set to dark and confirm the page is still **paper** (the system must no
+   longer decide), then toggle and confirm dark holds across a navigation and a reload with no flash
+   of the wrong palette. `check:contrast` proves the palette, not the layout, and the dark layout has
+   had far more eyes on it than the light one.
 3. **`lighthouse_audit`** on `/`, `/routes` and one `/routes/:id`. Record the accessibility and SEO
    scores as the pre-publish baseline, because SEO on those two pages is the whole route-library
    thesis and section 6 is about to start measuring it.
