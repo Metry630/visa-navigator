@@ -50,11 +50,25 @@ function Home() {
         quotes. {verifiedCount} of {routes.length} verified by a person.
       </p>
       <div className="mt-8">
-        <Button asChild size="lg">
-          <Link to="/routes">Read the routes</Link>
-        </Button>
-        <div className="mt-4 flex flex-col items-start gap-2 text-small sm:flex-row sm:gap-5">
-          <SiteLink to="/check">See the figures and readings that apply to you</SiteLink>
+        <div className="grid gap-4 sm:grid-cols-2">
+          <div className="rounded-lg border border-border bg-card p-5">
+            <Button asChild size="lg" className="w-full">
+              <Link to="/check">Check my options</Link>
+            </Button>
+            <p className="mt-3 text-small text-muted-foreground">
+              Answer four questions and see which routes are open to you.
+            </p>
+          </div>
+          <div className="rounded-lg border border-border bg-card p-5">
+            <Button asChild size="lg" variant="outline" className="w-full">
+              <Link to="/routes">Browse all routes</Link>
+            </Button>
+            <p className="mt-3 text-small text-muted-foreground">
+              All {routes.length} routes for Singapore and Japan, with every rule and its source.
+            </p>
+          </div>
+        </div>
+        <div className="mt-4 text-small">
           <SiteLink to="/changes">See what is changing</SiteLink>
         </div>
       </div>

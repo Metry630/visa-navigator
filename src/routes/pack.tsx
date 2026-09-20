@@ -119,7 +119,7 @@ function PackPage() {
       <div className="mt-5 flex min-h-11 flex-wrap items-center gap-3 print:hidden">
         <Button type="button" variant="outline" className="min-h-11" onClick={copyLink}>
           {copied ? <Check aria-hidden="true" /> : <Copy aria-hidden="true" />}
-          {copied ? "Link copied" : "Copy link"}
+          {copied ? "Link copied" : "Copy link to this pack"}
         </Button>
         <span className="text-small text-muted-foreground" aria-live="polite">
           {copied ? "The link is ready to share." : ""}
