@@ -15,7 +15,6 @@ import { CHECKER_HEADING, OutcomeTag, SourceLink, StatusBadge } from "@/componen
 import { formatDate } from "@/components/format-date";
 import { Button } from "@/components/ui/button";
 import { buildShareLink } from "@/lib/share-link";
-import { decodeProfileContext } from "@/lib/profile-context";
 
 type ResultsSearch = { p: string };
 
@@ -57,15 +56,7 @@ function displayDegree(degree: Profile["degree"]): string {
   return degree.charAt(0).toUpperCase() + degree.slice(1);
 }
 
-function ProfileSummary({
-  profile,
-  hasJobOffer,
-  universityCountry,
-}: {
-  profile: Profile;
-  hasJobOffer: boolean | undefined;
-  universityCountry: string | undefined;
-}) {
+function ProfileSummary({ profile }: { profile: Profile }) {
   const names = listNationalities();
   const bits = [
     profile.nationalities
@@ -77,9 +68,13 @@ function ProfileSummary({
   ];
   if (profile.field) bits.push(profile.field);
   if (profile.graduationYear) bits.push(`graduated ${profile.graduationYear}`);
-  const universityCountryName = names.find((country) => country.code === universityCountry)?.name;
+  const universityCountryName = names.find(
+    (country) => country.code === profile.universityCountry,
+  )?.name;
   if (universityCountryName) bits.push(`university in ${universityCountryName}`);
-  if (hasJobOffer !== undefined) bits.push(hasJobOffer ? "has a job offer" : "no job offer yet");
+  if (profile.hasOffer !== undefined) {
+    bits.push(profile.hasOffer ? "has a job offer" : "no job offer yet");
+  }
 
   return (
     <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3 rounded-lg border border-border bg-surface px-4 py-3 sm:flex sm:flex-wrap sm:justify-between">
@@ -214,11 +209,24 @@ function RouteChecklist({ route }: { route: RouteResult }) {
                       <span className="min-w-0 break-words">{item.text}</span>
                     </div>
                     {item.note && <p className="mt-1 text-muted-foreground">{item.note}</p>}
-                    <div className="mt-1 flex flex-col gap-1">
-                      {item.sources.map((s) => (
-                        <SourceLink key={s.url + s.quote} source={s} />
-                      ))}
-                    </div>
+                    {item.sources.length > 0 && (
+                      <details className="group mt-1 text-xs text-muted-foreground">
+                        <summary className="cursor-pointer list-none rounded-sm py-1 underline underline-offset-2 marker:content-none [&::-webkit-details-marker]:hidden">
+                          {item.sources.length} {item.sources.length === 1 ? "source" : "sources"} ·{" "}
+                          {[...new Set(item.sources.map((source) => source.publisher))].join(", ")} · read{" "}
+                          {formatDate(
+                            item.sources.reduce((latest, source) =>
+                              source.retrievedOn > latest ? source.retrievedOn : latest,
+                            ),
+                          )}
+                        </summary>
+                        <div className="mt-1 flex flex-col gap-1 pl-3">
+                          {item.sources.map((source) => (
+                            <SourceLink key={source.url + source.quote} source={source} />
+                          ))}
+                        </div>
+                      </details>
+                    )}
                   </li>
                 ))}
               </ul>
@@ -244,7 +252,7 @@ function RouteHeading({ route }: { route: RouteResult }) {
           </Link>
         </h3>
         <div className="col-span-full flex min-w-0 flex-wrap items-center gap-2 sm:col-span-1 sm:shrink-0">
-          <StatusBadge status={route.status} />
+          <StatusBadge status={route.status} requiresEmployer={route.requiresEmployer} />
           {route.verifiedOn === null && (
             <span className="rounded-full border border-border px-3 py-1 text-xs font-medium text-muted-foreground">
               Not yet verified
@@ -324,8 +332,7 @@ function NothingOpen({ name }: { name: string }) {
 function Results() {
   const { p } = Route.useSearch();
   const [copied, setCopied] = useState(false);
-  const context = useMemo(() => decodeProfileContext(p), [p]);
-  const profile = context?.profile ?? null;
+  const profile = useMemo(() => decodeProfile(p), [p]);
   const results = useMemo(() => (profile ? evaluate(profile) : []), [profile]);
   const sortedResults = useMemo(
     () =>
@@ -364,22 +371,19 @@ function Results() {
       </div>
 
       <div className="mt-5">
-        <ProfileSummary
-          profile={profile}
-          hasJobOffer={context?.hasJobOffer}
-          universityCountry={context?.universityCountry}
-        />
+        <ProfileSummary profile={profile} />
       </div>
 
       <div className="mt-7 space-y-1 text-sm text-muted-foreground">
         {sortedResults.map((destination) => {
-          const open = destination.routes.filter((route) => route.status === "open").length;
-          const depends = destination.routes.filter((route) => route.status === "depends").length;
           const closed = destination.routes.filter((route) => route.status === "closed").length;
+          const activeRoutes = destination.routes.filter((route) => route.status !== "closed");
+          const employer = activeRoutes.filter((route) => route.requiresEmployer).length;
+          const self = activeRoutes.filter((route) => !route.requiresEmployer).length;
           return (
             <p key={destination.destination}>
-              <span className="font-medium text-foreground">{destination.name}:</span> {open} open,{" "}
-              {depends} depend on an employer, {closed} closed.
+              <span className="font-medium text-foreground">{destination.name}:</span> {employer}{" "}
+              need an employer, {self} you can apply for yourself, {closed} closed.
             </p>
           );
         })}
@@ -391,7 +395,7 @@ function Results() {
           const allClosed = destination.routes.every((route) => route.status === "closed");
           const selfRoutes = destination.routes.filter((route) => !route.requiresEmployer);
           const employerRoutes = destination.routes.filter((route) => route.requiresEmployer);
-          const groups = context?.hasJobOffer
+          const groups = profile.hasOffer
             ? [
                 { title: "Routes an employer has to apply for", routes: employerRoutes },
                 { title: "Routes you can apply for yourself", routes: selfRoutes },

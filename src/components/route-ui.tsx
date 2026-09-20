@@ -4,7 +4,7 @@ import { formatDate } from "@/components/format-date";
 
 const STATUS_TEXT: Record<RouteStatus, string> = {
   open: "Open",
-  depends: "Depends on employer",
+  depends: "Employer applies for you",
   closed: "Closed",
 };
 
@@ -14,12 +14,21 @@ const STATUS_CLASS: Record<RouteStatus, string> = {
   closed: "bg-closed text-closed-foreground",
 };
 
-export function StatusBadge({ status }: { status: RouteStatus }) {
+export function StatusBadge({
+  status,
+  requiresEmployer,
+}: {
+  status: RouteStatus;
+  requiresEmployer: boolean;
+}) {
+  const text =
+    status === "depends" && !requiresEmployer ? "Needs answers we don't have" : STATUS_TEXT[status];
+
   return (
     <span
       className={`inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold ${STATUS_CLASS[status]}`}
     >
-      {STATUS_TEXT[status]}
+      {text}
     </span>
   );
 }
@@ -37,13 +46,10 @@ const OUTCOME_TEXT: Record<Outcome, string> = {
 };
 
 export function OutcomeTag({ outcome }: { outcome: Outcome }) {
-  const Icon = outcome === "met" ? Check : outcome === "unmet" ? X : CircleHelp;
-  const color =
-    outcome === "met"
-      ? "text-open-foreground"
-      : outcome === "unmet"
-        ? "text-closed-foreground"
-        : "text-muted-foreground";
+  if (outcome === "unknown") return null;
+
+  const Icon = outcome === "met" ? Check : X;
+  const color = outcome === "met" ? "text-open-foreground" : "text-closed-foreground";
   return (
     <span className={`inline-flex items-center gap-1 text-xs font-medium ${color}`}>
       <Icon aria-hidden="true" className="size-3.5" />
