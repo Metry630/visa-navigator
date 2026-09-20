@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { formatDate } from "@/components/format-date";
-import { DESTINATIONS, listRoutes } from "@/engine";
+import { DESTINATIONS, formatMoney, listRoutes, type RouteFacts, type RouteSummary } from "@/engine";
 
 const DESCRIPTION =
   "Work visa routes for new graduates, with every rule linked to its official source.";
@@ -18,6 +18,135 @@ export const Route = createFileRoute("/routes/")({
   }),
   component: RoutesLibrary,
 });
+
+const DEGREE_TEXT: Record<string, string> = {
+  none: "no degree needed",
+  diploma: "diploma or higher",
+  bachelor: "bachelor's degree or higher",
+  master: "master's degree or higher",
+  doctorate: "doctorate",
+};
+
+/**
+ * Every line here is a restatement of a fact the engine already carries on `facts`, so the table can
+ * compare routes without anyone writing a rule into the UI. A missing field means the route has no
+ * requirement of that kind, so it contributes nothing rather than a dash.
+ */
+function limitsLine(facts: RouteFacts): string {
+  const parts: string[] = [];
+
+  if (facts.age) {
+    const { min, max } = facts.age;
+    if (min !== undefined && max !== undefined) parts.push(`age ${min} to ${max}`);
+    else if (min !== undefined) parts.push(`age ${min} and over`);
+    else if (max !== undefined) parts.push(`age ${max} and under`);
+  }
+
+  if (facts.minDegree) {
+    const text = DEGREE_TEXT[facts.minDegree];
+    if (text) parts.push(text);
+  }
+
+  if (facts.nationalityList) {
+    const { mode, count } = facts.nationalityList;
+    parts.push(
+      mode === "allow"
+        ? `open to ${count} nationalities`
+        : `closed to ${count} nationalities`,
+    );
+  }
+
+  if (facts.salaryFloor) {
+    const { amount, currency, period } = facts.salaryFloor;
+    parts.push(`from ${formatMoney(amount, currency)} a ${period}`);
+  }
+
+  return parts.join(" · ");
+}
+
+function checksLine(checks: RouteFacts["checks"]): string {
+  return (
+    [
+      [checks.you, "you"],
+      [checks.employer, "employer"],
+      [checks.authority, "authority"],
+    ] as const
+  )
+    .filter(([count]) => count > 0)
+    .map(([count, who]) => `${count} ${who}`)
+    .join(" · ");
+}
+
+/** Hidden from assistive tech: the real association comes from the table's own header cells. */
+function CellLabel({ children }: { children: string }) {
+  return (
+    <span aria-hidden="true" className="font-medium text-foreground sm:hidden">
+      {children}:{" "}
+    </span>
+  );
+}
+
+function RouteTable({ routes, caption }: { routes: RouteSummary[]; caption: string }) {
+  return (
+    <table className="route-table mt-3 w-full border-collapse text-left">
+      <caption className="sr-only">{caption}</caption>
+      <thead className="route-table-head text-caption font-semibold tracking-[0.08em] text-muted-foreground uppercase">
+        <tr className="border-y border-border">
+          <th scope="col" className="w-1/2 py-2 pr-4 font-semibold">
+            Route
+          </th>
+          <th scope="col" className="py-2 pr-4 font-semibold">
+            Who applies
+          </th>
+          <th scope="col" className="py-2 pr-4 font-semibold">
+            What decides it
+          </th>
+          <th scope="col" className="py-2 font-semibold">
+            Verified
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        {routes.map((route) => {
+          const limits = limitsLine(route.facts);
+          return (
+            <tr key={route.routeId} className="border-b border-border align-top">
+              <th scope="row" className="py-4 pr-4 text-left font-normal">
+                <span className="text-subhead font-semibold">
+                  <Link
+                    to="/routes/$routeId"
+                    params={{ routeId: route.routeId }}
+                    className="break-words underline-offset-4 hover:underline"
+                  >
+                    {route.name}
+                  </Link>
+                </span>
+                {limits && (
+                  <span className="mt-1 block text-small tabular-nums text-muted-foreground">
+                    {limits}
+                  </span>
+                )}
+                <span className="mt-1 block text-body text-muted-foreground">{route.summary}</span>
+              </th>
+              <td className="py-4 pr-4 text-body">
+                <CellLabel>Who applies</CellLabel>
+                {route.requiresEmployer ? "An employer" : "You"}
+              </td>
+              <td className="py-4 pr-4 text-body tabular-nums">
+                <CellLabel>What decides it</CellLabel>
+                {checksLine(route.facts.checks)}
+              </td>
+              <td className="py-4 text-body tabular-nums text-muted-foreground">
+                <CellLabel>Verified</CellLabel>
+                {route.verifiedOn ? `Verified ${formatDate(route.verifiedOn)}` : "Not yet verified"}
+              </td>
+            </tr>
+          );
+        })}
+      </tbody>
+    </table>
+  );
+}
 
 function RoutesLibrary() {
   const routes = listRoutes();
@@ -51,35 +180,13 @@ function RoutesLibrary() {
               <div className="mt-6 space-y-8">
                 {groups.map((group) => (
                   <section key={group.title}>
-                    <h3 className="text-subhead font-semibold">
-                      {group.title}{" "}
-                      <span className="text-muted-foreground">({group.routes.length})</span>
+                    <h3 className="text-caption font-semibold tracking-[0.08em] text-muted-foreground uppercase">
+                      {group.title} ({group.routes.length})
                     </h3>
-                    <ul className="mt-3 divide-y divide-border border-y border-border">
-                      {group.routes.map((route) => (
-                        <li key={route.routeId} className="py-5">
-                          <div className="flex min-w-0 flex-col gap-2 sm:flex-row sm:items-baseline sm:justify-between sm:gap-6">
-                            <h4 className="min-w-0 text-subhead font-semibold">
-                              <Link
-                                to="/routes/$routeId"
-                                params={{ routeId: route.routeId }}
-                                className="break-words underline-offset-4 hover:underline"
-                              >
-                                {route.name}
-                              </Link>
-                            </h4>
-                            <p className="shrink-0 text-small text-muted-foreground">
-                              {route.verifiedOn
-                                ? `Verified ${formatDate(route.verifiedOn)}`
-                                : "Not yet verified"}
-                            </p>
-                          </div>
-                          <p className="prose-measure mt-2 text-body text-muted-foreground">
-                            {route.summary}
-                          </p>
-                        </li>
-                      ))}
-                    </ul>
+                    <RouteTable
+                      routes={group.routes}
+                      caption={`${destination.name}: ${group.title}`}
+                    />
                   </section>
                 ))}
               </div>
