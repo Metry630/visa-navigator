@@ -73,9 +73,11 @@ every absolute URL is built from the incoming request's origin.
   gone stale twice:
 
   ```bash
-  curl -s https://<domain>/sitemap.xml | grep -c '<loc>'          # expect routes + packs + 5
-  ls src/data/*/*.json | wc -l                                    # routes
-  grep -l '"who": "employer"' src/data/*/*.json | wc -l           # packs
+  # grep -c counts LINES and the sitemap is one line, so it answers 1. Count occurrences:
+  curl -s https://<domain>/sitemap.xml | grep -o '<loc>' | wc -l   # expect routes + packs + 5
+  ls src/data/*/*.json | wc -l                                     # routes
+  grep -l '"who": "employer"' src/data/*/*.json | wc -l            # packs
+  curl -s https://<domain>/sitemap.xml | grep -c 'p='              # must be 0: no profile in a sitemap
   ```
 - One route page, for example `/routes/jp-jfind`, serves its own `<title>`, description and OG tags,
   and an absolute `og:image`.

@@ -29,7 +29,19 @@ Pro Lite gives no monthly credits, so the budget is what is left of the 300 one-
 
 | 2026-09-20 | ~4.5 | `d759d1c`..`0ad95a1` | Batch 8. The usability pass, part one. `src/lib/profile-context.ts` deleted and both new answers routed back through `ProfileSchema`, `StatusBadge` given a third label so a route needing no employer stops claiming it does, the per-destination counts computed from `requiresEmployer` instead of status, the 157 source lines collapsed to one disclosure per requirement, and `OutcomeTag` silenced for `unknown`. |
 
-**Spent so far: ~43.7.** 303 were left on 2026-09-11, so about 259 remain against a v0 budget of ~150.
+| 2026-09-20 | ~4.5 | `bfaedd3`..`41e6e24` | Batch 9. `/check` cut from six steps and ten fields to one screen and four, with the rest behind an "Add more about yourself" disclosure; expected salary moved onto `/results` as an inline prompt driven by `ChecklistItem.missing`; `/routes` grouped by `requiresEmployer`; the three "Step 1/2/3" cards on the home page replaced by engine-computed counts and one real sourced requirement. |
+
+| 2026-09-20 | 3.3 | `1ef3241`..`6e0d440` | Batch 10. `/pack` takes an optional profile, so the employer page is linkable from `/routes/:id` and indexable, with `noindex` kept only on the form carrying a profile; "Send this to your employer" promoted to a button in the route card header; `resetScroll: false` after the inline salary update. |
+
+| 2026-09-20 | ~1 | - | Batch 11. The five profile-free `/pack` URLs added to the sitemap, filtered on a route actually having a `who: "employer"` requirement rather than on `requiresEmployer`. |
+
+**Spent so far: ~52.5.** 303 were left on 2026-09-11, so about 250 remain against a v0 budget of ~150.
+
+Batches 8 to 11 were a usability pass, and what made them cheap was that the measurement came first.
+Each message carried the number that justified it: 157 repeated source lines, 78 of 94 requirements
+rendering as "Unknown", 5 of 10 routes needing no employer while the badge said otherwise, 4 of 10
+form fields driving all 16 evaluable requirements and the 8 language dropdowns driving none. The
+agent did not argue with any of them and did not need a second turn to correct one.
 
 Batch 7 is the sharpest example yet of the rule at the top of this file, and it cost a whole extra
 batch to undo. It was asked to add a job-offer question and told: if the engine has no field for it,
