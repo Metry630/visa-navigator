@@ -2,7 +2,6 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useMemo, useRef, useState } from "react";
 import {
   DESTINATIONS,
-  encodeProfile,
   listNationalities,
   type DegreeLevel,
   type Destination,
@@ -12,6 +11,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { encodeProfileContext } from "@/lib/profile-context";
 
 export const Route = createFileRoute("/check")({
   head: () => ({
@@ -71,9 +71,11 @@ type FormState = {
   age: string;
   degree: DegreeLevel;
   university: string;
+  universityCountry: string;
   graduationYear: string;
   field: string;
   yearsExperience: string;
+  hasJobOffer: "yes" | "no" | "";
   languages: Record<string, LanguageLevel | "">;
   salary: Record<string, string>;
 };
@@ -105,9 +107,11 @@ function CheckPage() {
     age: "",
     degree: "bachelor",
     university: "",
+    universityCountry: "",
     graduationYear: "",
     field: "",
     yearsExperience: "0",
+    hasJobOffer: "",
     languages: { en: "business" },
     salary: {},
   });
@@ -135,7 +139,15 @@ function CheckPage() {
 
   function focusInvalidField(current: number) {
     const fieldId =
-      current === 0 ? "nationality" : current === 1 ? "age" : current === 3 ? "years" : null;
+      current === 0
+        ? "nationality"
+        : current === 1
+          ? "age"
+          : current === 3
+            ? form.hasJobOffer === ""
+              ? "offer-no"
+              : "years"
+            : null;
     if (!fieldId) return;
     if (current === step) {
       document.getElementById(fieldId)?.focus();
@@ -153,6 +165,7 @@ function CheckPage() {
       }
     }
     if (current === 3) {
+      if (form.hasJobOffer === "") return "Choose whether you already have a job offer.";
       const years = Number(form.yearsExperience);
       if (form.yearsExperience === "" || !Number.isFinite(years) || years < 0) {
         return "Enter your years of work experience, or 0.";
@@ -208,7 +221,15 @@ function CheckPage() {
     }
     if (Object.keys(salary).length) profile.expectedSalary = salary;
 
-    void navigate({ to: "/results", search: { p: encodeProfile(profile) } });
+    void navigate({
+      to: "/results",
+      search: {
+        p: encodeProfileContext(profile, {
+          hasJobOffer: form.hasJobOffer === "yes",
+          ...(form.universityCountry ? { universityCountry: form.universityCountry } : {}),
+        }),
+      },
+    });
   }
 
   const isLast = step === STEP_TITLES.length - 1;
@@ -355,6 +376,22 @@ function CheckPage() {
               />
             </div>
             <div className="space-y-2">
+              <Label htmlFor="university-country">University country, optional</Label>
+              <select
+                id="university-country"
+                className={selectClass}
+                value={form.universityCountry}
+                onChange={(e) => update({ universityCountry: e.target.value })}
+              >
+                <option value="">Choose a country</option>
+                {nationalities.map((nationality) => (
+                  <option key={nationality.code} value={nationality.code}>
+                    {nationality.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="space-y-2">
               <Label htmlFor="graduation-year">Graduation year, optional</Label>
               <Input
                 id="graduation-year"
@@ -380,19 +417,37 @@ function CheckPage() {
         )}
 
         {step === 3 && (
-          <div className="space-y-2">
-            <Label htmlFor="years">Years of work experience</Label>
-            <Input
-              id="years"
-              className="h-11 sm:h-10"
-              type="number"
-              min={0}
-              max={60}
-              inputMode="numeric"
-              value={form.yearsExperience}
-              onChange={(e) => update({ yearsExperience: e.target.value })}
-            />
-          </div>
+          <fieldset className="space-y-5">
+            <legend className="text-sm font-medium">Do you already have a job offer?</legend>
+            <div className="flex flex-wrap gap-4">
+              {(["no", "yes"] as const).map((answer) => (
+                <label key={answer} className="flex min-h-11 cursor-pointer items-center gap-2">
+                  <input
+                    id={`offer-${answer}`}
+                    type="radio"
+                    name="job-offer"
+                    value={answer}
+                    checked={form.hasJobOffer === answer}
+                    onChange={() => update({ hasJobOffer: answer })}
+                  />
+                  {answer === "yes" ? "Yes" : "No"}
+                </label>
+              ))}
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="years">Years of work experience</Label>
+              <Input
+                id="years"
+                className="h-11 sm:h-10"
+                type="number"
+                min={0}
+                max={60}
+                inputMode="numeric"
+                value={form.yearsExperience}
+                onChange={(e) => update({ yearsExperience: e.target.value })}
+              />
+            </div>
+          </fieldset>
         )}
 
         {step === 4 && (

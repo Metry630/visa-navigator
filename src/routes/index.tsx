@@ -42,18 +42,19 @@ function Home() {
   return (
     <div className="mx-auto max-w-4xl px-5 py-16 sm:py-24">
       <h1 className="prose-measure text-4xl leading-tight font-semibold text-balance sm:text-5xl">
-        Which countries can you actually work in after graduating?
+        Work visa routes, rules and official sources
       </h1>
       <p className="prose-measure mt-5 text-lg leading-relaxed text-muted-foreground">
-        Answer a few questions about yourself and see the work visa routes you qualify for today.
+        Read the routes for new graduates, the rules behind them and the official wording each rule
+        comes from.
       </p>
       <div className="mt-8">
         <Button asChild size="lg">
-          <Link to="/check">Check my options</Link>
+          <Link to="/routes">Read the routes</Link>
         </Button>
         <div className="mt-4 flex flex-col items-start gap-2 text-sm sm:flex-row sm:gap-5">
-          <Link to="/routes" className="font-medium text-primary underline underline-offset-2">
-            Read the routes without answering anything
+          <Link to="/check" className="font-medium text-primary underline underline-offset-2">
+            See the figures and readings that apply to you
           </Link>
           <Link to="/changes" className="font-medium text-primary underline underline-offset-2">
             See what is changing
