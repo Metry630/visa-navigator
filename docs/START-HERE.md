@@ -14,22 +14,17 @@ All four stream branches have landed and every source snapshot has been copied i
 worktrees hold nothing that main does not. They are safe to remove with `git worktree remove`, which
 leaves the branches alone.
 
-## Where things stand (2026-09-18)
+## Where things stand (2026-09-20)
 
-**10 routes, 93 requirements, 93 of 93 sourced, 4 of 10 verified by a person.** 92 tests, and
-typecheck, lint, `check:data` and `build` all green, all four now gates in CI. Drift check:
+**10 routes, 94 requirements, 94 of 94 sourced, 9 of 10 verified by a person.** 112 tests, and
+typecheck, lint, `check:data` and `build` all green, all four gates in CI. Drift check:
 **135 of 135 quotes live**, 0 moved, 18 checked by hand.
-
-The verified count went down on purpose. Four processing-time requirements were added, and an audit of
-the Singapore routes found three requirements whose text did not match its own sources. Six routes now
-need one requirement re-read each, which the review page marks as "needs re-reading" and names. The
-remaining work is **27 requirements**: three Singapore routes at one each, plus Engineer/Specialist 3,
-J-Find 10 and Highly Skilled Professional 11.
 
 | Destination | Routes | Stamped |
 |---|---|---|
 | Singapore | Employment Pass, S Pass, EntrePass, Training Employment Pass, Work Holiday, Work and Holiday | **6 of 6, done** |
-| Japan | Working Holiday, Engineer/Specialist, J-Find, Highly Skilled Professional | 0 of 4 |
+| Japan | Working Holiday, J-Find, Highly Skilled Professional | **3 of 3 stamped** |
+| Japan | Engineer / Specialist in Humanities | **the last one** |
 
 Streams C, R-SG, R-JP and D are done. U is running. E is open and is Joshua's.
 
@@ -42,10 +37,36 @@ run, with only the `--release` gate failing as expected.
 
 ### The publish gate
 
-`npm run check:data -- --release` errors on the four Japan routes. Nothing publishes until all four
-carry a stamp. Working Holiday needs **one** requirement (`funds-for-initial-stay`, rewritten after it
-was first stamped); Engineer/Specialist needs 4 of 11; J-Find and Highly Skilled Professional are
-untouched at 9 and 11.
+`npm run check:data -- --release` now errors on **one route**. Nothing publishes until
+`jp/engineer-specialist` carries a stamp. That is the whole gate.
+
+### The usability pass (2026-09-20)
+
+The site was walked end to end against `research/discovery/summary.md` before publishing, and the
+finding was that it led with a question it cannot answer. For a typical visitor (India, 23,
+bachelor's) Singapore read "0 open, 5 depend on an employer, 1 closed", over 94 requirement lines of
+which 78 said "Unknown", under 157 repeated "Source · publisher · Retrieved" lines. Three things were
+wrong rather than merely unpolished, and all three are fixed:
+
+- `status: "depends"` covers both "an employer must apply" and "we cannot check enough of this", and
+  the badge said "Depends on employer" for both. EntrePass needs no employer and said it did. There
+  are now three labels, and the per-destination count is computed from `requiresEmployer`.
+- **Five of the ten routes need no employer** and the site never said so, which is the third largest
+  confusion in the discovery set, 13 of 99 posts. `/results` and `/routes` now group by it, and
+  `/results` puts the group you can act on first, branching on `Profile.hasOffer`.
+- The employer pack answers the largest confusion, 21 of 99, and was a grey link at the bottom of a
+  card.
+
+Two engine fields were added for it, both additive (`94060b0`): `RouteSummary.requiresEmployer`, and
+`ChecklistItem.missing`, which names the profile field that would settle an item. Only one case sets
+it, a salary floor with no expected salary, and it is what lets `/results` ask for a salary beside the
+line it changes rather than sending anyone back to the form.
+
+`/check` went from six steps and ten fields to one screen and four, because four fields drive all 16
+evaluable requirements: nationality 2, age 4, degree 2, expected salary 8. The other 78 requirements
+are `kind: "manual"` and no answer settles them. The eight language dropdowns and years of experience
+drove **zero**, since no route file uses a `language` or `experience` rule. Everything still collected
+sits behind one "Add more about yourself" disclosure.
 
 ### Approvals now carry a fingerprint
 
@@ -69,8 +90,9 @@ check runs on Node, so `npm run check:sources` is the only probe that answers th
 
 ## Joshua's checkpoints
 
-1. ⭐ **Stamp the four Japan routes.** `npm run review -- --by joshua`, then http://127.0.0.1:4178.
-   Working Holiday is one requirement. Every Japanese quote now has an English rendering under it.
+1. ⭐ **Stamp `jp-engineer-specialist`.** It is the only route left and the whole publish gate.
+   `npm run review -- --by joshua`, then http://127.0.0.1:4178. Every Japanese quote has an English
+   rendering under it.
 2. **Two Japan research questions** in `docs/research/jp.md`: whether the Highly Skilled Professional
    points table gets transcribed by hand (recommendation: no, not until stream E has a points-test
    rule kind, since a transcribed table is data nothing can evaluate), and whether the route detail
@@ -94,28 +116,31 @@ As of 2026-09-18 the non-data work is done and the runbook is `docs/LAUNCH.md`.
   person rather than the build brief it used to be.
 - **The UI is feature-complete for v0**: `/check`, `/results`, `/routes`, `/routes/:id`, `/changes`,
   `/pack`, `/methodology`, a sitemap and robots served from the request origin, a real 1200x630 share
-  card, and focus plus live-region handling on the form.
+  card, and focus plus live-region handling on the form. Feature-complete was true on 18 Sep and was
+  not the same as usable; see the usability pass above for what a walkthrough found.
 
 ## Lovable (stream U)
 
-10.4 credits spent of about 303. Credits have never been the constraint. Batches, one message each,
-logged in `docs/lovable-log.md`.
+About 43.7 credits spent of about 303, so roughly 259 remain against a v0 budget of ~150. Credits have
+never been the constraint. Batches, one message each, logged in `docs/lovable-log.md`, which is the
+authority; the notes below are only what a next session needs.
 
-- **Batch 1, landed `d1c0d36`, 4.7 credits.** Route library at `/routes` on `listRoutes()`,
-  translations under quotes, per-page titles and OG tags, the name and strapline made consistent.
-- **Batch 2, in flight.** Revert `SourceLink` to compact (batch 1 put full quotes on every `/results`
-  checklist line, which buries the page), a `/sitemap.xml` server route building absolute URLs from
-  the request origin, and the results rework: open routes first, closed ones collapsed, a copy-link
-  button through `src/lib/share-link.ts`, per-destination counts.
-- **Batch 3, queued: the employer pack.** The largest measured confusion, 21 of 99 coded posts,
-  biggest in both countries. A `/pack` route rendering only the `who: "employer"` checklist items for
-  one route, each with its quote and retrieved date, written for someone who has never sponsored
-  anyone, with a print stylesheet because it gets forwarded by email.
+**Batches 7 and 8 (20 Sep) are the pair to read before writing another message.** Batch 7 was told to
+add a job-offer question and given an escape hatch: do it without touching `src/engine/`, or leave a
+TODO. The engine already had `Profile.hasOffer`. It took neither branch and invented
+`src/lib/profile-context.ts`, a second base64url decoder writing a key the schema strips and reading
+it back past the schema entirely. Batch 8 deleted it. **Name the field the agent should use rather
+than the condition under which it may invent one**, and say "pull the latest, the engine gained two
+fields you will need" at the top of the message whenever that is true.
+
+Eight batches have landed. All of them are in `docs/lovable-log.md` with what each one changed and
+what it cost.
 
 Deferred: the rule-change feed. Not built: any backend. The frontend-only rule holds.
 
-Two things learned the hard way, both in `docs/lovable-log.md`: say *where* a change applies and not
-just what it is, and a refusal is sometimes worth arguing with.
+Three things learned the hard way, all in `docs/lovable-log.md`: say *where* a change applies and not
+just what it is; a refusal is sometimes worth arguing with; and an escape hatch in a request will be
+taken, so name the field rather than the condition.
 
 ## What each session inherits
 
