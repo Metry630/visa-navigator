@@ -34,35 +34,55 @@ function RoutesLibrary() {
           const destinationRoutes = routes.filter(
             (route) => route.destination === destination.code,
           );
+          const groups = [
+            {
+              title: "Start without an employer",
+              routes: destinationRoutes.filter((route) => !route.requiresEmployer),
+            },
+            {
+              title: "An employer applies for you",
+              routes: destinationRoutes.filter((route) => route.requiresEmployer),
+            },
+          ];
 
           return (
             <section key={destination.code}>
               <h2 className="text-2xl font-semibold">{destination.name}</h2>
-              <ul className="mt-4 divide-y divide-border border-y border-border">
-                {destinationRoutes.map((route) => (
-                  <li key={route.routeId} className="py-5">
-                    <div className="flex min-w-0 flex-col gap-2 sm:flex-row sm:items-baseline sm:justify-between sm:gap-6">
-                      <h3 className="min-w-0 text-xl font-semibold">
-                        <Link
-                          to="/routes/$routeId"
-                          params={{ routeId: route.routeId }}
-                          className="break-words underline-offset-4 hover:underline"
-                        >
-                          {route.name}
-                        </Link>
-                      </h3>
-                      <p className="shrink-0 text-sm text-muted-foreground">
-                        {route.verifiedOn
-                          ? `Verified ${formatDate(route.verifiedOn)}`
-                          : "Not yet verified"}
-                      </p>
-                    </div>
-                    <p className="prose-measure mt-2 leading-relaxed text-muted-foreground">
-                      {route.summary}
-                    </p>
-                  </li>
+              <div className="mt-6 space-y-8">
+                {groups.map((group) => (
+                  <section key={group.title}>
+                    <h3 className="text-base font-semibold">
+                      {group.title}{" "}
+                      <span className="text-muted-foreground">({group.routes.length})</span>
+                    </h3>
+                    <ul className="mt-3 divide-y divide-border border-y border-border">
+                      {group.routes.map((route) => (
+                        <li key={route.routeId} className="py-5">
+                          <div className="flex min-w-0 flex-col gap-2 sm:flex-row sm:items-baseline sm:justify-between sm:gap-6">
+                            <h4 className="min-w-0 text-xl font-semibold">
+                              <Link
+                                to="/routes/$routeId"
+                                params={{ routeId: route.routeId }}
+                                className="break-words underline-offset-4 hover:underline"
+                              >
+                                {route.name}
+                              </Link>
+                            </h4>
+                            <p className="shrink-0 text-sm text-muted-foreground">
+                              {route.verifiedOn
+                                ? `Verified ${formatDate(route.verifiedOn)}`
+                                : "Not yet verified"}
+                            </p>
+                          </div>
+                          <p className="prose-measure mt-2 leading-relaxed text-muted-foreground">
+                            {route.summary}
+                          </p>
+                        </li>
+                      ))}
+                    </ul>
+                  </section>
                 ))}
-              </ul>
+              </div>
             </section>
           );
         })}
