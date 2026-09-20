@@ -9,6 +9,7 @@ import {
   type Insight,
   type Profile,
   type RouteResult,
+  type Source,
 } from "@/engine";
 import { EvidenceQuote } from "@/components/evidence-quote";
 import { CHECKER_HEADING, OutcomeTag, SourceLink, StatusBadge } from "@/components/route-ui";
