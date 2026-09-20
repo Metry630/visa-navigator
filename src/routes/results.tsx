@@ -472,21 +472,6 @@ function Results() {
         </section>
       )}
 
-      <div className="mt-7 space-y-1 text-small text-muted-foreground">
-        {sortedResults.map((destination) => {
-          const closed = destination.routes.filter((route) => route.status === "closed").length;
-          const activeRoutes = destination.routes.filter((route) => route.status !== "closed");
-          const employer = activeRoutes.filter((route) => route.requiresEmployer).length;
-          const self = activeRoutes.filter((route) => !route.requiresEmployer).length;
-          return (
-            <p key={destination.destination}>
-              <span className="font-medium text-foreground">{destination.name}:</span> {employer}{" "}
-              need an employer, {self} you can apply for yourself, {closed} closed.
-            </p>
-          );
-        })}
-      </div>
-
       <div className="mt-8 space-y-10">
         {sortedResults.map((destination) => {
           if (destination.routes.length === 0) return null;
@@ -495,6 +480,9 @@ function Results() {
           const closedRoutes = destination.routes.filter((route) => route.status === "closed");
           const selfRoutes = openRoutes.filter((route) => !route.requiresEmployer);
           const employerRoutes = openRoutes.filter((route) => route.requiresEmployer);
+          const closed = closedRoutes.length;
+          const employer = employerRoutes.length;
+          const self = selfRoutes.length;
           const groups = profile.hasOffer
             ? [
                 { title: "Routes an employer has to apply for", routes: employerRoutes },
@@ -507,7 +495,9 @@ function Results() {
           return (
             <section key={destination.destination}>
               <h2 className="text-section font-semibold">{destination.name}</h2>
-              <Insights insights={destination.insights} />
+              <p className="mt-1 text-small text-muted-foreground">
+                {employer} need an employer, {self} you can apply for yourself, {closed} closed.
+              </p>
               {allClosed && <NothingOpen name={destination.name} />}
               {groups.map((group) => (
                 <RouteGroup
@@ -525,6 +515,7 @@ function Results() {
                 p={p}
                 showReason
               />
+              <Insights insights={destination.insights} />
             </section>
           );
         })}
