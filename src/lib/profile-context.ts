@@ -25,7 +25,6 @@ function readEncodedObject(encoded: string): Record<string, unknown> | null {
   }
 }
 
-
 export function encodeProfileContext(profile: Profile, answers: ProfileAnswers): string {
   return encodeProfile({ ...profile, ...answers });
 }
