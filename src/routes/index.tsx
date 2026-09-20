@@ -62,13 +62,8 @@ function Home() {
         </div>
       </div>
 
-      <p className="prose-measure mt-14 text-body text-muted-foreground">
-        {routes.length} routes, {requirementCount} requirements and {sourceCount} quotes.{" "}
-        {verifiedCount} of {routes.length} routes verified.
-      </p>
-
       {exampleRoute && exampleRequirement && (
-        <section className="mt-8 border-y border-border py-6">
+        <section className="mt-14 border-y border-border py-6">
           <p className="text-body">{exampleRequirement.text}</p>
           <p className="mt-2 text-small text-muted-foreground">
             <Link
