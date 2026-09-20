@@ -7,7 +7,6 @@ import {
   evaluate,
   getRoute,
   type ChecklistItem,
-  type Requirement,
   type RouteResult,
 } from "@/engine";
 import { EvidenceQuote } from "@/components/evidence-quote";
@@ -68,14 +67,6 @@ export const Route = createFileRoute("/pack")({
 
 type PackItem = Pick<ChecklistItem, "requirementId" | "text" | "note" | "sources">;
 
-function requirementToPackItem(requirement: Requirement): PackItem {
-  return {
-    requirementId: requirement.id,
-    text: requirement.text,
-    sources: requirement.sources,
-  };
-}
-
 function PackPage() {
   const { p, route: routeId } = Route.useSearch();
   const [copied, setCopied] = useState(false);
@@ -88,7 +79,13 @@ function PackPage() {
     evaluated?.destinationName ?? DESTINATIONS.find((item) => item.code === detail.destination)?.name;
   const employerItems: PackItem[] = route
     ? route.checklist.filter((item) => item.who === "employer")
-    : detail.requirements.filter((item) => item.who === "employer").map(requirementToPackItem);
+    : detail.requirements
+        .filter((item) => item.who === "employer")
+        .map((item) => ({
+          requirementId: item.id,
+          text: item.text,
+          sources: item.sources,
+        }));
 
   const copyLink = async () => {
     await navigator.clipboard.writeText(buildPackLink(routeId, p));
