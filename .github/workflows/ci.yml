@@ -49,6 +49,9 @@ jobs:
       - name: Data
         run: npm run check:data
 
+      - name: Contrast
+        run: npm run check:contrast
+
       - name: Lint
         run: npm run lint
 

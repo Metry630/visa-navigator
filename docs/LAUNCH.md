@@ -27,10 +27,11 @@ so a route cannot sit there claiming to be verified when it is not.
 ## 2. Run every check
 
 ```bash
-npm test                 # 112 tests
+npm test                 # 116 tests
 npm run typecheck
 npm run lint
 npm run check:data -- --release
+npm run check:contrast
 npm run check:sources
 npm run build
 ```
@@ -43,6 +44,11 @@ separately and is not a failure, because that is usually the publisher rate-limi
 has cleared on its own before. If it reports unreachable pages, diagnose with `npm run check:sources`
 and not with `curl`: MOFA answers Node's `fetch` and refuses `curl`, so curl cannot tell you whether
 the drift check can read a page.
+
+`check:contrast` converts the oklch tokens in `src/styles.css` by hand and asserts every text pair the
+UI renders, in both modes. It carries a ratchet as well as the 4.5:1 AA floor: the worst pair may not
+fall below the recorded `WORST_FLOOR`, which was 5.58:1 on 2026-09-20. A palette change that lowers it
+moves the constant in the same commit and says why.
 
 ## 3. Tell Pints first
 

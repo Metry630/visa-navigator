@@ -1,9 +1,16 @@
 // The engine's public API. The UI imports only from here, as "@/engine".
 import { z } from "zod";
-import { evaluateRoute } from "./evaluate";
+import { evaluateRoute, inEffect } from "./evaluate";
 import { insightsFor } from "./insights";
-import { RouteSchema, type Route } from "./schema";
-import type { Destination, DestinationResult, Profile, RouteDetail, RouteSummary } from "./types";
+import { RouteSchema, type Requirement, type Route } from "./schema";
+import type {
+  Destination,
+  DestinationResult,
+  Profile,
+  RouteDetail,
+  RouteFacts,
+  RouteSummary,
+} from "./types";
 
 export type * from "./types";
 
@@ -61,7 +68,60 @@ export function evaluate(profile: Profile, asOf: string = today()): DestinationR
   });
 }
 
-function summary(r: Route): RouteSummary {
+/**
+ * Restates a route's typed requirements as the structured limits the route library compares on.
+ *
+ * Nothing is derived or inferred: each field is a value already in the route file, under a rule that
+ * carries its own quote.
+ *
+ * Only requirements in effect on `asOf` are read, the same filter `evaluateRoute` applies, so the
+ * counts here and the checklist there always agree. That filter is not cosmetic: the SG Employment
+ * Pass carries both the 2026 salary floor and the one that replaces it on 1 Jan 2027, and taking
+ * whichever came first in the file would keep quoting S$5,600 into a year when it is superseded.
+ */
+function facts(r: Route, asOf: string): RouteFacts {
+  const active = r.requirements.filter((q) => inEffect(q, asOf));
+
+  const checks = { you: 0, employer: 0, authority: 0 };
+  for (const q of active) checks[q.who] += 1;
+
+  const of = <K extends Requirement["kind"]>(kind: K) =>
+    active.find((q): q is Extract<Requirement, { kind: K }> => q.kind === kind);
+
+  const age = of("age");
+  const degree = of("degree");
+  const list = of("nationality-list");
+
+  // A route can carry several floors at once, one per sector. The lowest is the one a reader could
+  // qualify on, so it is the one the table means by "from".
+  const salary = active
+    .filter((q): q is Extract<Requirement, { kind: "salary-floor" }> => q.kind === "salary-floor")
+    .map((q) => ({ req: q, lowest: q.byAge[0] }))
+    .filter((x): x is { req: typeof x.req; lowest: { age: number; amount: number } } =>
+      Boolean(x.lowest),
+    )
+    .sort((a, b) => a.lowest.amount - b.lowest.amount)[0];
+
+  return {
+    ...(age && (age.min !== undefined || age.max !== undefined)
+      ? { age: definedOnly({ min: age.min, max: age.max }) }
+      : {}),
+    ...(degree ? { minDegree: degree.minLevel } : {}),
+    ...(list ? { nationalityList: { mode: list.mode, count: list.codes.length } } : {}),
+    ...(salary
+      ? {
+          salaryFloor: {
+            currency: salary.req.currency,
+            amount: salary.lowest.amount,
+            period: salary.req.period,
+          },
+        }
+      : {}),
+    checks,
+  };
+}
+
+function summary(r: Route, asOf: string): RouteSummary {
   return {
     routeId: r.id,
     destination: r.destination,
@@ -69,18 +129,19 @@ function summary(r: Route): RouteSummary {
     summary: r.summary,
     verifiedOn: r.verified?.on ?? null,
     requiresEmployer: r.requiresEmployer,
+    facts: facts(r, asOf),
   };
 }
 
-export function listRoutes(): RouteSummary[] {
-  return ROUTES.map(summary);
+export function listRoutes(asOf: string = today()): RouteSummary[] {
+  return ROUTES.map((r) => summary(r, asOf));
 }
 
-export function getRoute(routeId: string): RouteDetail | undefined {
+export function getRoute(routeId: string, asOf: string = today()): RouteDetail | undefined {
   const r = ROUTES.find((x) => x.id === routeId);
   if (!r) return undefined;
   return {
-    ...summary(r),
+    ...summary(r, asOf),
     officialUrl: r.officialUrl,
     requirements: r.requirements.map((q) => ({
       id: q.id,

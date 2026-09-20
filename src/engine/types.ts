@@ -134,6 +134,43 @@ export interface DestinationResult {
   insights: Insight[];
 }
 
+/**
+ * The structured limits on a route, read straight off its typed requirements.
+ *
+ * It exists because the route library has to compare routes in a table, and the UI is not allowed to
+ * author a visa fact. Every field here is a restatement of a rule that is already in the data with
+ * its own sources, so the table can say "age 18 to 25" without anyone writing that sentence by hand.
+ * Absent means the route has no requirement of that kind in effect, never that the fact is unknown:
+ * of the ten routes, age constrains four, degree two, nationality lists two and salary floors two.
+ *
+ * Anything richer than this belongs on the route page, where the sources are.
+ */
+export interface RouteFacts {
+  /** kind: "age". Either bound may be absent; at least one is present when the field is. */
+  age?: { min?: number; max?: number };
+  /** kind: "degree". The lowest degree the route accepts. */
+  minDegree?: DegreeLevel;
+  /**
+   * kind: "nationality-list". Only how the list works and how long it is: the codes are on the route
+   * page with the quote that backs them, and a count in a table cannot be mistaken for a decision.
+   */
+  nationalityList?: { mode: "allow" | "deny"; count: number };
+  /**
+   * kind: "salary-floor": the lowest floor in effect, taken from the first row of its table, which
+   * is the floor for the youngest applicant. A route can carry one floor per sector and a dated
+   * replacement for each, so this is the least a reader could qualify on today, not the only
+   * figure. The sectors, the table by age and the dated changes are all on the route page.
+   */
+  salaryFloor?: { currency: "SGD" | "JPY"; amount: number; period: "month" | "year" };
+  /**
+   * How the route's requirements split by who has to settle them. This is the answer to the largest
+   * single confusion in the discovery set, 21 of 99 posts: how much of this is out of my hands.
+   * Counts the requirements in effect, so the three always sum to the length of the checklist
+   * `evaluate` returns for the same date, and a rule that starts next year is not counted twice.
+   */
+  checks: { you: number; employer: number; authority: number };
+}
+
 export interface RouteSummary {
   routeId: string;
   destination: Destination;
@@ -146,6 +183,8 @@ export interface RouteSummary {
    * ones that need an offer first without evaluating a profile.
    */
   requiresEmployer: boolean;
+  /** The route's structured limits, for comparing routes without reading each one. */
+  facts: RouteFacts;
 }
 
 export interface RequirementView {

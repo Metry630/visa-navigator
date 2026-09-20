@@ -177,6 +177,85 @@ describe("catalogue", () => {
   });
 });
 
+describe("route facts", () => {
+  const byId = (asOf?: string) => new Map(listRoutes(asOf).map((r) => [r.routeId, r.facts]));
+
+  it("restates the typed limits the route library compares on", () => {
+    const facts = byId();
+
+    expect(facts.get("sg-work-holiday-pass")?.age).toEqual({ min: 18, max: 25 });
+    expect(facts.get("jp-jfind")?.age).toEqual({ min: 18 });
+    expect(facts.get("sg-employment-pass")?.age).toBeUndefined();
+
+    expect(facts.get("jp-engineer-specialist")?.minDegree).toBe("bachelor");
+    expect(facts.get("sg-entrepass")?.minDegree).toBeUndefined();
+
+    expect(facts.get("jp-working-holiday")?.nationalityList).toEqual({ mode: "allow", count: 32 });
+    expect(facts.get("sg-work-and-holiday-pass")?.nationalityList).toEqual({
+      mode: "allow",
+      count: 2,
+    });
+    expect(facts.get("sg-s-pass")?.nationalityList).toBeUndefined();
+
+    // Only seven of the ten routes carry any limit at all. The three that carry none are why the
+    // table puts these under the route name rather than in columns of their own.
+    const withLimits = listRoutes().filter(
+      (r) => r.facts.age ?? r.facts.minDegree ?? r.facts.nationalityList ?? r.facts.salaryFloor,
+    );
+    expect(withLimits).toHaveLength(7);
+  });
+
+  it("quotes the lowest salary floor in effect, not the first one in the file", () => {
+    // The Employment Pass carries four floors: two sectors, each with a dated replacement. Today
+    // the general sector's S$5,600 is the least a reader could qualify on; from 1 Jan 2027 the same
+    // route has to say S$6,000, and nothing about the file order changes on that day.
+    expect(byId("2026-09-20").get("sg-employment-pass")?.salaryFloor).toEqual({
+      currency: "SGD",
+      amount: 5600,
+      period: "month",
+    });
+    expect(byId("2027-01-01").get("sg-employment-pass")?.salaryFloor).toEqual({
+      currency: "SGD",
+      amount: 6000,
+      period: "month",
+    });
+    expect(byId("2026-09-20").get("sg-s-pass")?.salaryFloor?.amount).toBe(3300);
+    expect(byId("2027-01-01").get("sg-s-pass")?.salaryFloor?.amount).toBe(3600);
+  });
+
+  it("splits every route by who has to settle it, summing to its checklist", () => {
+    const asOf = "2026-09-20";
+    const facts = byId(asOf);
+
+    expect(facts.get("sg-employment-pass")?.checks).toEqual({ you: 2, employer: 4, authority: 2 });
+    expect(facts.get("jp-working-holiday")?.checks).toEqual({ you: 14, employer: 0, authority: 2 });
+    // The only route with nothing for an employer or an authority to decide.
+    expect(facts.get("sg-work-and-holiday-pass")?.checks).toEqual({
+      you: 6,
+      employer: 0,
+      authority: 0,
+    });
+
+    // The counts and the checklist read the same requirements through the same date filter, so a
+    // route can never advertise a number of checks it then fails to list.
+    for (const destination of evaluate(base, asOf)) {
+      for (const r of destination.routes) {
+        const c = facts.get(r.routeId)!.checks;
+        expect(c.you + c.employer + c.authority).toBe(r.checklist.length);
+        for (const who of ["you", "employer", "authority"] as const) {
+          expect(c[who]).toBe(r.checklist.filter((i) => i.who === who).length);
+        }
+      }
+    }
+  });
+
+  it("carries the same facts on a route's own page", () => {
+    for (const r of listRoutes()) {
+      expect(getRoute(r.routeId)?.facts).toEqual(r.facts);
+    }
+  });
+});
+
 describe("a missing answer names itself", () => {
   const asOf = "2026-10-15";
 

@@ -14,6 +14,7 @@
     "typecheck": "tsc --noEmit && tsc -p tsconfig.scripts.json",
     "check:data": "tsx scripts/check-data.ts",
     "check:sources": "tsx scripts/check-sources.ts",
+    "check:contrast": "tsx scripts/check-contrast.ts",
     "readme:metrics": "tsx scripts/readme-metrics.ts",
     "review": "tsx scripts/review/serve.ts"
   },
