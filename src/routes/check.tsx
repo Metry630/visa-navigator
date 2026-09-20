@@ -358,7 +358,10 @@ function CheckPage() {
               <legend className="text-sm font-medium">Languages, optional</legend>
               <div className="mt-2 grid gap-x-5 gap-y-2 rounded-md border border-border p-3 sm:grid-cols-2">
                 {LANGUAGES.map((language) => (
-                  <div key={language.code} className="grid grid-cols-[minmax(0,1fr)_8.5rem] items-center gap-2">
+                  <div
+                    key={language.code}
+                    className="grid grid-cols-[minmax(0,1fr)_8.5rem] items-center gap-2"
+                  >
                     <Label className="text-xs" htmlFor={`lang-${language.code}`}>
                       {language.name}
                     </Label>

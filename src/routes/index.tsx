@@ -32,13 +32,11 @@ function Home() {
     const detail = getRoute(route.routeId);
     return detail ? [detail] : [];
   });
-  const requirementCount = details.reduce(
-    (total, detail) => total + detail.requirements.length,
-    0,
-  );
+  const requirementCount = details.reduce((total, detail) => total + detail.requirements.length, 0);
   const sourceCount = details.reduce(
     (total, detail) =>
-      total + detail.requirements.reduce((count, requirement) => count + requirement.sources.length, 0),
+      total +
+      detail.requirements.reduce((count, requirement) => count + requirement.sources.length, 0),
     0,
   );
   const verifiedCount = routes.filter((route) => route.verifiedOn).length;
@@ -71,8 +69,8 @@ function Home() {
       </div>
 
       <p className="prose-measure mt-14 leading-relaxed text-muted-foreground">
-        {routes.length} routes, {requirementCount} requirements and {sourceCount} quotes. {verifiedCount}{" "}
-        of {routes.length} routes verified.
+        {routes.length} routes, {requirementCount} requirements and {sourceCount} quotes.{" "}
+        {verifiedCount} of {routes.length} routes verified.
       </p>
 
       {exampleRoute && exampleRequirement && (
@@ -95,7 +93,7 @@ function Home() {
               <div key={source.url + source.quote}>
                 <EvidenceQuote quote={source.quote} translation={source.translation} />
                 <p className="mt-2 text-xs text-muted-foreground">
-                  {source.publisher}. Retrieved {formatDate(source.retrievedOn)}. {" "}
+                  {source.publisher}. Retrieved {formatDate(source.retrievedOn)}.{" "}
                   <a
                     href={source.url}
                     target="_blank"

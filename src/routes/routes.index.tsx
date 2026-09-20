@@ -52,7 +52,8 @@ function RoutesLibrary() {
                 {groups.map((group) => (
                   <section key={group.title}>
                     <h3 className="text-base font-semibold">
-                      {group.title} <span className="text-muted-foreground">({group.routes.length})</span>
+                      {group.title}{" "}
+                      <span className="text-muted-foreground">({group.routes.length})</span>
                     </h3>
                     <ul className="mt-3 divide-y divide-border border-y border-border">
                       {group.routes.map((route) => (
