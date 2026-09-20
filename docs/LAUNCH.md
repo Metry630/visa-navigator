@@ -50,6 +50,30 @@ UI renders, in both modes. It carries a ratchet as well as the 4.5:1 AA floor: t
 fall below the recorded `WORST_FLOOR`, which was 5.58:1 on 2026-09-20. A palette change that lowers it
 moves the constant in the same commit and says why.
 
+### The four things nobody has ever checked
+
+The terminal checks above have all been green for weeks. These have never been run once, because the
+claude-in-chrome extension cannot set a phone viewport (Chrome stops at roughly 1000px wide) and
+cannot force a colour scheme. `chrome-devtools-mcp` can do both, and it launches its own Chrome:
+
+```bash
+claude mcp add chrome-devtools -- npx -y chrome-devtools-mcp@latest   # then restart Claude Code
+npm run dev                                                          # it drives the local server
+```
+
+Against `/`, `/check`, `/results`, `/routes`, `/routes/:id`, `/pack` and `/changes`:
+
+1. **375px**, via `emulate` with a mobile viewport. No horizontal scroll on the body, and the route
+   table collapses to stacked rows rather than scrolling sideways.
+2. **Light mode**, via `emulate` forcing `prefers-color-scheme: light`. Nobody has looked at this site
+   in light mode. `check:contrast` proves the palette, not the layout.
+3. **`lighthouse_audit`** on `/`, `/routes` and one `/routes/:id`. Record the accessibility and SEO
+   scores as the pre-publish baseline, because SEO on those two pages is the whole route-library
+   thesis and section 6 is about to start measuring it.
+4. **`take_snapshot`** on `/check` and `/results`: every control reachable, the disclosures reporting
+   their open state, the live region intact. And on `/routes` at 375px, that the table still reports
+   `table`, `row`, `columnheader` and `cell` roles once the stylesheet has turned it into blocks.
+
 ## 3. Tell Pints first
 
 **This is a hard gate and the easiest one to forget.** Per `CLAUDE.local.md`, Calvin confirmed in
