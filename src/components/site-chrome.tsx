@@ -47,9 +47,14 @@ export function SiteHeader() {
             type="button"
             onClick={toggleTheme}
             aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
+            title={isDark ? "Switch to light mode" : "Switch to dark mode"}
             className="inline-flex size-8 items-center justify-center rounded-sm text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
           >
-            {isDark ? <Sun aria-hidden="true" className="size-4" /> : <Moon aria-hidden="true" className="size-4" />}
+            {isDark ? (
+              <Sun aria-hidden="true" className="size-4" />
+            ) : (
+              <Moon aria-hidden="true" className="size-4" />
+            )}
           </button>
         </nav>
       </div>
