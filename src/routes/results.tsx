@@ -17,6 +17,7 @@ import { EvidenceQuote } from "@/components/evidence-quote";
 import { CHECKER_HEADING, OutcomeTag, SourceLink, StatusBadge } from "@/components/route-ui";
 import { formatDate } from "@/components/format-date";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { buildShareLink } from "@/lib/share-link";
 
 type ResultsSearch = { p: string };
@@ -221,10 +222,12 @@ function MissingSalary({
   profile,
   destination,
   destinationName,
+  fieldId,
 }: {
   profile: Profile;
   destination: Destination;
   destinationName: string;
+  fieldId: string;
 }) {
   const navigate = useNavigate();
   const [salary, setSalary] = useState("");
@@ -242,12 +245,12 @@ function MissingSalary({
   return (
     <div className="mt-3 flex flex-col items-start gap-2 sm:flex-row sm:items-end">
       <div className="w-full max-w-xs space-y-1">
-        <label htmlFor={`salary-${destination}`} className="block text-xs font-medium">
+        <label htmlFor={fieldId} className="block text-xs font-medium">
           Expected salary in {destinationName}, {SALARY_UNITS[destination]}
         </label>
-        <input
-          id={`salary-${destination}`}
-          className="h-10 w-full rounded-md border border-input bg-background px-3 text-sm text-foreground"
+        <Input
+          id={fieldId}
+          className="h-10"
           type="number"
           min={0}
           inputMode="numeric"
@@ -317,6 +320,7 @@ function RouteChecklist({
                         profile={profile}
                         destination={route.destination}
                         destinationName={destinationName}
+                        fieldId={`salary-${route.routeId}-${item.requirementId}`}
                       />
                     )}
                     <ChecklistSources sources={item.sources} />
@@ -513,7 +517,14 @@ function Results() {
               <Insights insights={destination.insights} />
               {allClosed && <NothingOpen name={destination.name} />}
               {groups.map((group) => (
-                <RouteGroup key={group.title} title={group.title} routes={group.routes} p={p} />
+                <RouteGroup
+                  key={group.title}
+                  title={group.title}
+                  routes={group.routes}
+                  p={p}
+                  profile={profile}
+                  destinationName={destination.name}
+                />
               ))}
             </section>
           );
