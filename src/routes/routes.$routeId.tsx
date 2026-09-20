@@ -60,7 +60,7 @@ function RouteDetailPage() {
         </OutboundLink>
         {detail.requirements.some((requirement) => requirement.who === "employer") && (
           <SiteLink to="/pack" search={{ route: detail.routeId }}>
-            What an employer has to do for this route
+            Employer checklist
           </SiteLink>
         )}
         <span className="text-muted-foreground">
@@ -74,7 +74,7 @@ function RouteDetailPage() {
           <li
             key={req.id}
             id={req.id}
-            className="grid scroll-mt-6 grid-cols-1 gap-x-6 border-b border-border py-6 md:grid-cols-[10rem_minmax(0,1fr)]"
+            className="grid scroll-mt-6 grid-cols-1 gap-x-6 border-b border-border py-6 md:grid-cols-[10rem_minmax(0,68ch)]"
           >
             <a
               href={`#${req.id}`}
@@ -110,7 +110,7 @@ function RouteDetailPage() {
       </ul>
 
       <p className="mt-10 text-body">
-        <SiteLink to="/check">Check whether this route is open to you</SiteLink>
+        <SiteLink to="/check">Check if this is open to you</SiteLink>
       </p>
     </div>
   );
