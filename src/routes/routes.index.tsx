@@ -92,17 +92,17 @@ function CellLabel({ children }: { children: string }) {
 
 function RouteTable({ routes, caption }: { routes: RouteSummary[]; caption: string }) {
   return (
-    <table className="route-table mt-3 w-full border-collapse text-left">
+    <table className="route-table mt-3 w-full border-collapse text-left sm:table-fixed">
       <caption className="sr-only">{caption}</caption>
       <thead className="route-table-head text-caption font-semibold tracking-[0.08em] text-muted-foreground uppercase">
         <tr className="border-y border-border">
-          <th scope="col" className="w-1/2 py-2 pr-4 font-semibold">
+          <th scope="col" className="w-[44%] py-2 pr-4 font-semibold">
             Route
           </th>
-          <th scope="col" className="py-2 pr-4 font-semibold">
+          <th scope="col" className="w-[14%] py-2 pr-4 font-semibold">
             Who applies
           </th>
-          <th scope="col" className="py-2 pr-4 font-semibold">
+          <th scope="col" className="w-[24%] py-2 pr-4 font-semibold">
             What decides it
           </th>
           <th scope="col" className="py-2 font-semibold">
