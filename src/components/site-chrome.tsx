@@ -1,8 +1,23 @@
 import { Link } from "@tanstack/react-router";
+import { Moon, Sun } from "lucide-react";
+import { useEffect, useState } from "react";
 
 import { Wordmark } from "./brand";
 
 export function SiteHeader() {
+  const [isDark, setIsDark] = useState(false);
+
+  useEffect(() => {
+    setIsDark(document.documentElement.classList.contains("dark"));
+  }, []);
+
+  function toggleTheme() {
+    const nextIsDark = !document.documentElement.classList.contains("dark");
+    document.documentElement.classList.toggle("dark", nextIsDark);
+    localStorage.setItem("theme", nextIsDark ? "dark" : "light");
+    setIsDark(nextIsDark);
+  }
+
   const linkClass =
     "rounded-sm px-1 py-1 text-small text-muted-foreground transition-colors hover:text-foreground";
   return (
@@ -28,6 +43,19 @@ export function SiteHeader() {
           >
             Methodology
           </Link>
+          <button
+            type="button"
+            onClick={toggleTheme}
+            aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
+            title={isDark ? "Switch to light mode" : "Switch to dark mode"}
+            className="inline-flex size-8 items-center justify-center rounded-sm text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
+          >
+            {isDark ? (
+              <Sun aria-hidden="true" className="size-4" />
+            ) : (
+              <Moon aria-hidden="true" className="size-4" />
+            )}
+          </button>
         </nav>
       </div>
     </header>
