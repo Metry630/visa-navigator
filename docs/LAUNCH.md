@@ -16,7 +16,8 @@ npm run review -- --by joshua            # http://127.0.0.1:4178
 Keys: `J` and `K` move, `A` approves, `R` rejects, `C` comments.
 
 The gate is `npm run check:data -- --release` reporting `verified 10/10` with **no error lines**. Until
-then it errors once per unverified route.
+then it errors once per unverified route. As of 2026-09-20 that is **one route**,
+`jp/engineer-specialist`, and it is the entire gate.
 
 Two things the page does for you. A requirement whose text or sources changed since you approved it
 shows as **needs re-reading** and does not count, so an edit can never inherit an old approval. And on
@@ -26,7 +27,7 @@ so a route cannot sit there claiming to be verified when it is not.
 ## 2. Run every check
 
 ```bash
-npm test                 # 92 tests
+npm test                 # 112 tests
 npm run typecheck
 npm run lint
 npm run check:data -- --release
@@ -65,20 +66,28 @@ every absolute URL is built from the incoming request's origin.
 
 - `curl https://<domain>/robots.txt` — the `Sitemap:` line is an **absolute** URL on the real domain.
   A relative one is silently ignored by every crawler, which would make the whole SEO pass inert.
-- `curl https://<domain>/sitemap.xml` — one URL per route plus the five static pages (`/`, `/check`,
-  `/routes`, `/changes`, `/methodology`), all on the real domain, and **no `/results`**, which would
-  carry a profile. Count it rather than trusting a number written here, which has already gone stale
-  once:
+- `curl https://<domain>/sitemap.xml` — the five static pages (`/`, `/check`, `/routes`, `/changes`,
+  `/methodology`), one URL per route, and one `/pack?route=<id>` per route that has an employer
+  requirement, all on the real domain, and **no `/results`** and no `/pack` carrying a `p`, since both
+  contain someone's answers. Count it rather than trusting a number written here, which has already
+  gone stale twice:
 
   ```bash
-  curl -s https://<domain>/sitemap.xml | grep -c '<loc>'
-  ls src/data/*/*.json | wc -l          # routes; the sitemap should be this plus 5
+  curl -s https://<domain>/sitemap.xml | grep -c '<loc>'          # expect routes + packs + 5
+  ls src/data/*/*.json | wc -l                                    # routes
+  grep -l '"who": "employer"' src/data/*/*.json | wc -l           # packs
   ```
 - One route page, for example `/routes/jp-jfind`, serves its own `<title>`, description and OG tags,
   and an absolute `og:image`.
 - A Japanese-sourced route shows the unofficial translation under each original quote.
-- `/pack?p=...&route=...` prints to one page with the full quotes expanded and no nav or buttons.
+- `/pack?p=...&route=...` prints to one page with the full quotes expanded and no nav or buttons, and
+  serves `robots: noindex` because that URL carries a profile.
+- `/pack?route=...` with **no** profile renders the same employer checklist, carries no `noindex`, and
+  has a canonical URL of `/pack?route=<id>`. This is the form a hiring manager can be sent and search
+  can find.
 - An unverified route still says **Not yet verified** on its card.
+- `/results` for someone with no offer leads with the routes they can apply for themselves, and a
+  route needing no employer does **not** say "Employer applies for you".
 
 ## 6. Then watch one number
 
