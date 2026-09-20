@@ -1,5 +1,8 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { EvidenceQuote } from "@/components/evidence-quote";
+import { formatDate } from "@/components/format-date";
 import { Button } from "@/components/ui/button";
+import { getRoute, listRoutes } from "@/engine";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -23,22 +26,27 @@ export const Route = createFileRoute("/")({
   component: Home,
 });
 
-const STEPS = [
-  {
-    title: "Tell us the basics",
-    body: "Your nationality, age, degree and a few other facts. Nothing is stored.",
-  },
-  {
-    title: "See the routes",
-    body: "Each visa route is marked open, dependent on an employer, or closed, with one sentence saying why.",
-  },
-  {
-    title: "Work the checklist",
-    body: "Every requirement says who checks it: you, the employer, or the authority.",
-  },
-];
-
 function Home() {
+  const routes = listRoutes();
+  const details = routes.flatMap((route) => {
+    const detail = getRoute(route.routeId);
+    return detail ? [detail] : [];
+  });
+  const requirementCount = details.reduce(
+    (total, detail) => total + detail.requirements.length,
+    0,
+  );
+  const sourceCount = details.reduce(
+    (total, detail) =>
+      total + detail.requirements.reduce((count, requirement) => count + requirement.sources.length, 0),
+    0,
+  );
+  const verifiedCount = routes.filter((route) => route.verifiedOn).length;
+  const exampleRoute = getRoute("sg-employment-pass");
+  const exampleRequirement = exampleRoute?.requirements.find(
+    (requirement) => requirement.id === "salary-floor-2026",
+  );
+
   return (
     <div className="mx-auto max-w-4xl px-5 py-16 sm:py-24">
       <h1 className="prose-measure text-4xl leading-tight font-semibold text-balance sm:text-5xl">
@@ -62,15 +70,46 @@ function Home() {
         </div>
       </div>
 
-      <ol className="mt-16 grid gap-6 sm:grid-cols-3">
-        {STEPS.map((step, i) => (
-          <li key={step.title} className="rounded-lg border border-border bg-card p-5">
-            <span className="font-serif text-sm text-muted-foreground">Step {i + 1}</span>
-            <h2 className="mt-1 text-lg font-semibold">{step.title}</h2>
-            <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{step.body}</p>
-          </li>
-        ))}
-      </ol>
+      <p className="prose-measure mt-14 leading-relaxed text-muted-foreground">
+        {routes.length} routes, {requirementCount} requirements and {sourceCount} quotes. {verifiedCount}{" "}
+        of {routes.length} routes verified.
+      </p>
+
+      {exampleRoute && exampleRequirement && (
+        <section className="mt-8 border-y border-border py-6">
+          <p className="leading-relaxed">{exampleRequirement.text}</p>
+          <p className="mt-2 text-sm text-muted-foreground">
+            <Link
+              to="/routes/$routeId"
+              params={{ routeId: exampleRoute.routeId }}
+              className="font-medium text-primary underline underline-offset-2"
+            >
+              {exampleRoute.name}
+            </Link>
+            {exampleRoute.verifiedOn
+              ? ` · Verified ${formatDate(exampleRoute.verifiedOn)}`
+              : " · Not yet verified"}
+          </p>
+          <div className="mt-5 space-y-5">
+            {exampleRequirement.sources.map((source) => (
+              <div key={source.url + source.quote}>
+                <EvidenceQuote quote={source.quote} translation={source.translation} />
+                <p className="mt-2 text-xs text-muted-foreground">
+                  {source.publisher}. Retrieved {formatDate(source.retrievedOn)}. {" "}
+                  <a
+                    href={source.url}
+                    target="_blank"
+                    rel="noreferrer noopener"
+                    className="font-medium text-primary underline underline-offset-2"
+                  >
+                    Source
+                  </a>
+                </p>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
 
       <div className="prose-measure mt-14 space-y-2 border-t border-border pt-8 text-sm text-muted-foreground">
         <p>Singapore and Japan today. More countries are being added.</p>
