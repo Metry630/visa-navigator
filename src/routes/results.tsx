@@ -98,10 +98,8 @@ function Insights({ insights }: { insights: Insight[] }) {
   if (insights.length === 0) return null;
 
   return (
-    <section className="mt-6" aria-labelledby="insights-heading">
-      <h3 id="insights-heading" className="text-lg font-semibold">
-        What the rules mean for you
-      </h3>
+    <section className="mt-6">
+      <h3 className="text-lg font-semibold">What the rules mean for you</h3>
       <ul className="mt-3 divide-y divide-border border-y border-border">
         {insights.map((insight) => (
           <li key={insight.id} className="py-4">
