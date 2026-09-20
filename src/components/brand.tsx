@@ -7,14 +7,18 @@ type BrandProps = {
 export function BrandMark({ className }: BrandProps) {
   return (
     <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" className={className}>
-      <rect x="2" y="4" width="20" height="16" rx="1.5" stroke="currentColor" strokeWidth="2" />
-      <path
-        d="m9 8 4 4-4 4"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="square"
-        strokeLinejoin="miter"
-      />
+      <g transform="rotate(-10 12 12)">
+        <rect x="3" y="5" width="18" height="14" rx="1" stroke="currentColor" strokeWidth="2" />
+        <line
+          x1="7"
+          y1="12"
+          x2="17"
+          y2="12"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="butt"
+        />
+      </g>
     </svg>
   );
 }
