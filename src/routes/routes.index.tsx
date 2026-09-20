@@ -141,7 +141,6 @@ function RouteTable({ routes, caption }: { routes: RouteSummary[]; caption: stri
                 {checksLine(route.facts.checks)}
               </td>
               <td className="py-4 text-body tabular-nums text-muted-foreground">
-                <CellLabel>Verified</CellLabel>
                 {route.verifiedOn ? `Verified ${formatDate(route.verifiedOn)}` : "Not yet verified"}
               </td>
             </tr>
