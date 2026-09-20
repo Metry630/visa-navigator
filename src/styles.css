@@ -199,6 +199,81 @@
   max-width: 68ch;
 }
 
+/*
+ * The route comparison table on /routes. Below 40rem the table collapses to stacked blocks:
+ * the header row is hidden and each cell shows its own visible label instead. The elements
+ * also carry explicit role attributes in the JSX (role="row", role="cell" and so on), because
+ * display: block on its own makes browsers drop the table, row and cell roles, which would
+ * leave the values unlabelled for a screen reader.
+ */
+.route-table {
+  border-collapse: collapse;
+}
+
+.route-table th,
+.route-table td {
+  vertical-align: top;
+}
+
+.route-table tbody tr {
+  border-top: 1px solid var(--color-border);
+}
+
+.route-table tbody th,
+.route-table tbody td {
+  padding: 1.25rem 1.5rem 1.25rem 0;
+}
+
+.route-table tbody th:last-child,
+.route-table tbody td:last-child {
+  padding-right: 0;
+}
+
+.route-table thead tr {
+  border-bottom: 1px solid var(--color-border);
+}
+
+.route-table thead th {
+  padding-right: 1.5rem;
+}
+
+.route-table thead th:last-child {
+  padding-right: 0;
+}
+
+@media (min-width: 40rem) {
+  .route-table tbody td:last-child {
+    white-space: nowrap;
+  }
+}
+
+@media (max-width: 39.99rem) {
+  .route-table,
+  .route-table tbody,
+  .route-table tr,
+  .route-table th,
+  .route-table td {
+    display: block;
+  }
+
+  .route-table thead {
+    display: none;
+  }
+
+  .route-table tbody tr {
+    padding: 1.25rem 0;
+  }
+
+  .route-table tbody th,
+  .route-table tbody td {
+    padding: 0;
+  }
+
+  .route-table tbody td {
+    margin-top: 0.75rem;
+  }
+}
+
 /* The employer pack gets forwarded by email and printed to PDF. */
 @media print {
   body {
