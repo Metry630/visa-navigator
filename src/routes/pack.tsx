@@ -1,13 +1,21 @@
 import { createFileRoute, Link, redirect } from "@tanstack/react-router";
 import { Check, Copy } from "lucide-react";
 import { useMemo, useState } from "react";
-import { decodeProfile, evaluate, type RouteResult } from "@/engine";
+import {
+  decodeProfile,
+  DESTINATIONS,
+  evaluate,
+  getRoute,
+  type ChecklistItem,
+  type Requirement,
+  type RouteResult,
+} from "@/engine";
 import { EvidenceQuote } from "@/components/evidence-quote";
 import { formatDate } from "@/components/format-date";
 import { Button } from "@/components/ui/button";
 import { buildPackLink } from "@/lib/share-link";
 
-type PackSearch = { p: string; route: string };
+type PackSearch = { p?: string; route: string };
 
 function findRoute(
   encoded: string,
@@ -24,45 +32,66 @@ function findRoute(
 
 export const Route = createFileRoute("/pack")({
   validateSearch: (search: Record<string, unknown>): PackSearch => ({
-    p: typeof search["p"] === "string" ? search["p"] : "",
+    ...(typeof search["p"] === "string" && search["p"] ? { p: search["p"] } : {}),
     route: typeof search["route"] === "string" ? search["route"] : "",
   }),
   beforeLoad: ({ search }) => {
-    if (!search.p || !search.route || !findRoute(search.p, search.route)) {
+    if (!search.route || !getRoute(search.route) || (search.p && !findRoute(search.p, search.route))) {
       throw redirect({ to: "/check" });
     }
   },
-  head: () => ({
-    meta: [
-      { title: "For your employer | Visa Routes" },
-      {
-        name: "description",
-        content:
-          "A one-page summary of what an employer has to confirm or provide for one work visa route, with a link to every official source.",
-      },
-      { property: "og:title", content: "For your employer | Visa Routes" },
-      {
-        property: "og:description",
-        content:
-          "A one-page summary of what an employer has to confirm or provide for one work visa route, with a link to every official source.",
-      },
-      { name: "robots", content: "noindex" },
-    ],
-  }),
+  loaderDeps: ({ search }) => search,
+  loader: ({ deps }) => ({ detail: getRoute(deps.route), hasProfile: Boolean(deps.p) }),
+  head: ({ loaderData }) => {
+    const title = loaderData?.detail
+      ? `${loaderData.detail.name}: what an employer has to do | Visa Routes`
+      : "For your employer | Visa Routes";
+    const description = loaderData?.detail
+      ? `What an employer has to confirm or provide for ${loaderData.detail.name}, with the official sources.`
+      : "What an employer has to confirm or provide for a work visa route, with the official sources.";
+    return {
+      meta: [
+        { title },
+        { name: "description", content: description },
+        { property: "og:title", content: title },
+        { property: "og:description", content: description },
+        ...(loaderData?.hasProfile ? [{ name: "robots", content: "noindex" }] : []),
+      ],
+      links:
+        loaderData?.detail && !loaderData.hasProfile
+          ? [{ rel: "canonical", href: `/pack?route=${encodeURIComponent(loaderData.detail.routeId)}` }]
+          : [],
+    };
+  },
   component: PackPage,
 });
+
+type PackItem = Pick<ChecklistItem, "requirementId" | "text" | "note" | "sources">;
+
+function requirementToPackItem(requirement: Requirement): PackItem {
+  return {
+    requirementId: requirement.id,
+    text: requirement.text,
+    sources: requirement.sources,
+  };
+}
 
 function PackPage() {
   const { p, route: routeId } = Route.useSearch();
   const [copied, setCopied] = useState(false);
-  const found = useMemo(() => findRoute(p, routeId), [p, routeId]);
+  const evaluated = useMemo(() => (p ? findRoute(p, routeId) : null), [p, routeId]);
+  const detail = useMemo(() => getRoute(routeId), [routeId]);
 
-  if (!found) return null;
-  const { route, destinationName } = found;
-  const employerItems = route.checklist.filter((item) => item.who === "employer");
+  if (!detail) return null;
+  const route = evaluated?.route;
+  const destinationName =
+    evaluated?.destinationName ?? DESTINATIONS.find((item) => item.code === detail.destination)?.name;
+  const employerItems: PackItem[] = route
+    ? route.checklist.filter((item) => item.who === "employer")
+    : detail.requirements.filter((item) => item.who === "employer").map(requirementToPackItem);
 
   const copyLink = async () => {
-    await navigator.clipboard.writeText(buildPackLink(p, routeId));
+    await navigator.clipboard.writeText(buildPackLink(routeId, p));
     setCopied(true);
     window.setTimeout(() => setCopied(false), 2000);
   };
@@ -70,11 +99,13 @@ function PackPage() {
   return (
     <div className="pack-print mx-auto min-w-0 max-w-3xl px-4 py-10 sm:px-5 sm:py-12">
       <p className="text-sm text-muted-foreground">{destinationName}</p>
-      <h1 className="mt-1 text-3xl font-semibold">{route.name}</h1>
+      <h1 className="mt-1 text-3xl font-semibold">{detail.name}</h1>
       <p className="prose-measure mt-3 leading-relaxed">
-        This page lists only the points an employer has to confirm, provide or agree to for this one
-        route, for one candidate. Each point is followed by the official wording it comes from and a
-        link to the page it was taken from.
+        {p
+          ? "This page lists only the points an employer has to confirm, provide or agree to for this route, for one candidate."
+          : "This page lists what an employer has to confirm or provide for this route."} {" "}
+        Each point is followed by the official wording it comes from and a link to the page it was
+        taken from.
       </p>
 
       <div className="mt-5 flex min-h-11 flex-wrap items-center gap-3 print:hidden">
@@ -135,21 +166,23 @@ function PackPage() {
           the date each source was retrieved.
         </p>
         <p>
-          {route.verifiedOn
-            ? `A person last checked this route against its sources on ${formatDate(route.verifiedOn)}.`
+          {detail.verifiedOn
+            ? `A person last checked this route against its sources on ${formatDate(detail.verifiedOn)}.`
             : "Not yet verified: nobody has checked this route against its sources yet."}
         </p>
       </div>
 
-      <p className="mt-8 text-sm print:hidden">
-        <Link
-          to="/results"
-          search={{ p }}
-          className="font-medium text-primary underline underline-offset-2"
-        >
-          Back to the candidate's results
-        </Link>
-      </p>
+      {p && (
+        <p className="mt-8 text-sm print:hidden">
+          <Link
+            to="/results"
+            search={{ p }}
+            className="font-medium text-primary underline underline-offset-2"
+          >
+            Back to the candidate's results
+          </Link>
+        </p>
+      )}
     </div>
   );
 }

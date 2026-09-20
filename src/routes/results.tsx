@@ -177,15 +177,14 @@ function RouteGroup({
 function EmployerPackLink({ route, p }: { route: RouteResult; p: string }) {
   if (!route.checklist.some((item) => item.who === "employer")) return null;
   return (
-    <p className="mt-5 text-sm">
+    <Button asChild variant="outline" size="sm">
       <Link
         to="/pack"
         search={{ p, route: route.routeId }}
-        className="inline-block rounded-sm py-1 text-muted-foreground underline underline-offset-2 hover:text-foreground"
       >
         Send this to your employer
       </Link>
-    </p>
+    </Button>
   );
 }
 
@@ -239,7 +238,12 @@ function MissingSalary({
       ...profile,
       expectedSalary: { ...profile.expectedSalary, [destination]: amount },
     };
-    void navigate({ to: "/results", search: { p: encodeProfile(updated) }, replace: true });
+    void navigate({
+      to: "/results",
+      search: { p: encodeProfile(updated) },
+      replace: true,
+      resetScroll: false,
+    });
   };
 
   return (
@@ -335,7 +339,7 @@ function RouteChecklist({
   );
 }
 
-function RouteHeading({ route }: { route: RouteResult }) {
+function RouteHeading({ route, p }: { route: RouteResult; p: string }) {
   return (
     <>
       <div className="grid min-w-0 grid-cols-[minmax(0,1fr)_auto] items-start gap-3 sm:flex sm:flex-wrap sm:justify-between">
@@ -350,6 +354,7 @@ function RouteHeading({ route }: { route: RouteResult }) {
         </h3>
         <div className="col-span-full flex min-w-0 flex-wrap items-center gap-2 sm:col-span-1 sm:shrink-0">
           <StatusBadge status={route.status} requiresEmployer={route.requiresEmployer} />
+          <EmployerPackLink route={route} p={p} />
           {route.verifiedOn === null && (
             <span className="rounded-full border border-border px-3 py-1 text-xs font-medium text-muted-foreground">
               Not yet verified
@@ -378,7 +383,7 @@ function RouteCard({
       <details className="group min-w-0 rounded-lg border border-border bg-card">
         <summary className="flex min-h-11 cursor-pointer list-none items-start gap-3 p-4 marker:content-none sm:p-5 [&::-webkit-details-marker]:hidden">
           <div className="min-w-0 flex-1">
-            <RouteHeading route={route} />
+            <RouteHeading route={route} p={p} />
           </div>
           <ChevronDown
             aria-hidden="true"
@@ -387,7 +392,6 @@ function RouteCard({
         </summary>
         <div className="border-t border-border px-4 pb-4 sm:px-5 sm:pb-5">
           <RouteChecklist route={route} profile={profile} destinationName={destinationName} />
-          <EmployerPackLink route={route} p={p} />
         </div>
       </details>
     );
@@ -395,9 +399,8 @@ function RouteCard({
 
   return (
     <article className="min-w-0 rounded-lg border border-border bg-card p-4 sm:p-5">
-      <RouteHeading route={route} />
+      <RouteHeading route={route} p={p} />
       <RouteChecklist route={route} profile={profile} destinationName={destinationName} />
-      <EmployerPackLink route={route} p={p} />
     </article>
   );
 }

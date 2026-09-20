@@ -10,6 +10,9 @@ export function buildShareLink(encodedProfile: string): string {
   return buildLink("/results", { p: encodedProfile });
 }
 
-export function buildPackLink(encodedProfile: string, routeId: string): string {
-  return buildLink("/pack", { p: encodedProfile, route: routeId });
+export function buildPackLink(routeId: string, encodedProfile?: string): string {
+  return buildLink("/pack", {
+    ...(encodedProfile ? { p: encodedProfile } : {}),
+    route: routeId,
+  });
 }

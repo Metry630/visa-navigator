@@ -65,6 +65,15 @@ function RouteDetailPage() {
           <ExternalLink aria-hidden="true" className="size-3.5" />
           <span className="sr-only">opens in a new tab</span>
         </a>
+        {detail.requirements.some((requirement) => requirement.who === "employer") && (
+          <Link
+            to="/pack"
+            search={{ route: detail.routeId }}
+            className="font-medium text-primary underline underline-offset-2"
+          >
+            What an employer has to do for this route
+          </Link>
+        )}
         <span className="text-muted-foreground">
           {detail.verifiedOn ? `Verified ${formatDate(detail.verifiedOn)}` : "Not yet verified"}
         </span>
