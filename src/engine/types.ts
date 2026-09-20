@@ -57,6 +57,9 @@ export interface Source {
   translation?: string | undefined;
 }
 
+/** A profile field whose absence is the only reason a requirement cannot be checked. */
+export type MissingField = "expectedSalary";
+
 export interface ChecklistItem {
   requirementId: string;
   /** One plain-English sentence. */
@@ -65,6 +68,15 @@ export interface ChecklistItem {
   outcome: Outcome;
   /** Optional sentence specific to this profile. */
   note?: string;
+  /**
+   * The profile field that would settle this item, when one would.
+   *
+   * Only set where a requirement is `unknown` purely because the profile does not carry the fact,
+   * never for a `manual` requirement, which no answer can settle. It exists so the results page can
+   * ask for the missing answer beside the line it would change without the UI having to know which
+   * rules read which fields.
+   */
+  missing?: MissingField;
   sources: Source[];
 }
 
@@ -128,6 +140,12 @@ export interface RouteSummary {
   name: string;
   summary: string;
   verifiedOn: string | null;
+  /**
+   * True when an employer has to apply on your behalf. Same field as `RouteResult.requiresEmployer`
+   * and carried here too, so the route library can separate the routes you can start alone from the
+   * ones that need an offer first without evaluating a profile.
+   */
+  requiresEmployer: boolean;
 }
 
 export interface RequirementView {

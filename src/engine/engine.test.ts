@@ -158,6 +158,62 @@ describe("catalogue", () => {
     expect(codes).toEqual(expect.arrayContaining(["ID", "IN", "VN", "PH", "NG"]));
     expect(listRoutes().map((r) => r.routeId)).toContain("sg-employment-pass");
   });
+
+  it("says on every summary whether an employer has to apply", () => {
+    const summaries = listRoutes();
+    const byId = new Map(summaries.map((r) => [r.routeId, r.requiresEmployer]));
+    // The route library separates these two groups, so the flag has to be on the summary and has to
+    // agree with what evaluating the same route says.
+    expect(byId.get("sg-employment-pass")).toBe(true);
+    expect(byId.get("sg-entrepass")).toBe(false);
+    expect(byId.get("jp-jfind")).toBe(false);
+    expect(summaries.filter((r) => !r.requiresEmployer)).toHaveLength(5);
+
+    for (const destination of evaluate(base)) {
+      for (const r of destination.routes) {
+        expect(byId.get(r.routeId)).toBe(r.requiresEmployer);
+      }
+    }
+  });
+});
+
+describe("a missing answer names itself", () => {
+  const asOf = "2026-10-15";
+
+  it("names expectedSalary on a salary floor nobody has answered for", () => {
+    const r = ep(base, asOf);
+    const floor = item(r, "salary-floor-2026")!;
+    expect(floor.outcome).toBe("unknown");
+    expect(floor.missing).toBe("expectedSalary");
+  });
+
+  it("names nothing once the salary is given", () => {
+    for (const salary of [5600, 1000]) {
+      const floor = item(
+        ep({ ...base, expectedSalary: { SG: salary } }, asOf),
+        "salary-floor-2026",
+      )!;
+      expect(floor.outcome).not.toBe("unknown");
+      expect(floor.missing).toBeUndefined();
+    }
+  });
+
+  it("names nothing on a manual requirement, which no answer can settle", () => {
+    const r = ep(base, asOf);
+    const manual = item(r, "fair-consideration")!;
+    expect(manual.outcome).toBe("unknown");
+    expect(manual.missing).toBeUndefined();
+
+    // Every unknown item that isn't a salary floor is manual, so nothing else may claim an answer
+    // would settle it.
+    for (const destination of evaluate(base, asOf)) {
+      for (const route of destination.routes) {
+        for (const c of route.checklist) {
+          if (c.missing) expect(c.outcome).toBe("unknown");
+        }
+      }
+    }
+  });
 });
 
 describe("SG S Pass", () => {

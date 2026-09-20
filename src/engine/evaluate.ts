@@ -3,6 +3,7 @@ import type { Requirement, Route } from "./schema";
 import type {
   ChecklistItem,
   Destination,
+  MissingField,
   Outcome,
   Profile,
   RouteResult,
@@ -38,14 +39,20 @@ function checkRequirement(
   req: Requirement,
   profile: Profile,
   destination: Destination,
-): { outcome: Outcome; note?: string } {
+): { outcome: Outcome; note?: string; missing?: MissingField } {
   switch (req.kind) {
     case "salary-floor": {
       const floorAmount = floorForAge(req.byAge, profile.age);
       const floor = formatMoney(floorAmount, req.currency);
       const expected = profile.expectedSalary?.[destination];
       if (expected === undefined) {
-        return { outcome: "unknown", note: `At your age the minimum is ${floor} a ${req.period}.` };
+        // The only requirement in the engine that is unknown purely for want of an answer. Naming
+        // the field lets the results page ask for it here rather than sending anyone back to a form.
+        return {
+          outcome: "unknown",
+          note: `At your age the minimum is ${floor} a ${req.period}.`,
+          missing: "expectedSalary",
+        };
       }
       const mine = formatMoney(expected, req.currency);
       return expected >= floorAmount
@@ -97,12 +104,13 @@ export function evaluateRoute(route: Route, profile: Profile, asOf: string): Rou
     ...checkRequirement(req, profile, route.destination),
   }));
 
-  const checklist: ChecklistItem[] = checked.map(({ req, outcome, note }) => ({
+  const checklist: ChecklistItem[] = checked.map(({ req, outcome, note, missing }) => ({
     requirementId: req.id,
     text: req.text,
     who: req.who,
     outcome,
     ...(note ? { note } : {}),
+    ...(missing ? { missing } : {}),
     sources: req.sources,
   }));
 

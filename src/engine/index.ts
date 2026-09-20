@@ -68,6 +68,7 @@ function summary(r: Route): RouteSummary {
     name: r.name,
     summary: r.summary,
     verifiedOn: r.verified?.on ?? null,
+    requiresEmployer: r.requiresEmployer,
   };
 }
 
