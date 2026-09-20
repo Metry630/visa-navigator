@@ -59,7 +59,11 @@ function DatedRules({ rules }: { rules: DatedRule[] }) {
                 <div className="mt-4 space-y-4">
                   {requirement.sources.map((source) => (
                     <div key={source.url + source.quote}>
-                      <EvidenceQuote quote={source.quote} translation={source.translation} collapsed />
+                      <EvidenceQuote
+                        quote={source.quote}
+                        translation={source.translation}
+                        collapsed
+                      />
                       <p className="mt-2 text-caption text-muted-foreground">
                         <OutboundLink href={source.url}>{source.publisher}</OutboundLink> ·
                         Retrieved {formatDate(source.retrievedOn)}
