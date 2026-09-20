@@ -6,6 +6,7 @@ import type {
   MissingField,
   Outcome,
   Profile,
+  RequirementRule,
   RouteResult,
   RouteStatus,
 } from "./types";
@@ -35,6 +36,77 @@ export function formatMoney(amount: number, currency: "SGD" | "JPY"): string {
   return (currency === "SGD" ? "S$" : "¥") + amount.toLocaleString("en-US");
 }
 
+/** The typed part of a requirement, copied out for the UI. Nothing is derived. */
+export function ruleOf(req: Requirement): RequirementRule {
+  switch (req.kind) {
+    case "salary-floor":
+      return {
+        kind: "salary-floor",
+        currency: req.currency,
+        period: req.period,
+        sector: req.sector,
+        byAge: req.byAge.map((row) => ({ age: row.age, amount: row.amount })),
+      };
+    case "age":
+      return {
+        kind: "age",
+        ...(req.min !== undefined ? { min: req.min } : {}),
+        ...(req.max !== undefined ? { max: req.max } : {}),
+      };
+    case "degree":
+      return { kind: "degree", minLevel: req.minLevel };
+    case "nationality-list":
+      return {
+        kind: "nationality-list",
+        mode: req.mode,
+        listName: req.listName,
+        codes: [...req.codes],
+      };
+    case "experience":
+      return {
+        kind: "experience",
+        ...(req.minYears !== undefined ? { minYears: req.minYears } : {}),
+        ...(req.maxYears !== undefined ? { maxYears: req.maxYears } : {}),
+      };
+    case "language":
+      return { kind: "language", code: req.code, minLevel: req.minLevel };
+    case "manual":
+      return { kind: "manual" };
+  }
+}
+
+/**
+ * The two sectors Singapore writes separate salary floors for, and how to say each one in a note.
+ * A floor written against any other sector applies to everyone, which is the case for Japan.
+ */
+const SECTOR_TEXT: Record<string, string> = {
+  "financial-services": "in financial services",
+  "all-except-financial-services": "outside financial services",
+};
+
+/** A type predicate, so narrowing survives the call and `sector` stays reachable. */
+function isSectorSpecific(req: Requirement): req is Extract<Requirement, { kind: "salary-floor" }> {
+  return req.kind === "salary-floor" && req.sector in SECTOR_TEXT;
+}
+
+/**
+ * Whether a requirement applies to this person at all.
+ *
+ * Singapore's Employment Pass and S Pass each carry two salary floors, one for financial services
+ * and one for everything else, and only one of them can be true of any given job. Until this was
+ * read, both were evaluated against everyone: somebody outside financial services was shown a red
+ * mark on a rule whose own text excludes them, and somebody inside it was shown a green one on the
+ * blocking floor that excludes them, which is the worse direction.
+ *
+ * While the answer is unknown both stay, so the results page can ask. Once it is known the one that
+ * does not apply is dropped from the checklist entirely, the same way a rule that is out of date is.
+ */
+export function appliesToSector(req: Requirement, profile: Profile): boolean {
+  if (!isSectorSpecific(req)) return true;
+  if (profile.financialServices === undefined) return true;
+  return profile.financialServices === (req.sector === "financial-services");
+}
+
 function checkRequirement(
   req: Requirement,
   profile: Profile,
@@ -52,6 +124,14 @@ function checkRequirement(
           outcome: "unknown",
           note: `At your age the minimum is ${floor} a ${req.period}.`,
           missing: "expectedSalary",
+        };
+      }
+      if (isSectorSpecific(req) && profile.financialServices === undefined) {
+        // The salary is known, so the only thing left is which of the two floors governs this job.
+        return {
+          outcome: "unknown",
+          note: `At your age the minimum is ${floor} a ${req.period} for jobs ${SECTOR_TEXT[req.sector]}.`,
+          missing: "financialServices",
         };
       }
       const mine = formatMoney(expected, req.currency);
@@ -98,7 +178,7 @@ function daysBetween(a: string, b: string): number {
 }
 
 export function evaluateRoute(route: Route, profile: Profile, asOf: string): RouteResult {
-  const active = route.requirements.filter((r) => inEffect(r, asOf));
+  const active = route.requirements.filter((r) => inEffect(r, asOf) && appliesToSector(r, profile));
   const checked = active.map((req) => ({
     req,
     ...checkRequirement(req, profile, route.destination),
@@ -111,6 +191,7 @@ export function evaluateRoute(route: Route, profile: Profile, asOf: string): Rou
     outcome,
     ...(note ? { note } : {}),
     ...(missing ? { missing } : {}),
+    rule: ruleOf(req),
     sources: req.sources,
   }));
 

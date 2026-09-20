@@ -47,21 +47,21 @@ describe("floorForAge", () => {
 
 describe("SG Employment Pass", () => {
   it("Indonesian, 22, S$5,600 offer, meets the floor before 2027", () => {
-    const r = ep({ ...base, expectedSalary: { SG: 5600 } }, "2026-10-15");
+    const r = ep({ ...base, financialServices: false, expectedSalary: { SG: 5600 } }, "2026-10-15");
     expect(r.status).toBe("depends");
     expect(item(r, "salary-floor-2026")?.outcome).toBe("met");
     expect(r.upcomingChanges.map((c) => c.on)).toContain("2027-01-01");
   });
 
   it("the same offer is below the floor for new applications from 2027", () => {
-    const r = ep({ ...base, expectedSalary: { SG: 5600 } }, "2027-01-05");
+    const r = ep({ ...base, financialServices: false, expectedSalary: { SG: 5600 } }, "2027-01-05");
     expect(r.status).toBe("closed");
     expect(r.reason).toContain("S$6,000");
     expect(item(r, "salary-floor-2026")).toBeUndefined();
   });
 
   it("switches tables exactly on 1 Jan 2027", () => {
-    const p = { ...base, expectedSalary: { SG: 5800 } };
+    const p = { ...base, financialServices: false, expectedSalary: { SG: 5800 } };
     expect(ep(p, "2026-12-31").status).toBe("depends");
     expect(ep(p, "2027-01-01").status).toBe("closed");
   });
@@ -72,6 +72,7 @@ describe("SG Employment Pass", () => {
       nationalities: ["IN"],
       age: 24,
       degree: "master",
+      financialServices: false,
       expectedSalary: { SG: 6000 },
     };
     expect(ep(p, "2026-10-15").status).toBe("depends"); // floor 5,832 at 24
@@ -80,7 +81,13 @@ describe("SG Employment Pass", () => {
 
   it("Filipino, 30, S$7,000 is below the S$7,223 floor at 30", () => {
     const r = ep(
-      { ...base, nationalities: ["PH"], age: 30, expectedSalary: { SG: 7000 } },
+      {
+        ...base,
+        financialServices: false,
+        nationalities: ["PH"],
+        age: 30,
+        expectedSalary: { SG: 7000 },
+      },
       "2026-10-15",
     );
     expect(r.status).toBe("closed");
@@ -94,15 +101,30 @@ describe("SG Employment Pass", () => {
     expect(item(r, "salary-floor-2026")?.note).toContain("S$5,600");
   });
 
-  it("the financial-services floor never closes the route on its own", () => {
-    const r = ep({ ...base, expectedSalary: { SG: 5700 } }, "2026-10-15");
-    expect(item(r, "salary-floor-financial-2026")?.outcome).toBe("unmet");
-    expect(r.status).toBe("depends");
+  it("drops the floor for the sector this job is not in", () => {
+    // It used to evaluate both floors against everyone, so an ordinary job was shown a red mark on
+    // a rule whose own text begins "If the employer is in financial services".
+    const ordinary = ep(
+      { ...base, financialServices: false, expectedSalary: { SG: 5700 } },
+      "2026-10-15",
+    );
+    expect(item(ordinary, "salary-floor-financial-2026")).toBeUndefined();
+    expect(item(ordinary, "salary-floor-2026")?.outcome).toBe("met");
+
+    const finance = ep(
+      { ...base, financialServices: true, expectedSalary: { SG: 5700 } },
+      "2026-10-15",
+    );
+    expect(item(finance, "salary-floor-2026")).toBeUndefined();
+    expect(item(finance, "salary-floor-financial-2026")?.outcome).toBe("unmet");
   });
 
   it("gives the same result for every nationality, since the EP rules don't depend on it", () => {
     const outcomes = ["ID", "IN", "VN", "PH", "NG"].map((n) => {
-      const r = ep({ ...base, nationalities: [n], expectedSalary: { SG: 5600 } }, "2026-10-15");
+      const r = ep(
+        { ...base, financialServices: false, nationalities: [n], expectedSalary: { SG: 5600 } },
+        "2026-10-15",
+      );
       return JSON.stringify([r.status, r.checklist.map((c) => c.outcome)]);
     });
     expect(new Set(outcomes).size).toBe(1);
@@ -266,10 +288,18 @@ describe("a missing answer names itself", () => {
     expect(floor.missing).toBe("expectedSalary");
   });
 
-  it("names nothing once the salary is given", () => {
+  it("names financialServices when the salary is given but the sector is not", () => {
+    // Singapore writes one floor for financial services and one for everything else, so a salary on
+    // its own does not settle either of them. The results page asks for the sector in the same way.
+    const floor = item(ep({ ...base, expectedSalary: { SG: 5600 } }, asOf), "salary-floor-2026")!;
+    expect(floor.outcome).toBe("unknown");
+    expect(floor.missing).toBe("financialServices");
+  });
+
+  it("names nothing once the salary and the sector are both given", () => {
     for (const salary of [5600, 1000]) {
       const floor = item(
-        ep({ ...base, expectedSalary: { SG: salary } }, asOf),
+        ep({ ...base, financialServices: false, expectedSalary: { SG: salary } }, asOf),
         "salary-floor-2026",
       )!;
       expect(floor.outcome).not.toBe("unknown");
@@ -299,14 +329,14 @@ describe("SG S Pass", () => {
   const sp = (p: Profile, asOf: string) => route(p, asOf, "sg-s-pass");
 
   it("Indonesian, 22, S$3,300 offer, meets the floor before 2027", () => {
-    const r = sp({ ...base, expectedSalary: { SG: 3300 } }, "2026-10-15");
+    const r = sp({ ...base, financialServices: false, expectedSalary: { SG: 3300 } }, "2026-10-15");
     expect(r.status).toBe("depends");
     expect(item(r, "salary-floor-2026")?.outcome).toBe("met");
     expect(r.upcomingChanges.map((c) => c.on)).toContain("2027-01-01");
   });
 
   it("the same offer is below the floor for new applications from 2027", () => {
-    const r = sp({ ...base, expectedSalary: { SG: 3300 } }, "2027-01-05");
+    const r = sp({ ...base, financialServices: false, expectedSalary: { SG: 3300 } }, "2027-01-05");
     expect(r.status).toBe("closed");
     expect(r.reason).toContain("S$3,600");
     expect(item(r, "salary-floor-2026")).toBeUndefined();
@@ -314,7 +344,13 @@ describe("SG S Pass", () => {
 
   it("Indian, 30, S$3,700 is below the S$3,777 floor at 30", () => {
     const r = sp(
-      { ...base, nationalities: ["IN"], age: 30, expectedSalary: { SG: 3700 } },
+      {
+        ...base,
+        financialServices: false,
+        nationalities: ["IN"],
+        age: 30,
+        expectedSalary: { SG: 3700 },
+      },
       "2026-10-15",
     );
     expect(r.status).toBe("closed");
@@ -322,20 +358,38 @@ describe("SG S Pass", () => {
   });
 
   it("Filipino, 26, S$4,000 clears both the 2026 and the 2027 floor at 26", () => {
-    const p: Profile = { ...base, nationalities: ["PH"], age: 26, expectedSalary: { SG: 4000 } };
+    const p: Profile = {
+      ...base,
+      financialServices: false,
+      nationalities: ["PH"],
+      age: 26,
+      expectedSalary: { SG: 4000 },
+    };
     expect(sp(p, "2026-10-15").status).toBe("depends"); // floor 3,505 at 26
     expect(sp(p, "2027-02-01").status).toBe("depends"); // floor 3,805 at 26
   });
 
-  it("the financial-services floor never closes the route on its own", () => {
-    const r = sp({ ...base, nationalities: ["VN"], expectedSalary: { SG: 3400 } }, "2026-10-15");
-    expect(item(r, "salary-floor-financial-2026")?.outcome).toBe("unmet");
-    expect(r.status).toBe("depends");
+  it("drops the floor for the sector this job is not in", () => {
+    const ordinary = sp(
+      { ...base, financialServices: false, nationalities: ["VN"], expectedSalary: { SG: 3400 } },
+      "2026-10-15",
+    );
+    expect(item(ordinary, "salary-floor-financial-2026")).toBeUndefined();
+
+    const finance = sp(
+      { ...base, financialServices: true, nationalities: ["VN"], expectedSalary: { SG: 3400 } },
+      "2026-10-15",
+    );
+    expect(item(finance, "salary-floor-2026")).toBeUndefined();
+    expect(item(finance, "salary-floor-financial-2026")?.outcome).toBe("unmet");
   });
 
   it("gives the same result for every nationality, since the S Pass rules don't depend on it", () => {
     const outcomes = ["ID", "IN", "VN", "PH", "NG"].map((n) => {
-      const r = sp({ ...base, nationalities: [n], expectedSalary: { SG: 3300 } }, "2026-10-15");
+      const r = sp(
+        { ...base, financialServices: false, nationalities: [n], expectedSalary: { SG: 3300 } },
+        "2026-10-15",
+      );
       return JSON.stringify([r.status, r.checklist.map((c) => c.outcome)]);
     });
     expect(new Set(outcomes).size).toBe(1);

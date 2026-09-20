@@ -1,6 +1,6 @@
 // The engine's public API. The UI imports only from here, as "@/engine".
 import { z } from "zod";
-import { evaluateRoute, inEffect } from "./evaluate";
+import { evaluateRoute, inEffect, ruleOf } from "./evaluate";
 
 import { insightsFor } from "./insights";
 import { RouteSchema, type Requirement, type Route } from "./schema";
@@ -155,6 +155,7 @@ export function getRoute(routeId: string, asOf: string = today()): RouteDetail |
       id: q.id,
       text: q.text,
       who: q.who,
+      rule: ruleOf(q),
       sources: q.sources,
       ...(q.effective ? { effective: definedOnly(q.effective) } : {}),
     })),
@@ -189,6 +190,7 @@ export const ProfileSchema = z.object({
     .object({ SG: z.number().nonnegative().optional(), JP: z.number().nonnegative().optional() })
     .optional(),
   hasOffer: z.boolean().optional(),
+  financialServices: z.boolean().optional(),
   universityCountry: z
     .string()
     .regex(/^[A-Z]{2}$/)

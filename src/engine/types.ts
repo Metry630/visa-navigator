@@ -26,6 +26,15 @@ export interface Profile {
    */
   hasOffer?: boolean;
   /**
+   * Whether the job is in financial services.
+   *
+   * Singapore writes two salary floors for the Employment Pass and the S Pass, one for financial
+   * services and one for everything else, and which of them applies is not something the engine can
+   * infer. While this is undefined both floors report `unknown` rather than guessing, which is what
+   * `missing: "financialServices"` exists to ask about.
+   */
+  financialServices?: boolean;
+  /**
    * ISO 3166-1 alpha-2 country of the university, when there is one. Collected but not yet
    * evaluated. It is the missing fact behind `sg-work-holiday-pass#university-country`, which turns
    * on where the university is rather than on nationality, and which stays `manual` until a rule
@@ -58,7 +67,35 @@ export interface Source {
 }
 
 /** A profile field whose absence is the only reason a requirement cannot be checked. */
-export type MissingField = "expectedSalary";
+export type MissingField = "expectedSalary" | "financialServices";
+
+/**
+ * The typed part of a requirement, passed through from the route file unchanged.
+ *
+ * It exists because a page rendering one requirement in full needs the structure behind the
+ * sentence: a salary floor carries 23 rows of age and amount, and until now the only way the UI
+ * could show that table was to print the quote the table was scraped from, which interleaves two
+ * columns and reads as a run of numbers. Nothing here is computed.
+ *
+ * `RouteFacts` stays what it is, for comparing routes in a table; it is deliberately lossy. This is
+ * for the opposite job, showing one requirement completely.
+ */
+export type RequirementRule =
+  | {
+      kind: "salary-floor";
+      currency: "SGD" | "JPY";
+      period: "month" | "year";
+      /** e.g. "financial-services" or "all-except-financial-services". */
+      sector: string;
+      /** Sorted by age. The first row also covers younger ages, the last row also older ones. */
+      byAge: { age: number; amount: number }[];
+    }
+  | { kind: "age"; min?: number; max?: number }
+  | { kind: "degree"; minLevel: DegreeLevel }
+  | { kind: "nationality-list"; mode: "allow" | "deny"; listName: string; codes: string[] }
+  | { kind: "experience"; minYears?: number; maxYears?: number }
+  | { kind: "language"; code: string; minLevel: LanguageLevel }
+  | { kind: "manual" };
 
 export interface ChecklistItem {
   requirementId: string;
@@ -77,6 +114,8 @@ export interface ChecklistItem {
    * rules read which fields.
    */
   missing?: MissingField;
+  /** The typed rule behind this item, so the employer pack can render a salary table. */
+  rule: RequirementRule;
   sources: Source[];
 }
 
@@ -191,6 +230,8 @@ export interface RequirementView {
   id: string;
   text: string;
   who: Checker;
+  /** The typed rule behind the sentence, for pages that render a requirement in full. */
+  rule: RequirementRule;
   sources: Source[];
   /** YYYY-MM-DD bounds, when the requirement only applies for part of the time. */
   effective?: { from?: string; to?: string };
