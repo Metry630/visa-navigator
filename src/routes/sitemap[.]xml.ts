@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { listRoutes } from "@/engine";
+import { getRoute, listRoutes } from "@/engine";
 
 const STATIC_PATHS = ["/", "/check", "/routes", "/changes", "/methodology"];
 
@@ -7,9 +7,18 @@ function escapeXml(value: string): string {
   return value.replace(
     /[&<>"']/g,
     (character) =>
-      ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&apos;" })[character] ??
+      ({ "&": "&", "<": "<", ">": ">", '"': """, "'": "'" })[character] ??
       character,
   );
+}
+
+function employerPackPaths(): string[] {
+  return listRoutes()
+    .filter((route) => {
+      const detail = getRoute(route.routeId);
+      return detail?.requirements.some((requirement) => requirement.who === "employer") ?? false;
+    })
+    .map((route) => `/pack?route=${encodeURIComponent(route.routeId)}`);
 }
 
 export const Route = createFileRoute("/sitemap.xml")({
@@ -20,6 +29,7 @@ export const Route = createFileRoute("/sitemap.xml")({
         const paths = [
           ...STATIC_PATHS,
           ...listRoutes().map((route) => `/routes/${encodeURIComponent(route.routeId)}`),
+          ...employerPackPaths(),
         ];
         const urls = paths
           .map((path) => `<url><loc>${escapeXml(new URL(path, origin).href)}</loc></url>`)
