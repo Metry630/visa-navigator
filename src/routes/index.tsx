@@ -43,12 +43,10 @@ function Home() {
 
   return (
     <div className="mx-auto max-w-4xl px-5 py-16 sm:py-24">
-      <h1 className="prose-measure text-display font-semibold text-balance">
-        Work visa routes, rules and official sources
-      </h1>
+      <h1 className="prose-measure text-display font-semibold text-balance">{CLAIM}</h1>
       <p className="prose-measure mt-5 text-subhead text-muted-foreground">
-        Read the routes for new graduates, the rules behind them and the official wording each rule
-        comes from.
+        Singapore and Japan. {routes.length} routes, {requirementCount} rules and {sourceCount}{" "}
+        quotes. {verifiedCount} of {routes.length} verified by a person.
       </p>
       <div className="mt-8">
         <Button asChild size="lg">
