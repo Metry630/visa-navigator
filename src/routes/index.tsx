@@ -4,21 +4,17 @@ import { formatDate } from "@/components/format-date";
 import { Button } from "@/components/ui/button";
 import { getRoute, listRoutes } from "@/engine";
 
+const CLAIM = "Every work visa rule, quoted from the page it came from.";
+const CLAIM_DESCRIPTION =
+  "Work visa routes for new graduates in Singapore and Japan. Every rule is quoted from the official page it came from, and a person checks each one against it.";
+
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Visa Routes | Work visa routes for new graduates" },
-      {
-        name: "description",
-        content:
-          "Work visa routes for new graduates, with every rule linked to its official source.",
-      },
-      { property: "og:title", content: "Visa Routes | Work visa routes for new graduates" },
-      {
-        property: "og:description",
-        content:
-          "Work visa routes for new graduates, with every rule linked to its official source.",
-      },
+      { title: `Visa Routes | ${CLAIM}` },
+      { name: "description", content: CLAIM_DESCRIPTION },
+      { property: "og:title", content: `Visa Routes | ${CLAIM}` },
+      { property: "og:description", content: CLAIM_DESCRIPTION },
       { property: "og:url", content: "/" },
     ],
     links: [{ rel: "canonical", href: "/" }],
