@@ -96,7 +96,7 @@ function RouteTable({ routes, caption }: { routes: RouteSummary[]; caption: stri
       <caption className="sr-only">{caption}</caption>
       <thead className="route-table-head text-caption font-semibold tracking-[0.08em] text-muted-foreground uppercase">
         <tr className="border-y border-border">
-          <th scope="col" className="w-[44%] py-2 pr-4 font-semibold">
+          <th scope="col" className="w-[42%] py-2 pr-4 font-semibold">
             Route
           </th>
           <th scope="col" className="w-[14%] py-2 pr-4 font-semibold">
@@ -105,7 +105,7 @@ function RouteTable({ routes, caption }: { routes: RouteSummary[]; caption: stri
           <th scope="col" className="w-[22%] py-2 pr-4 font-semibold">
             What decides it
           </th>
-          <th scope="col" className="w-[20%] py-2 font-semibold">
+          <th scope="col" className="w-[22%] py-2 font-semibold">
             Verified
           </th>
         </tr>
@@ -140,7 +140,7 @@ function RouteTable({ routes, caption }: { routes: RouteSummary[]; caption: stri
                 <CellLabel>What decides it</CellLabel>
                 {checksLine(route.facts.checks)}
               </td>
-              <td className="py-4 text-body tabular-nums text-muted-foreground">
+              <td className="py-4 text-body tabular-nums text-muted-foreground sm:whitespace-nowrap">
                 {route.verifiedOn ? `Verified ${formatDate(route.verifiedOn)}` : "Not yet verified"}
               </td>
             </tr>
