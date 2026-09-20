@@ -85,6 +85,9 @@ function ProfileSummary({ profile }: { profile: Profile }) {
   if (profile.hasOffer !== undefined) {
     bits.push(profile.hasOffer ? "has a job offer" : "no job offer yet");
   }
+  if (profile.financialServices !== undefined) {
+    bits.push(profile.financialServices ? "in financial services" : "not in financial services");
+  }
 
   return (
     <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3 rounded-lg border border-border bg-surface px-4 py-3 sm:flex sm:flex-wrap sm:justify-between">
@@ -187,6 +190,49 @@ function SalaryPrompt({
         Add salary
       </Button>
     </div>
+  );
+}
+
+function FinancialServicesPrompt({ profile, count }: { profile: Profile; count: number }) {
+  const navigate = useNavigate();
+
+  const addSector = (financialServices: boolean) => {
+    const updated: Profile = { ...profile, financialServices };
+    void navigate({
+      to: "/results",
+      search: { p: encodeProfile(updated) },
+      replace: true,
+      resetScroll: false,
+    });
+  };
+
+  return (
+    <fieldset>
+      <legend className="text-small font-medium">Is the job in financial services?</legend>
+      <p className="mt-1 text-caption text-muted-foreground">
+        {count === 1 ? "This settles 1 rule." : `This settles ${count} rules.`}
+      </p>
+      <div className="mt-2 flex min-h-11 items-center gap-6">
+        <label className="flex cursor-pointer items-center gap-2 text-small">
+          <input
+            type="radio"
+            name="financial-services"
+            className="size-4 accent-primary"
+            onChange={() => addSector(true)}
+          />
+          Yes
+        </label>
+        <label className="flex cursor-pointer items-center gap-2 text-small">
+          <input
+            type="radio"
+            name="financial-services"
+            className="size-4 accent-primary"
+            onChange={() => addSector(false)}
+          />
+          No
+        </label>
+      </div>
+    </fieldset>
   );
 }
 
@@ -425,6 +471,12 @@ function Results() {
       ),
     }))
     .filter((need) => need.count > 0);
+  const financialServicesNeed = allRoutes.reduce(
+    (total, route) =>
+      total + route.checklist.filter((item) => item.missing === "financialServices").length,
+    0,
+  );
+  const needsMoreAnswers = salaryNeeds.length > 0 || financialServicesNeed > 0;
 
   return (
     <div className="mx-auto min-w-0 max-w-4xl px-4 py-10 sm:px-5 sm:py-12">
@@ -452,11 +504,17 @@ function Results() {
         <ProfileSummary profile={profile} />
       </div>
 
-      {salaryNeeds.length > 0 && (
+      {needsMoreAnswers && (
         <section className="mt-5 rounded-lg border border-border bg-surface p-4 sm:p-5">
-          <h2 className="text-subhead font-semibold">Add the salary you expect</h2>
+          <h2 className="text-subhead font-semibold">
+            {salaryNeeds.length > 0 && financialServicesNeed > 0
+              ? "Two answers we still need"
+              : salaryNeeds.length > 0
+                ? "Add the salary you expect"
+                : "One answer we still need"}
+          </h2>
           <p className="prose-measure mt-1 text-small text-muted-foreground">
-            Some rules turn on pay. Answer this and they stop reading as unknown.
+            Some rules need more detail. Answer these and they stop reading as unknown.
           </p>
           <div className="mt-4 space-y-5">
             {salaryNeeds.map((need) => (
@@ -468,6 +526,9 @@ function Results() {
                 count={need.count}
               />
             ))}
+            {financialServicesNeed > 0 && (
+              <FinancialServicesPrompt profile={profile} count={financialServicesNeed} />
+            )}
           </div>
         </section>
       )}
