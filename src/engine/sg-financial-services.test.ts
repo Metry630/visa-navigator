@@ -71,6 +71,26 @@ describe("salary floors are read per sector", () => {
     }
   });
 
+  it("closes the route when a financial services job is under its own floor", () => {
+    // Until 2026-09-21 the two financial floors were blocking: false, which was a hedge from when
+    // the engine could not tell the sectors apart: a rule it might be applying to the wrong person
+    // should not close anything. Now that it only applies them to the right person, the honest
+    // setting is the same as the general floor's, so being under the floor closes the route rather
+    // than leaving it to look like it merely depends on the employer.
+    const under = route(
+      { ...base, financialServices: true, expectedSalary: { SG: 6000 } },
+      "sg-employment-pass",
+    );
+    expect(under.status).toBe("closed");
+    expect(under.reason).toContain("S$6,200");
+
+    const over = route(
+      { ...base, financialServices: true, expectedSalary: { SG: 6500 } },
+      "sg-employment-pass",
+    );
+    expect(over.status).not.toBe("closed");
+  });
+
   it("applies the same split to the S Pass", () => {
     const ordinary = route(
       { ...base, financialServices: false, expectedSalary: { SG: 3500 } },

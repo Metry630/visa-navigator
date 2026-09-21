@@ -10,7 +10,10 @@
 //   npm run check:data -- --release # before publishing: unverified routes are errors
 import { readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
+import { existsSync } from "node:fs";
 import { RouteSchema, type Route } from "../src/engine/schema";
+import { isApproved } from "./review/fingerprint";
+import { loadState } from "./review/store";
 
 const COUNTRIES: { code: string; name: string }[] = JSON.parse(
   readFileSync(join(import.meta.dirname, "..", "src", "data", "countries.json"), "utf8"),
@@ -129,6 +132,31 @@ for (const { file, route } of routes) {
   }
 }
 
+// A stamp can outlive the approvals behind it: edit a requirement on a verified route and the
+// fingerprints stop matching, while the file goes on saying a person read it. The review server
+// clears those on startup, but only if someone opens it, and `--release` is the gate that actually
+// decides whether this publishes. So it checks here too.
+//
+// The approvals live in .review/state.json, which is gitignored, so CI has nothing to check
+// against and says so rather than failing every verified route.
+const reviewState = existsSync(join(import.meta.dirname, "..", ".review", "state.json"))
+  ? loadState()
+  : null;
+if (reviewState) {
+  for (const { file, route } of routes) {
+    if (!route.verified) continue;
+    const forRoute = reviewState[route.id] ?? {};
+    const stale = route.requirements.filter((q) => !isApproved(forRoute[q.id], q));
+    if (stale.length) {
+      (release ? errors : warnings).push(
+        `${file}: verified ${route.verified.on}, but ${stale.length} of ${route.requirements.length} ` +
+          `requirements changed since they were approved (${stale.map((q) => q.id).join(", ")}). ` +
+          `Run npm run review to re-read them.`,
+      );
+    }
+  }
+}
+
 const reqs = routes.flatMap((r) => r.route.requirements);
 // How much of the data the engine can actually decide from a profile. Everything else is `manual`
 // and defers to the reader, the employer or the authority, which is honest but is not an answer.
@@ -143,6 +171,7 @@ for (const e of errors) console.error(`error ${e}`);
 console.log(
   `routes ${routes.length} · requirements ${reqs.length} · sourced ${reqs.filter((q) => q.sources.length).length}/${reqs.length}` +
     ` · decidable ${decidable}/${reqs.length}` +
-    ` · verified ${verified.length}/${routes.length} · oldest verification ${oldest}`,
+    ` · verified ${verified.length}/${routes.length} · oldest verification ${oldest}` +
+    (reviewState ? "" : " · stamps not cross-checked (no .review/state.json)"),
 );
 process.exit(errors.length ? 1 : 0);

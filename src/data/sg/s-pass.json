@@ -275,7 +275,7 @@
       "kind": "salary-floor",
       "text": "If the employer is in financial services, the minimum is higher: S$3,800 if you are 23 or below, rising to S$5,650 at 45 or above.",
       "who": "employer",
-      "blocking": false,
+      "blocking": true,
       "effective": {
         "to": "2026-12-31"
       },
@@ -396,7 +396,7 @@
       "kind": "salary-floor",
       "text": "From 1 Jan 2027, the financial services minimum starts at S$4,000 if you are 23 or below and still reaches S$5,650 at 45 or above.",
       "who": "employer",
-      "blocking": false,
+      "blocking": true,
       "effective": {
         "from": "2027-01-01"
       },
