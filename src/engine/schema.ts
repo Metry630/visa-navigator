@@ -38,6 +38,27 @@ const base = {
   blocking: z.boolean(),
   sources: z.array(SourceSchema).min(1),
   effective: z.object({ from: isoDate.optional(), to: isoDate.optional() }).optional(),
+  /**
+   * Narrows who the requirement applies to at all. Absent means everyone, which is the usual case.
+   *
+   * This exists because a rule with a condition the engine cannot see gets evaluated as if it had
+   * none, and then states the opposite of the truth. Japan's working holiday age limit is 18 to 30
+   * for most partner countries and 18 to 25 for four of them, so an Australian of 27 was told "Met"
+   * on a blocking rule while the page also said their limit was 25. Scoping the rule is how that
+   * stops: it applies to the 28, and the four are left to the dated note that describes their case.
+   *
+   * `only` applies the rule when any of the reader's nationalities is on the list, `except` when
+   * none is. A dual national counts as being on a list if either nationality is, which is the
+   * conservative reading: we cannot know which passport they would apply under.
+   */
+  appliesTo: z
+    .object({
+      nationalities: z.object({
+        mode: z.enum(["only", "except"]),
+        codes: z.array(z.string().regex(/^[A-Z]{2}$/)).min(1),
+      }),
+    })
+    .optional(),
 };
 
 const degreeLevel = z.enum(["none", "diploma", "bachelor", "master", "doctorate"]);

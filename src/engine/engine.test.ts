@@ -209,8 +209,11 @@ describe("route facts", () => {
     expect(facts.get("jp-jfind")?.age).toEqual({ min: 18 });
     expect(facts.get("sg-employment-pass")?.age).toBeUndefined();
 
-    expect(facts.get("jp-engineer-specialist")?.minDegree).toBe("bachelor");
+    expect(facts.get("jp-jfind")?.minDegree).toBe("bachelor");
     expect(facts.get("sg-entrepass")?.minDegree).toBeUndefined();
+    // jp-engineer-specialist used to carry one. Its rule turned out to be a degree *in a related
+    // subject*, which is not a degree level, so it is manual now and contributes no limit.
+    expect(facts.get("jp-engineer-specialist")?.minDegree).toBeUndefined();
 
     expect(facts.get("jp-working-holiday")?.nationalityList).toEqual({ mode: "allow", count: 32 });
     expect(facts.get("sg-work-and-holiday-pass")?.nationalityList).toEqual({
@@ -224,7 +227,7 @@ describe("route facts", () => {
     const withLimits = listRoutes().filter(
       (r) => r.facts.age ?? r.facts.minDegree ?? r.facts.nationalityList ?? r.facts.salaryFloor,
     );
-    expect(withLimits).toHaveLength(7);
+    expect(withLimits).toHaveLength(6);
   });
 
   it("quotes the lowest salary floor in effect, not the first one in the file", () => {
@@ -245,7 +248,7 @@ describe("route facts", () => {
     expect(byId("2027-01-01").get("sg-s-pass")?.salaryFloor?.amount).toBe(3600);
   });
 
-  it("splits every route by who has to settle it, summing to its checklist", () => {
+  it("splits every route by who has to settle it, before anything is scoped away", () => {
     const asOf = "2026-09-20";
     const facts = byId(asOf);
 
@@ -258,15 +261,25 @@ describe("route facts", () => {
       authority: 0,
     });
 
-    // The counts and the checklist read the same requirements through the same date filter, so a
-    // route can never advertise a number of checks it then fails to list.
+    // `listRoutes` has no profile, so these counts are what the route library shows anybody: every
+    // requirement in effect on the date, before a rule is scoped away from a particular reader. A
+    // reader's own checklist can therefore be shorter, never longer, and it is shorter by exactly
+    // the rules that do not apply to them.
     for (const destination of evaluate(base, asOf)) {
       for (const r of destination.routes) {
         const c = facts.get(r.routeId)!.checks;
-        expect(c.you + c.employer + c.authority).toBe(r.checklist.length);
+        expect(c.you + c.employer + c.authority).toBeGreaterThanOrEqual(r.checklist.length);
         for (const who of ["you", "employer", "authority"] as const) {
-          expect(c[who]).toBe(r.checklist.filter((i) => i.who === who).length);
+          expect(c[who]).toBeGreaterThanOrEqual(r.checklist.filter((i) => i.who === who).length);
         }
+      }
+    }
+
+    // Nothing is scoped away from an Indonesian on these routes, so there the two agree exactly.
+    for (const destination of evaluate(base, asOf)) {
+      for (const r of destination.routes.filter((x) => x.routeId !== "jp-working-holiday")) {
+        const c = facts.get(r.routeId)!.checks;
+        expect(c.you + c.employer + c.authority).toBe(r.checklist.length);
       }
     }
   });
@@ -487,7 +500,9 @@ describe("JP Working Holiday", () => {
   });
 
   it("opens as far as it can for a partner nationality, leaving the embassy checks to the applicant", () => {
-    for (const n of ["TW", "DE", "GB", "KR"]) {
+    // KR is a partner country but one of the four whose age limit is scoped separately, so it is
+    // covered in jp-working-holiday-age.test.ts rather than here.
+    for (const n of ["TW", "DE", "GB"]) {
       const r = wh({ ...base, nationalities: [n], age: 24 });
       expect(r.status).toBe("depends");
       expect(item(r, "partner-country")?.outcome).toBe("met");

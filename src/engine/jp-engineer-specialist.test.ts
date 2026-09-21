@@ -27,14 +27,14 @@ describe("JP Engineer / Specialist in Humanities / International Services", () =
     expect(r.checklist.some((c) => c.who === "employer")).toBe(true);
   });
 
-  it("marks the degree met for a graduate and unmet for someone without one", () => {
-    expect(item(gijinkoku(base), "degree-in-related-subject")?.outcome).toBe("met");
-    expect(
-      item(gijinkoku({ ...base, degree: "master" }), "degree-in-related-subject")?.outcome,
-    ).toBe("met");
-    expect(
-      item(gijinkoku({ ...base, degree: "diploma" }), "degree-in-related-subject")?.outcome,
-    ).toBe("unmet");
+  it("never claims the degree rule is met, because it turns on the subject", () => {
+    // This was a `degree` rule checking the level alone, so any bachelor's read as "Met". Its source
+    // says "having majored in subjects related to the technology or knowledge concerned", and
+    // nothing here knows what the work is, so the level was never the whole condition.
+    for (const degree of ["bachelor", "master", "diploma"] as const) {
+      const outcome = item(gijinkoku({ ...base, degree }), "degree-in-related-subject")?.outcome;
+      expect(outcome).toBe("unknown");
+    }
   });
 
   // The criteria are a choice of four: a related degree, a Japanese vocational course, ten years of

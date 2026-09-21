@@ -64,7 +64,7 @@
       "id": "degree-from-that-university",
       "kind": "degree",
       "minLevel": "bachelor",
-      "text": "You need a degree or professional degree at bachelor's level or above from that university.",
+      "text": "You need a degree or professional degree at bachelor's level or above.",
       "who": "you",
       "blocking": true,
       "sources": [
@@ -225,5 +225,8 @@
       ]
     }
   ],
-  "verified": { "by": "joshua", "on": "2026-09-19" }
+  "verified": {
+    "by": "joshua",
+    "on": "2026-09-19"
+  }
 }

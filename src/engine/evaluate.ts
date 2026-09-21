@@ -90,6 +90,19 @@ function isSectorSpecific(req: Requirement): req is Extract<Requirement, { kind:
 }
 
 /**
+ * Whether the reader's nationalities put them inside a requirement's declared scope.
+ *
+ * A dual national counts as being on a list if either nationality is, because we cannot know which
+ * passport they would apply under, and the safer reading is the one that does not decide for them.
+ */
+function inNationalityScope(req: Requirement, profile: Profile): boolean {
+  const scope = req.appliesTo?.nationalities;
+  if (!scope) return true;
+  const listed = profile.nationalities.some((n) => scope.codes.includes(n));
+  return scope.mode === "only" ? listed : !listed;
+}
+
+/**
  * Whether a requirement applies to this person at all.
  *
  * Singapore's Employment Pass and S Pass each carry two salary floors, one for financial services
@@ -105,6 +118,11 @@ export function appliesToSector(req: Requirement, profile: Profile): boolean {
   if (!isSectorSpecific(req)) return true;
   if (profile.financialServices === undefined) return true;
   return profile.financialServices === (req.sector === "financial-services");
+}
+
+/** Every applicability test in one place, so a new one cannot reach only half the callers. */
+export function applies(req: Requirement, profile: Profile): boolean {
+  return appliesToSector(req, profile) && inNationalityScope(req, profile);
 }
 
 function checkRequirement(
@@ -178,7 +196,7 @@ function daysBetween(a: string, b: string): number {
 }
 
 export function evaluateRoute(route: Route, profile: Profile, asOf: string): RouteResult {
-  const active = route.requirements.filter((r) => inEffect(r, asOf) && appliesToSector(r, profile));
+  const active = route.requirements.filter((r) => inEffect(r, asOf) && applies(r, profile));
   const checked = active.map((req) => ({
     req,
     ...checkRequirement(req, profile, route.destination),

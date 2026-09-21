@@ -48,9 +48,8 @@
     },
     {
       "id": "degree-in-related-subject",
-      "kind": "degree",
-      "minLevel": "bachelor",
-      "text": "You qualify if you graduated from university in a subject related to the work, or had education at an equivalent or higher level.",
+      "kind": "manual",
+      "text": "You qualify if you graduated from university having majored in a subject related to the technology or knowledge the work needs, or had education at an equivalent or higher level.",
       "who": "you",
       "blocking": false,
       "sources": [
@@ -260,7 +259,9 @@
       "text": "If the employer is in Category 3 or 4 and the job is mainly customer-facing work that uses language skills, the application has to include proof of CEFR B2 ability in the language you use at work.",
       "who": "you",
       "blocking": false,
-      "effective": { "from": "2026-04-15" },
+      "effective": {
+        "from": "2026-04-15"
+      },
       "sources": [
         {
           "url": "https://www.moj.go.jp/isa/applications/status/gijinkoku.html",
@@ -291,7 +292,9 @@
       "text": "You already count as CEFR B2 in Japanese if you hold JLPT N2 or above, scored 400 or more on the BJT business Japanese test, lived in Japan 20 years or more as a mid to long term resident, graduated from a Japanese university or finished a Japanese college or vocational specialist course, or finished compulsory education in Japan and then graduated from high school.",
       "who": "you",
       "blocking": false,
-      "effective": { "from": "2026-04-15" },
+      "effective": {
+        "from": "2026-04-15"
+      },
       "sources": [
         {
           "url": "https://www.moj.go.jp/isa/applications/status/gijinkoku.html",
@@ -338,5 +341,8 @@
       ]
     }
   ],
-  "verified": { "by": "joshua", "on": "2026-09-20" }
+  "verified": {
+    "by": "joshua",
+    "on": "2026-09-20"
+  }
 }

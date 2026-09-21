@@ -73,7 +73,18 @@
           "retrievedOn": "2026-09-12",
           "quote": "Being between 18 and 30 years of age both inclusive at the time of application for the visa"
         }
-      ]
+      ],
+      "appliesTo": {
+        "nationalities": {
+          "mode": "except",
+          "codes": [
+            "AU",
+            "CA",
+            "IE",
+            "KR"
+          ]
+        }
+      }
     },
     {
       "id": "age-limit-four-countries",
@@ -88,7 +99,18 @@
           "retrievedOn": "2026-09-12",
           "quote": "As for Australia, Canada, South Korea and Ireland, an applicant should be between 18 and 25 years of age except in those cases where the competent authorities of each applicable country and Japan agree to extend the limitation of age to 30 years."
         }
-      ]
+      ],
+      "appliesTo": {
+        "nationalities": {
+          "mode": "only",
+          "codes": [
+            "AU",
+            "CA",
+            "IE",
+            "KR"
+          ]
+        }
+      }
     },
     {
       "id": "requirements-vary-by-nationality",
@@ -310,5 +332,8 @@
       ]
     }
   ],
-  "verified": { "by": "joshua", "on": "2026-09-18" }
+  "verified": {
+    "by": "joshua",
+    "on": "2026-09-18"
+  }
 }

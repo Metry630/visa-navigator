@@ -204,8 +204,11 @@ export interface RouteFacts {
   /**
    * How the route's requirements split by who has to settle them. This is the answer to the largest
    * single confusion in the discovery set, 21 of 99 posts: how much of this is out of my hands.
-   * Counts the requirements in effect, so the three always sum to the length of the checklist
-   * `evaluate` returns for the same date, and a rule that starts next year is not counted twice.
+   * Counts the requirements in effect on the date asked about, before anything is narrowed to a
+   * particular reader. `listRoutes` has no profile, so this is what the route library shows
+   * everybody. A reader's own checklist can be shorter, never longer, by exactly the rules that do
+   * not apply to them: a salary floor for the sector they are not in, or the working holiday age
+   * limit for the four countries that have their own.
    */
   checks: { you: number; employer: number; authority: number };
 }
